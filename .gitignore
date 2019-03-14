@@ -101,4 +101,4 @@ ENV/
 .mypy_cache/
 
 # cookiecutter instance
-my-site/
+/my-site/
