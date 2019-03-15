@@ -54,14 +54,14 @@ setup(
         ],
         'invenio_base.api_apps': [
             'my_site = my_site.records:Mysite',
-            'authors = my_site.authors:Authors'
+        #    'authors = my_site.authors:Authors'
         ],
-        'invenio_pidstore.fetchers': [
-            'authid = my_site.authors.fetchers:author_pid_fetcher'
-        ],
-        'invenio_pidstore.minters': [
-            'authid = my_site.authors.minters:author_pid_minter'
-        ],
+        # 'invenio_pidstore.fetchers': [
+        #     'authid = my_site.authors.fetchers:author_pid_fetcher'
+        # ],
+        # 'invenio_pidstore.minters': [
+        #     'authid = my_site.authors.minters:author_pid_minter'
+        # ],
         'invenio_jsonschemas.schemas': [
             'my_site = my_site.records.jsonschemas',
             'authors = my_site.authors.jsonschemas'

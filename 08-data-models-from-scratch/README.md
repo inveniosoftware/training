@@ -1,6 +1,8 @@
-# Tutorial 04 - Data models: Build from scratch
+# Tutorial 08 - Data models: Build from scratch
 
-TODO Short introduction of what this is about, should be the same/similar to the Indico description. Something like: The goal of this tutorial...
+In this session we will learn how to build a new data model from scratch. During that
+process we will see how to create a new REST **module** for our model and provide functonalities
+such as storing and searching.
 
 Jump to: [Step 1](#step-1) | [Step 2](#step-2) | [Step 3](#step-3) | [Step 4](#step-4)
 
@@ -11,40 +13,66 @@ Any extra long description
 Start from a clean and working instance:
 
 ```bash
-$ cd 04-data-models-build-from-scratch/
+$ cd 08-data-models-build-from-scratch/
 $ ./init.sh
 ```
 
-## Step 2
+**Note**: In order to reduce the amount of code that we need to write we have prepared beforehand the module
+structure in `/08-data-models-from-scratch/authors` folder in which will go through and uncomment the needed
+code snippets to enable different functionalities and eventually build our module!
+
+Run the below command to copy the module over:
+
+```bash
+$ ./bootstrap.sh
+```
+
+You should now see in your application folder a newly created `authors` folder which will be the module we will
+develop through this tutorial.
+
+## Create an `Authors` flask extension
+
+First thing we need to do is to create an extension called `Authors` and register it in our `setup.py` so our Invenio application can know about it.
+
+### Action steps
+
+- Uncomment the code we find in the `my_site/authors/ext.py`
+- Uncomment in the `setup.py` the following section:
+  ```diff
+   'invenio_base.api_apps': [
+        'my_site = my_site.records:Mysite',
+  - #   'authors = my_site.authors:Authors'
+  +     'authors = my_site.authors:Authors'
+  ]
+  ```
+
+  In that way we register our extension under Invenio API application.
 
 Create an authors folder and an authors JSONSchema:
 
 ```json
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "id": "http://localhost/schemas/authors/author-v1.0.0.json",
-    "additionalProperties": false,
-    "title": "My site v1.0.0",
-    "type": "object",
-    "properties": {
-      "id": {
-        "description": "Invenio record identifier (integer).",
-        "type": "number"
-      },
-      "name": {
-        "description": "Author name.",
-        "type": "string"
-      },
-      "organization": {
-        "description": "Organization the author belongs to.",
-        "type": "string"
-      }
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://localhost/schemas/authors/author-v1.0.0.json",
+  "additionalProperties": false,
+  "title": "My site v1.0.0",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Invenio record identifier (integer).",
+      "type": "number"
     },
-    "required": [
-      "id",
-      "name"
-    ]
-  }
+    "name": {
+      "description": "Author name.",
+      "type": "string"
+    },
+    "organization": {
+      "description": "Organization the author belongs to.",
+      "type": "string"
+    }
+  },
+  "required": ["id", "name"]
+}
 ```
 
 Next, we will add the Marshmallow schema to `my_site/records/marshmallow/json.py` and add a new loader `my_site/records/loader/__init__.py` in order to validate the incoming data before storing it in the database.
@@ -161,7 +189,6 @@ __all__ = (
 )
 ```
 
-
 ## What did we learn
 
-* TODO
+- TODO
