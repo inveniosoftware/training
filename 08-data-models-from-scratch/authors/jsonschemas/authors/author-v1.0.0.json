@@ -5,9 +5,12 @@
   "title": "My site v1.0.0",
   "type": "object",
   "properties": {
+    "$schema": {
+      "type": "string"
+    },
     "id": {
       "description": "Invenio record identifier (integer).",
-      "type": "number"
+      "type": "string"
     },
     "name": {
       "description": "Author name.",
@@ -18,5 +21,5 @@
       "type": "string"
     }
   },
-  "required": ["id", "name"]
+  "required": ["id", "name", "$schema"]
 }
