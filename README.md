@@ -25,7 +25,7 @@ tutorials, but it's not a requirement:
 - [Tutorial 05 - Customizing the look and feel](05-customizing-invenio/)
 - [Tutorial 06 - Developing with Invenio](06-developing-with-invenio/)
 
-### Building and understanding data models
+### Learning about data models
 
 - [Tutorial 07 - Adding a new field](07-data-models-new-field/)
 - [Tutorial 08 - Build a data model from scratch](08-data-models-from-scratch/)
