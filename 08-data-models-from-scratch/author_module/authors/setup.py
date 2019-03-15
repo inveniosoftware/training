@@ -56,6 +56,9 @@ setup(
             'my_site = my_site.records:Mysite',
             'authors = my_site.authors:Authors'
         ],
+        'invenio_base.api_blueprints': [
+            'my_site_authors = my_site.authors.views:blueprint',
+        ],
         'invenio_pidstore.fetchers': [
             'authid = my_site.authors.fetchers:author_pid_fetcher'
         ],

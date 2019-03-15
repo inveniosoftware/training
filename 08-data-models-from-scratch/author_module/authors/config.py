@@ -23,26 +23,26 @@ def _(x):
 RECORDS_REST_ENDPOINTS = {
     'authid': dict(
         pid_type='authid',
-        pid_minter='authid',
-        pid_fetcher='authid',
+#        pid_minter='authid',
+#        pid_fetcher='authid',
         default_endpoint_prefix=True,
         record_class=AuthorRecord,
         search_class=RecordsSearch,
         indexer_class=RecordIndexer,
-        search_index='authors',
+#        search_index='authors',
         search_type=None,
-        record_serializers={
-            'application/json': ('my_site.authors.serializers'
-                                 ':json_v1_response'),
-        },
-        search_serializers={
-            'application/json': ('my_site.authors.serializers'
-                                 ':json_v1_search'),
-        },
-        record_loaders={
-            'application/json': ('my_site.authors.loaders'
-                                 ':json_v1'),
-        },
+        # record_serializers={
+        #     'application/json': ('my_site.authors.serializers'
+        #                          ':json_v1_response'),
+        # },
+        # search_serializers={
+        #     'application/json': ('my_site.authors.serializers'
+        #                          ':json_v1_search'),
+        # },
+        # record_loaders={
+        #     'application/json': ('my_site.authors.loaders'
+        #                          ':json_v1'),
+        # },
         list_route='/authors/',
         item_route='/authors/<pid(authid):pid_value>',
         default_media_type='application/json',
