@@ -1,4 +1,4 @@
-# Tutorial 07 - Data models: link records using references
+# Tutorial 11 - Data models: link records using references
 
 The goal of this tutorial is to learn how we can link records using references, with a technique similar to [JSON Reference](https://json-spec.readthedocs.io/reference.html).
 

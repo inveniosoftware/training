@@ -1,4 +1,4 @@
-# Tutorial 07 - Data models: build a simple deposit form
+# Tutorial 09 - Data models: build a simple deposit form
 
 The goal of this tutorial is to learn how we can build a new simple form to be able to deposit new records. The `invenio-deposit` module is not in the scope of this exercise.
 

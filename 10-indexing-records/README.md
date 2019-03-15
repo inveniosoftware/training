@@ -1,4 +1,4 @@
-# Tutorial 05 - Data models: modify records before indexing
+# Tutorial 10 - Data models: modify records before indexing
 
 The goal of this tutorial is to learn how to take advantage of ElasticSearch to index records in a format that can be more adapted to our needs.
 
