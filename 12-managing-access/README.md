@@ -8,7 +8,7 @@ Prerequisites:
 
 2. at least two different users
 
-```bash
+```commandline
 my-site users create admin@test.ch -a --password=123456 # create admin user ID 1
 my-site users create manager@test.ch -a --password=123456 # create admin user ID 2
 my-site users create visitor@test.ch -a --password=123456 # create visitor user ID 3
@@ -16,7 +16,7 @@ my-site users create visitor@test.ch -a --password=123456 # create visitor user 
 
 2. at least two records
 
-```bash
+```commandline
 curl -k --header "Content-Type: application/json" --request POST --data '{"title":"My test record", "contributors": [{"name": "Doe, John"}], "owner": 1}' https://localhost:5000/api/records/?prettyprint=1
 
 curl -k --header "Content-Type: application/json" --request POST --data '{"title":"Second test record", "contributors": [{"name": "Copernicus, Mikolaj"}], "owner": 2}' https://localhost:5000/api/records/?prettyprint=1
@@ -31,7 +31,7 @@ Jump to: [Step 1](#step-1) | [Step 2](#step-2) | [Step 3](#step-3) | [Step 4](#s
 
 Start from a clean and working instance:
 
-```bash
+```commandline
 $ cd 08-build-simple-deposit-form/
 $ ./init.sh
 ```
@@ -93,18 +93,20 @@ RECORDS_REST_ENDPOINTS = {
         error_handlers=dict(),
         create_permission_factory_imp=allow_all,
 -       read_permission_factory_imp=check_elasticsearch,
+-       update_permission_factory_imp=allow_all,
+-       delete_permission_factory_imp=allow_all,
 +       read_permission_factory_imp=owner_permission_factory,
-        update_permission_factory_imp=allow_all,
-        delete_permission_factory_imp=allow_all,
++       update_permission_factory_imp=owner_permission_factory,
++       delete_permission_factory_imp=owner_permission_factory,
         list_permission_factory_imp=allow_all
     ),
 }
 """REST API for my-site."""
 ```
 
-3. log 
+3. log in as manager user
 
-4. visit `/api/records/<id>`
+4. visit `/api/records/<id>` (first record)
 
 ```json
 {
@@ -186,7 +188,7 @@ RECORDS_REST_ENDPOINTS = {
         pid_minter='recid',
         pid_fetcher='recid',
         default_endpoint_prefix=True,
-        search_class=OwnerRecordsSearch,
++       search_class=OwnerRecordsSearch,
         indexer_class=RecordIndexer,
         search_index='records',
         search_type=None,
@@ -209,8 +211,8 @@ RECORDS_REST_ENDPOINTS = {
         error_handlers=dict(),
         create_permission_factory_imp=allow_all,
         read_permission_factory_imp=owner_permission_factory,
-        update_permission_factory_imp=allow_all,
-        delete_permission_factory_imp=allow_all,
+        update_permission_factory_imp=owner_permission_factory,
+        delete_permission_factory_imp=owner_permission_factory,
         list_permission_factory_imp=allow_all
     ),
 }
@@ -228,57 +230,181 @@ RECORDS_REST_ENDPOINTS = {
 1. Implement the permission factory
 
 ```python
-# todo paste code here
+from invenio_access import Permission, authenticated_user
+
+def authenticated_user_permission(record=None):
+    """Return an object that evaluates if the current user is authenticated."""
+    return Permission(authenticated_user)
+
 ```
 
 2. Add the permission factory to the configuration of the records rest endpoints
 
-```python
-# todo paste conf code here
+```diff
+-from my_site.records.permissions import owner_permission_factory
++from my_site.records.permissions import owner_permission_factory, \
+    authenticated_user_permission
+
+RECORDS_REST_ENDPOINTS = {
+    'recid': dict(
+        pid_type='recid',
+        pid_minter='recid',
+        pid_fetcher='recid',
+        default_endpoint_prefix=True,
+        search_class=OwnerRecordsSearch,
+        indexer_class=RecordIndexer,
+        search_index='records',
+        search_type=None,
+        record_serializers={
+            'application/json': ('my_site.records.serializers'
+                                 ':json_v1_response'),
+        },
+        search_serializers={
+            'application/json': ('my_site.records.serializers'
+                                 ':json_v1_search'),
+        },
+        record_loaders={
+            'application/json': ('my_site.records.loaders'
+                                 ':json_v1'),
+        },
+        list_route='/records/',
+        item_route='/records/<pid(recid):pid_value>',
+        default_media_type='application/json',
+        max_result_window=10000,
+        error_handlers=dict(),
+-       create_permission_factory_imp=allow_all
++       create_permission_factory_imp=authenticated_user_permission,
+ 
 ```
 
 3. Perform POST request by using curl to test creation permission (as unauthenticated user)
 
-```bash
-add curl command for post/PUT
+```commandline
+curl -k --header "Content-Type: application/json" --request POST --data '{"title":"Second test record", "contributors": [{"name": "Copernicus, Mikolaj"}], "owner": 2}' https://localhost:5000/api/records/?prettyprint=1
 ```
 
 ## Extras
 
 ### Group permission to edit
 
-1. Create a record containing the structure similar to the on e visible below
+Use case: We would like to allow our site's managers to edit and delete records
+
+```
+ NOTE: we have existing records already, we would not like to add the group access one by one to each record.
+ ```
+
+1. Create a managers role (group)
+
+```commandline
+(my-site)$ my-site roles create managers
+```
+
+2. Connect manager user with created role
+
+```commandline
+(my-site)$ my-site roles add manager@test.ch managers
+```
+
+3. Create the permission factory for role and owner
+
+```python
+from invenio_access import Permission
+from flask_principal import UserNeed, RoleNeed
+
+
+def owner_manager_permission_factory(record=None):
+    """Returns permission for managers group."""
+    return Permission(UserNeed(record["owner"]), RoleNeed('managers'))
+
+```
+4. Implement search filter for role and owner
+```python
+from elasticsearch_dsl import Q
+from flask_security import current_user
+from invenio_search.api import DefaultFilter, RecordsSearch
+
+
+def owner_manager_permission_filter():
+    """Search filter with permission."""
+    if current_user.has_role('managers'):
+        return [Q(name_or_query='match_all')]
+    else:
+        return [Q('match', owner=current_user.get_id())]
+
+
+class OwnerManagerRecordsSearch(RecordsSearch):
+    """Class providing permission search filter."""
+
+    class Meta:
+        index = 'records'
+        default_filter = DefaultFilter(owner_manager_permission_filter)
+        doc_types = None
+
+```
+
+5. Update the configuration file with your new filter and factory
+
+```python
+from my_site.records.permissions import owner_permission_factory, \
+    authenticated_user_permission, owner_manager_permission_factory
+from my_site.records.search import OwnerManagerRecordsSearch
+
+RECORDS_REST_ENDPOINTS = {
+    'recid': dict(
+        pid_type='recid',
+        pid_minter='recid',
+        pid_fetcher='recid',
+        default_endpoint_prefix=True,
+        search_class=OwnerManagerRecordsSearch,
+        indexer_class=RecordIndexer,
+        search_index='records',
+        search_type=None,
+        record_serializers={
+            'application/json': ('my_site.records.serializers'
+                                 ':json_v1_response'),
+        },
+        search_serializers={
+            'application/json': ('my_site.records.serializers'
+                                 ':json_v1_search'),
+        },
+        record_loaders={
+            'application/json': ('my_site.records.loaders'
+                                 ':json_v1'),
+        },
+        list_route='/records/',
+        item_route='/records/<pid(recid):pid_value>',
+        default_media_type='application/json',
+        max_result_window=10000,
+        error_handlers=dict(),
+        create_permission_factory_imp=authenticated_user_permission,
+        read_permission_factory_imp=owner_manager_permission_factory,
+        update_permission_factory_imp=owner_manager_permission_factory,
+        delete_permission_factory_imp=owner_manager_permission_factory,
+        list_permission_factory_imp=allow_all
+    ),
+}
+"""REST API for my-site."""
+```
+
+6. Visit `https://127.0.0.1:5000/search?page=1&size=20&q=` and `https://127.0.0.1:5000/api/records/` as manager user and check if all the records are listed.
+
+
+### Explicit access per action type - additional excersize
+
+1. Implement access management for the record having in mind the structure below 
 
 ```json
-// todo paste example json access structure 
-```
-
-2. Create the permission factory per role
-
-```python
-# permission factory 
-```
-3. Add the permission factory to update_ config per rest endpoint
-```python
-# config code
-```
-
-### Explicit access per action type
-
-1. Create a record containing the structure similar to the on e visible below
-
-```json
-// todo paste example json access structure 
-```
-
-2. Create the permission factory per role
-
-```python
-# permission factory 
-```
-3. Add the permission factory to update_ config per rest endpoint
-```python
-# config code
+{
+    "_access": {
+        "read": {
+            "systemroles": ["campus_user"]
+        },
+        "update": {
+            "users": [1],
+            "roles": ["curators"]
+        }
+    }
+}
 ```
 
 
