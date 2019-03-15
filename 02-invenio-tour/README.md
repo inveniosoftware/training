@@ -70,31 +70,10 @@ Let's create a record with some minimal metadata by perfomring a POST request
 to the `/api/records/` endpoint with a JSON payload:
 
 ```bash
-$ curl -i -k --header "Content-Type: application/json" \
+$ curl -k --header "Content-Type: application/json" \
     --request POST \
     --data '{"title": "Some title", "contributors": [{"name": "Doe, John"}]}' \
     https://localhost:5000/api/records/?prettyprint=1
-
-HTTP/1.0 201 CREATED
-Content-Type: application/json
-Content-Length: 341
-ETag: "0"
-Last-Modified: Fri, 15 Mar 2019 12:25:08 GMT
-Link: <https://localhost:5000/api/records/1>; rel="self"
-location: https://localhost:5000/api/records/1
-X-Frame-Options: sameorigin
-X-XSS-Protection: 1; mode=block
-X-Content-Type-Options: nosniff
-Content-Security-Policy: default-src 'self'; object-src 'none'
-X-Content-Security-Policy: default-src 'self'; object-src 'none'
-Strict-Transport-Security: max-age=31556926; includeSubDomains
-Referrer-Policy: strict-origin-when-cross-origin
-X-RateLimit-Limit: 5000
-X-RateLimit-Remaining: 4998
-X-RateLimit-Reset: 1552656140
-Retry-After: 3431
-Server: Werkzeug/0.14.1 Python/3.6.7
-Date: Fri, 15 Mar 2019 12:25:08 GMT
 
 {
   "created": "2019-03-15T12:22:19.497592+00:00",
@@ -110,7 +89,8 @@ Date: Fri, 15 Mar 2019 12:25:08 GMT
 }
 ```
 
-We can retrieve this record by making a `GET /api/records/1` request:
+We can retrieve this newly created record by making a `GET /api/records/1`
+request:
 
 ```bash
 $ curl -k https://localhost:5000/api/records/1?prettyprint=1
@@ -129,7 +109,89 @@ $ curl -k https://localhost:5000/api/records/1?prettyprint=1
 }
 ```
 
+We can search through all records by making a `GET /api/records/` request:
+
+```bash
+$ curl -k https://localhost:5000/api/records/?prettyprint=1
+
+{
+  "aggregations": {
+    "keywords": {
+      "buckets": [],
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 0
+    },
+    "type": {
+      "buckets": [],
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 0
+    }
+  },
+  "hits": {
+    "hits": [
+      {
+        "created": "2019-03-15T12:22:19.497592+00:00",
+        "id": "1",
+        "links": {"self": "https://localhost:5000/api/records/1"},
+        "metadata": {
+          "contributors": [{"name": "Doe, John"}],
+          "id": "1",
+          "title": "Some title"
+        },
+        "revision": 0,
+        "updated": "2019-03-15T12:22:19.497596+00:00"
+      }
+    ],
+    "total": 1
+  },
+  "links": {
+    "self": "https://localhost:5000/api/records/?page=1&sort=mostrecent&size=10"
+  }
+}
+```
+
 **Note:** By default this API doesn't require any authentication. We will
 address this in later sessions.
 
-## Step 4: Access the records REST API
+## Step 5: Search and Record UI
+
+Of the REST API is not the only way to display information on records. If you
+navigate to the frontpage and click the search button you will go the
+records search page:
+
+![](./images/frontpage-search.png)
+
+On the search page, besides the actual results, you can also see the total
+number of results, paginate through them and sort by various options.
+
+![](./images/search-page.png)
+
+If you click on one of the record results you will be redirected to the
+record's page, which at the moment displays in a very basic way the metadata:
+
+![](./images/record-page.png)
+
+## Step 6: Create an admin user through the CLI
+
+Let's a crete a new user and give him admin permissions to the instance:
+
+```bash
+$ cd my-site
+$ pipenv run invenio users create admin@invenio.org --password 123456 --active
+{'email': 'admin@invenio.org', 'password': '****', 'active': True}
+$ pipenv run invenio roles add admin@invenio.org admin
+Role "admin - None" added to user "User <id=2, email=admin@invenio.org>" successfully.
+```
+
+## Step 7: Access the Admin Panel
+
+If you now login as the newly created `admin@invenio.org` user with password
+`123456`, a new "Administration" option will be visible in the user menu:
+
+![](./images/admin-options.png)
+
+If you click on it, you will be redirected to the Admin panel page, where you
+can manage a variety of internal entities for your Invenio instance:
+
+![](./images/admin-records.png)
+![](./images/admin-users.png)
