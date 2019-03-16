@@ -62,14 +62,14 @@ setup(
         # 'invenio_pidstore.minters': [
         #     'authid = my_site.authors.minters:author_pid_minter'
         # ],
-        'invenio_jsonschemas.schemas': [
-            'my_site = my_site.records.jsonschemas',
-            'authors = my_site.authors.jsonschemas'
-        ],
-        'invenio_search.mappings': [
-            'records = my_site.records.mappings',
-            'authors = my_site.authors.mappings'
-        ],
+        # 'invenio_jsonschemas.schemas': [
+        #     'my_site = my_site.records.jsonschemas',
+        #     'authors = my_site.authors.jsonschemas'
+        # ],
+        # 'invenio_search.mappings': [
+        #     'records = my_site.records.mappings',
+        #     'authors = my_site.authors.mappings'
+        # ],
     },
     classifiers=[
         'Environment :: Web Environment',

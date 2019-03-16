@@ -16,17 +16,17 @@ from invenio_records_rest.schemas.fields import DateString, \
 from marshmallow import fields, missing, validate
 
 
-class AuthorMetadataSchemaV1(StrictKeysMixin):
-    """Schema for the author metadata."""
+# class AuthorMetadataSchemaV1(StrictKeysMixin):
+#     """Schema for the author metadata."""
 
-    id = PersistentIdentifier()
-    name = SanitizedUnicode(required=True)
-    organization = SanitizedUnicode(required=False)
+#     id = PersistentIdentifier()
+#     name = SanitizedUnicode(required=True)
+#     organization = SanitizedUnicode(required=False)
 
-class AuthorSchemaV1(StrictKeysMixin):
-    """Author schema."""
+# class AuthorSchemaV1(StrictKeysMixin):
+#     """Author schema."""
 
-    metadata = fields.Nested(AuthorMetadataSchemaV1)
-    created = fields.Str(dump_only=True)
-    updated = fields.Str(dump_only=True)
-    id = PersistentIdentifier()
+#     metadata = fields.Nested(AuthorMetadataSchemaV1)
+#     created = fields.Str(dump_only=True)
+#     updated = fields.Str(dump_only=True)
+#     id = PersistentIdentifier()

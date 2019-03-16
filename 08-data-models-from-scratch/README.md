@@ -48,6 +48,49 @@ First thing we need to do is to create an extension called `Authors` and registe
 
   In that way we register our extension under Invenio API application.
 
+## Internal representation: JSONSchema and ElasticSearch mappings
+
+Now that we have our extension registered, we need to tell Invenio how the internal representation of our data model is. To do so we use [a JSONSchema](author_module/authors/jsonschemas/authors/author-v1.0.0.json) and [an ElasticSearch mapping](author_module/authors/mappings/v6/authors/author-v1.0.0.json): the former to validate the internal JSON format and the latter to tell ElasticSearch what shape our data model has so it can handle correctly its values.
+
+
+### Action steps
+
+- Uncomment the entrypoints in `setup.py`:
+
+  ```diff
+  - # 'invenio_jsonschemas.schemas': [
+  - #     'my_site = my_site.records.jsonschemas',
+  - #     'authors = my_site.authors.jsonschemas'
+  - # ],
+  - # 'invenio_search.mappings': [
+  - #     'records = my_site.records.mappings',
+  - #     'authors = my_site.authors.mappings'
+  - # ],
+  + 'invenio_jsonschemas.schemas': [
+  +     'my_site = my_site.records.jsonschemas',
+  +     'authors = my_site.authors.jsonschemas'
+  + ],
+  + 'invenio_search.mappings': [
+  +     'records = my_site.records.mappings',
+  +     'authors = my_site.authors.mappings'
+  + ],
+  ```
+
+  By doing this we told Invenio to register our new schema and mapping.
+
+
+## External representation: loaders and serializers
+
+So far we have a new extension which defines how our data model is **stored** and **searchable**, but have not yet provided means to transform this data when its received or served by Invenio. To do so we will introduce two concepts: **loaders** whose responsibility is to transform incoming data to the internal format, and **serializers** which will be in charge of transforming the internal data to a different format, based on our needs.
+
+### Action steps
+
+- Uncomment the code inside `my_site/authors/marshmallow/json.py`, we use Marshmallow to define the format of the transformation, we will talk more about it in the next steps.
+
+
+--------------
+
+
 Create an authors folder and an authors JSONSchema:
 
 ```json
