@@ -7,7 +7,7 @@ and search for records.
 ## Step 1: Prerequisites
 
 First ensure you have initialized your Invenio instance according to [the
-previous tutorial](../01-gettings-started), that you are running the
+previous tutorial](../01-getting-started), that you are running the
 development server and that you have your browser open at the web application's
 frontpage.
 
