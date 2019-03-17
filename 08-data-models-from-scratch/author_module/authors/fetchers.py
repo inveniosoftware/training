@@ -10,6 +10,8 @@
 
 from invenio_pidstore.fetchers import FetchedPID
 
+# Uncomment me
+
 # def author_pid_fetcher(record_uuid, data):
 #     """Fetch PID from author record."""
 #     return FetchedPID(

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cp -R ../03-add-new-field/solution/* ..
+cp -R ../07-add-new-field/solution/* ..

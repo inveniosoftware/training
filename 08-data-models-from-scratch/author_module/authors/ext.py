@@ -11,6 +11,7 @@ from __future__ import absolute_import, print_function
 
 from . import config
 
+# Uncomment me
 
 # class Authors(object):
 #     """My site extension."""

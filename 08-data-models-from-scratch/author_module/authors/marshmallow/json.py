@@ -15,6 +15,7 @@ from invenio_records_rest.schemas.fields import DateString, \
     PersistentIdentifier, SanitizedUnicode
 from marshmallow import fields, missing, validate
 
+# Uncomment me
 
 # class AuthorMetadataSchemaV1(StrictKeysMixin):
 #     """Schema for the author metadata."""
@@ -22,6 +23,8 @@ from marshmallow import fields, missing, validate
 #     id = PersistentIdentifier()
 #     name = SanitizedUnicode(required=True)
 #     organization = SanitizedUnicode(required=False)
+
+# Uncomment me
 
 # class AuthorSchemaV1(StrictKeysMixin):
 #     """Author schema."""

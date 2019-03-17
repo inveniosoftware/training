@@ -22,6 +22,8 @@ from invenio_records_rest.loaders.marshmallow import json_patch_loader, \
 from ..marshmallow import AuthorMetadataSchemaV1
 
 #: JSON loader using Marshmallow for data validation.
+# Uncomment me
+
 # json_v1 = marshmallow_loader(AuthorMetadataSchemaV1)
 
 __all__ = (

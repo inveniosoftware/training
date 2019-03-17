@@ -10,6 +10,7 @@
 
 from .providers import AuthorIdProvider
 
+# Uncomment me
 
 # def author_pid_minter(record_uuid, data):
 #     """Mint loan identifiers."""

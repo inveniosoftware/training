@@ -19,15 +19,19 @@ from ..marshmallow import AuthorSchemaV1
 # ===========
 
 #: JSON serializer definition.
-# json_v1 = JSONSerializer(AuthorSchemaV1, replace_refs=True)
+json_v1 = JSONSerializer(AuthorSchemaV1, replace_refs=True)
 
 # Records-REST serializers
 # ========================
 
 #: JSON record serializer for individual records.
+# Uncomment me
+
 # json_v1_response = record_responsify(json_v1, 'application/json')
 
 #: JSON record serializer for search results.
+# Uncomment me
+
 # json_v1_search = search_responsify(json_v1, 'application/json')
 
 __all__ = (
