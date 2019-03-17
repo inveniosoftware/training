@@ -9,7 +9,7 @@ Table of contents:
 - [Configuration: SSL certificates](#configuration-ssl-certificates)
 - [Configuration: WSGI proxies](#configuration-wsgi-proxies)
 - [Invenio HTTP headers walk-through](#invenio-http-headers-walk-through)
-- [Content-Security-Policies](#content-security-policies)
+- [Content-Security-Policy](#content-security-policy)
 - [Keeping packages up to date](#keeping-packages-up-to-date)
 - [Secure file uploads](#secure-file-uploads)
 - [Auth workflows](#auth-workflows)
@@ -22,12 +22,12 @@ Start from a clean and working instance with some demo data:
 ```bash
 $ cd 13-securing-your-invenio-instance/
 $ ./init.sh
-$ ./demo-data.sh
+$ ./demo-data.sh # with an instance of ./scripts/server running
 ```
 
 ## Configuration: allowed hosts
 
-You should update our `APP_ALLOWED_HOSTS` to the correct value in your production instances. If you try to make a request with different host header than this one you will not be able to get a response.
+You should update our `APP_ALLOWED_HOSTS` to the correct value in your production instances. If you try to make a request with different host header than this one you will be blocked.
 
 ```console
 $ curl -ki -H "Host: evil.io" https://127.0.0.1:5000/api/records/
@@ -93,6 +93,13 @@ Change in `my_site/config.py` your `SECRET_KEY` and store it safely with only on
  #: Sets cookie with the secure flag by default
 ```
 
+For example, we could use the Python 3 `secrets` library:
+```console
+$ export OLD_SECRET_KEY=CHANGE_ME
+$ export NEW_SECRET_KEY=`python -c 'import secrets; print(secrets.token_hex(32))'`
+$ sed -i "s/$OLD_SECRET_KEY/$NEW_SECRET_KEY/g" my_site/config.py
+```
+
 ## Configuration: SSL certificates
 
 Invenio works only with HTTPS so we create temporary certificates when starting new instances, **these certificates need to be updated**.
@@ -123,9 +130,22 @@ Retry-After: 3024
 Server: Werkzeug/0.14.1 Python/3.6.7
 Date: Fri, 15 Mar 2019 12:07:12 GMT
 ```
-TODO short descriptions with pointers to more information
 
-## Content-Security-Policies
+**Content-Type**: depending on the type user agents will perform default actions on the served content. For example, if an HTML file is served with `text/html` content type, the browser will render the HTML and execute any code inside the file. For more information see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type).
+
+**X-Frame-Options**: controls whether the browser will allow the page to be embedded in other pages. By default we set it to `sameorigin` meaning that the application will be able to be embedded in itself. For more information see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options).
+
+**X-XSS-Protection**: When Content-Security-Policy is not supported by the browser this header helps by allowing the browser to prevent the page to load if an XSS attack is detected. For more information see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection)
+
+**X-Content-Type-Options**: Prevents browser from guessing the correct MIME type and using the provided `Content-Type`. For more information see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options)
+
+**Content-Security-Policy**: Specifies when scripts and styles can be loaded from by the browser, any other source will be blocked and the script or style will not be applied. For more information see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy).
+
+**Strict-Transport-Security**: Force browsers to request the application with HTTPS.  For more information see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
+
+**Referrer-Policy**: Controls which `Referer` header should be set.  For more information see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy)
+
+## Content-Security-Policy
 
 Where do we allow content in our Invenio instances to be loaded from?
 
@@ -144,7 +164,7 @@ Where do we allow content in our Invenio instances to be loaded from?
 
 ![](csp-rule.png)
 
-TODO a bit more explanation
+Note: It is possible to run into problems regarding CSP rules when dealing with third party libraries such as Flask-Admin, which provides a part of the application's UI. Something similar to [this](https://github.com/inveniosoftware/invenio-admin/commit/0d4ef61040e2db5183ba59e93d64ec4242f752f3) can be done.
 
 ## Keeping packages up to date
 
@@ -170,7 +190,45 @@ We should be really careful with what we allow users to upload in our instances,
 
 ## Auth workflows
 
+**Server-side rendered applications**
+
+Invenio works currently by rendering the application on server-side using Jinja2 templates.
+
+The authentication is managed by setting a _Secure_ and _HttpOnly_ cookie which holds the session and guarantee that it is only sent through HTTPS and that JavaScript is not able to read it.
+
+An incoming authenticated request to invenio will allways include two cookies, session, and a CSRF token:
+
+```yaml
+Cookie: csrftoken=secretJWTtoken; fldt=hide; session=encryptedSecretSession
+```
+
+If we open console in the browser and try to display the cookies, we will only be able to access the CSRF token:
+
+```javascript
+> document.cookie
+"csrftoken=secretJWTtoken; fldt=hide"
+```
+
+**Client-side/REST applications**
+
+The behaviour when building a single app application should be the same as the one currently used in Invenio. The _Secure_ and _HttpOnly_ session cookie plus a JWT as CSRF.
+
+This JWT token is compatible wiht REST applications since it holds all necessary data to identify the user allowing a stateful communication between frontend and backend.
+
 **Access token based**:
+
+Access tokens can be retrieved through the user interface:
+
+![](token-ui.png)
+
+Or through the command line interface:
+
+```console
+$ my-site tokens create -n tokenname -u <username>
+secrettoken
+```
+
+Once you have your token you can start doing authenticated requests to your instance:
 
 ```console
 $ export MY_SITE_ACCESS_TOKEN=manageruseraccesstoken
@@ -195,8 +253,6 @@ $ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization
   "updated": "2019-03-17T08:32:29.935725+00:00"
 }
 ```
-
-TODO server-side render, REST API auth (in slides)
 
 ## Migrating user tokens
 
@@ -245,7 +301,8 @@ We should do all together to minimize downtime. We first change secret key, we m
 ## What did we learn
 
 * How to securely configure Invenio
+* Why Invenio behaves like it does by default, HTTP headers
 * How Invenio handles CSP rules
 * How to keep your Invenio instance up to date and free of vulnerable packages
-* How Invenio will takes care of serving files (potential vector of attack) but for now you should take care of it yourself
+* How Invenio will take care of serving files (potential vector of attack) but for now you should take care of it yourself
 * How auth workflows work in Invenio
