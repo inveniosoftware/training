@@ -190,7 +190,7 @@ This is how we are registering our new minter and fetcher making them available.
 ##
 
 ```console
-$ pip install . # register entrypoints and update our applications code
+$ pipenv run pip install -e . # register entrypoints and update our applications code
 $ ./scrips/setup # reset DB and ES, create new index
 ```
 
@@ -199,7 +199,7 @@ We can now create new authors:
 $ curl -k --header "Content-Type: application/json" \
     --request POST \
     --data '{"name":"Zacharias"}' \
-    https://localhost:5000/api/authors/\?prettyprint\=1
+    https://127.0.0.1:5000/api/authors/\?prettyprint\=1
 
 {
   "created": "2019-03-17T16:01:07.148176+00:00",

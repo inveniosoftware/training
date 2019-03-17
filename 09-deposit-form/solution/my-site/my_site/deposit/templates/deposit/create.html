@@ -1,0 +1,40 @@
+{%- extends config.BASE_TEMPLATE %}
+
+{% macro errors(field) %}
+  {% if field.errors %}
+  <span class="help-block">
+    <ul class=errors>
+    {% for error in field.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  </span>
+{% endmacro %}
+
+{% block page_body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Create record</h2>
+      </div>
+      <div class="col-md-offset-3 col-md-6 well">
+        <form action="{{ url_for('deposit.create') }}" method="POST">
+            <div class="form-group {{ 'has-error' if form.title.errors }}">
+              <label for="title">{{ form.title.label }}</label>
+              {{ form.title(class_="form-control")|safe }}
+              {{ errors(form.title) }}
+            </div>
+            <div class="form-group {{ 'has-error' if form.contributor_name.errors }}">
+              <label for="contributor_name">{{ form.contributor_name.label }}</label>
+              {{ form.contributor_name(class_="form-control")|safe }}
+              {{ errors(form.contributor_name) }}
+            </div>
+            {{ form.csrf_token }}
+            {{ errors(form.csrf_token) }}
+            <button type="submit" class="btn btn-default">Create</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock page_body %}
