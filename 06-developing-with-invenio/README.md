@@ -1,22 +1,22 @@
 # Developing with Invenio
 
-## Useful commands:
+## Table of contents
+- [Step 1: Inspect Invenio project file structure](#step-1-inspect-invenio-project-file-structure)
+- [Step 2: Initialize the git repository](#step-2-initialize-the-git-repository)
+- [Step 3: Build the documentation](#step-3-build-the-documentation)
+- [Step 4: Running tests](#step-4-running-tests)
+- [Step 5: End-to-end testing](#step-5-end-to-end-testing)
+- [Step 6: Fix the failing test](#step-6-fix-the-failing-test)
+- [Step 7: Installing a new Python dependency](#step-7-installing-a-new-python-dependency)
+- [Extras - Useful development commands](#extra-useful-development-commands)
 
-Set up environment variable for debug mode
-```commandline
-export FLASK_DEBUG=1
-```
+## Step 1: Inspect Invenio project file structure
 
-Run docker services
-```commandline
-docker-compose up
-```
+Open the project directory and scan the files
 
-Build documentation
-```commandline
-python setup.py build_sphinx
-```
+![](images/06-repo.png)
 
+## Step 2: Initialize the git repository
 Initialize git repo
 ```commandline
 git init
@@ -32,22 +32,104 @@ Update manifest file
 check-manifest update
 ```
 
-### Testing
+## Step 3: Build the documentation
 
-Run tests
+The documentation has already written basic information for you. However you can expand it by adding your own pages and by writing docstrings, which are very helpful in the later development process. To build the documentation simply run the command below inside your virtualenv. The documentation has to be build any time where are changes in the pages or docstrings.
+
+Build documentation:
+```commandline
+(my-site)$ python setup.py build_sphinx
+```
+Now you can visit the http://127.0.0.1/docs/_build/html/index.html to see the documentation in the browser:
+
+![](images/06-documentation.png)
+
+## Step 4: Running tests
+Invenio provides examples of tests in the project's repository: 
+
+![](images/06-tests.png)
+
+Before you run tests you need all the development docker services to be up and running:
+
+Run docker services
+```commandline
+docker-compose up
+``` 
+
+To run the tests you can use the test script provided in the repository (the script runs automatically inside virtualenv):
+
 ```commandline
 ./run-tests
 ```
 
-Enable E2E testing
+To run the test functions one by one you should activate the virtualenv of your project and use pytest command, like on the example below:
+
+```commandline
+(my-site)$ pytest tests/api/test_api_simple_flow::test_simple_flow
+```
+  
+
+## Step 5: End-to-end testing
+To enable end-to-end testing you have to set up your environment variables, as well as install proper browser drivers (e2e testing opens up a browser to test UI).
+
+1. Install driver for browser
+visit https://github.com/mozilla/geckodriver/releases and download latest version for your OS or
+if you are using the Bootcamp VM, download and install:
+https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
+
+2. Enable E2E testing
 ```commandline
 export E2E="yes"
-export E2E_WEBDRIVER_BROWSERS="Chrome Firefox"
 ```
 
-Add your browser driver to `$PATH` (temporarily)
+ 
+## Step 6: Fix the failing test
+
+Open the file `tests/e2e/test_front_page.py` in your editor.
+Edit the string in assert command to match the string in the changed `index.html` template.
+
+Run tests again:
 ```commandline
-export PATH=<path_to_parent_directory_of_the_driver>:$PATH
+./run-tests.sh
+```
+
+
+## Step 7: Installing a new Python dependency
+
+In order to test a new package, simply install it in the virtualenv using `pip` tool:
+
+```commandline
+(my-site)$ pip install Pillow
+```
+This won't add the package to your project. It won't modify the Pipfile or Pipfile.lock.
+
+If you decide not to add `Pillow` to your project, you can simply run:
+```commandline
+pipenv sync --dev
+```
+which will restart your virtualenv to initial state, according to actual Pipfile.
+
+On the other hand if you decide to include the `Pillow` package, run:
+
+```commandline
+pipenv install Pillow
+```
+
+![](images/06-pipenv.png)
+
+The Pipfile and Pipfile.lock will be modified. You should include both files in your repository:
+
+```commandline
+git add Pipfile
+git add Pipfile.lock
+git commit -m "global: added Pillow package"
+```
+
+## Extra: Useful development commands
+
+Set up environment variable for debug mode
+```commandline
+export FLASK_DEBUG=1
 ```
 
 ### Scripts:
@@ -67,8 +149,6 @@ Run invenio server (if $FLASK_DEBUG=1 server refreshes on change of the code)
 ./scripts/server
 ```
 
-
-
 ### Pipenv
 
 Installing python dependencies (updated as Pipfile indicates)
@@ -81,9 +161,19 @@ Activate virtualenv
 pipenv shell
 ```
 
-### Troubleshooting
+### Docker troubleshooting
 To kill and remove all docker containers
 ```commandline
 docker stop $(docker ps -a -q); docker rm $(docker ps -a -q)
 ```
 
+## What did we learn
+
+1. What Invenio project instance supplies
+2. How to initialize and manage git repository 
+3. How to build a documentation
+4. How to run docker services for development support
+5. How to run tests
+6. How to add python dependency to the project
+7. What scripts to use in the development process
+8. How to support Test Driven Development

@@ -1,7 +1,12 @@
 # Tutorial 8 - Record access management
 
-The goal of this tutorial is to implement record access permissions in simple and complicated cases.
+## Table of contents
+- [Step 1 - Allow for access only from the owner](#step-1---allow-for-access-only-from-the-owner)
+- [Step 2 - search filter](#step-2---search-filter)
+- [Step 3 - Create permissions](#step-3---create-permissions)
+- [Extras - Additional excersises](#extras)
 
+The goal of this tutorial is to implement record access permissions in simple and complicated cases.
 
 Prerequisites:
 1. previous steps with owner field
@@ -23,17 +28,7 @@ curl -k --header "Content-Type: application/json" --request POST --data '{"title
 ```
 
 
-// TODO set those links
-
-Jump to: [Step 1](#step-1) | [Step 2](#step-2) | [Step 3](#step-3) | [Step 4](#step-4)
-
-## Step 1
-
-Start from a clean and working instance:
-
-```bash
-$ ./start-from.sh 11-linking-records
-```
+## Step 1 - Allow for access only from the owner
 
 ### Use case:
 Restrict the access to read, edit and delete action for the record only to it's owner.
