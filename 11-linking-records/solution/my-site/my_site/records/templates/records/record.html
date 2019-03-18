@@ -1,0 +1,48 @@
+{# -*- coding: utf-8 -*-
+
+    Copyright (C) 2019 CERN.
+
+    My site is free software; you can redistribute it and/or modify it under
+  the terms of the MIT License; see LICENSE file for more details.
+#}
+
+{%- extends config.RECORDS_UI_BASE_TEMPLATE %}
+
+{%- macro record_content(data) %}
+  {% for key, value in data.items() recursive %}
+    <li class="list-group-item">
+    {% if value is mapping %}
+        <strong>{{ key }}:</strong>
+        <ul class="list-group">{{ loop(value.items()) }}</ul>
+    {% elif value is iterable and value is not string %}
+        <strong>{{ key }}:</strong>
+        <ol>
+        {% for item in value %}
+          <li>
+          {% if item is mapping %}
+            <ul class="list-group">
+              {{ record_content(item) }}
+            </ul>
+          {% else %}
+            {{ item }}
+          {% endif %}
+          </li>
+        {% endfor %}
+        </ol>
+    {% else %}
+      <strong>{{ key }}:</strong> {{ value }}
+    {% endif %}
+    </li>
+  {% endfor %}
+{%- endmacro %}
+
+{%- block page_body %}
+<div class="container">
+  <h2>{{record.title}}</h2>
+  <strong>Authors</strong>
+  {% for author in record.contributors %}
+  <em>{{ author.name }}</em>;
+  {% endfor %}
+</div>
+{%- endblock %}
+
