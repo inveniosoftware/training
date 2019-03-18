@@ -13,6 +13,7 @@ for the day-to-day development and running of an Invenio instance.
 - [Step 6: `invenio run`: running the web development server](#step-6-invenio-run-running-the-web-development-server)
 - [Step 7: Running the Celery worker](#step-7-running-the-celery-worker)
 - [Step 8: Entrypoints: where the magic happens](#step-8-entrypoints-where-the-magic-happens)
+- [Step 9: Configuration loading](#step-9-configuration-loading)
 - [What did we learn](#what-did-we-learn)
 
 ## Step 1: Bring up the basic/development docker-compose setup
@@ -354,6 +355,22 @@ invenio_jsonschemas.schemas
   ...
 ```
 
+## Step 9: Configuration loading
+
+An important aspect of any deployable application is its configuration. Invenio
+uses the `invenio-config` module to load configuration from a variety of
+places, with the purpose of making it easy to override config variables
+depending on the environment the application is running (e.g. Dev/QA/Prod). The
+order configuration is loaded is:
+
+- Configuation modules defined in `invenio_config.module` entrypoints.
+  `my_site/config.py` is actually one of them
+- Configuration in the `<app.instance_path>/invenio.cfg`. For local development
+  this is usually `${VIRUAL_ENV}/var/instance/invenio.cfg`
+- `INVENIO_`-prefixed environment variables. If for example you want to
+  override the `SECRET_KEY`, you would have to do `export
+  INVENIO_SECRET_KEY="my-secret"`
+
 ## What did we learn
 
 - Basics on the application's Python environment
@@ -361,3 +378,4 @@ invenio_jsonschemas.schemas
 - Running the web development server
 - Running the Celery worker
 - Inspecting Invenio entrypoints
+- How Invenio configuration is loaded
