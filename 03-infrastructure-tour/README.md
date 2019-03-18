@@ -20,6 +20,11 @@ $ docker-compose -f docker-compose.full.yml up -d
 
 To make sure our instance is running properly, open <https://localhost>
 
+Here's a full diagram of what the `docker-compose.full.yml` infrastructure
+looks like:
+
+![](./images/diagram.png)
+
 ## Step 2: Access the database (PostgreSQL)
 
 To access the PostgreSQL database container we will first have to open a Bash
