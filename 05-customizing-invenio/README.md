@@ -15,10 +15,10 @@ results for records are displayed and the display page for every record.
 
 ## Step 1: Run the development server
 
-To run the web development server:
+If your development server is not running you can type:
 
 ```bash
-$ cd src/my-site
+$ cd ~/src/my-site
 $ docker-compose up -d
 $ ./scripts/server
 ```

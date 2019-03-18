@@ -19,9 +19,8 @@ Table of contents:
 
 Start from a clean and working instance with some demo data:
 
-```bash
-$ cd 13-securing-your-invenio-instance/
-$ ./init.sh
+```console
+$ ./start-from.sh 12-managing-access
 $ ./demo-data.sh # with an instance of ./scripts/server running
 ```
 

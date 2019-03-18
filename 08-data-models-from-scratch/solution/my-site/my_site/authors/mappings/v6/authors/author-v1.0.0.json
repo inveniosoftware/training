@@ -12,10 +12,10 @@
           "type": "keyword"
         },
         "name": {
-          "type": "keyword"
+          "type": "text"
         },
         "organization": {
-          "type": "keyword"
+          "type": "text"
         },
         "_created": {
           "type": "date"

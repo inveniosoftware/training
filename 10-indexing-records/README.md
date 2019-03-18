@@ -48,8 +48,7 @@ Let's see how to do it.
 Start from a clean and working instance:
 
 ```bash
-$ cd 10-indexing-records/
-$ ./init.sh
+$ ./start-from.sh 09-deposit-form
 ```
 
 ## Step 2

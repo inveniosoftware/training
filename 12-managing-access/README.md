@@ -31,9 +31,8 @@ Jump to: [Step 1](#step-1) | [Step 2](#step-2) | [Step 3](#step-3) | [Step 4](#s
 
 Start from a clean and working instance:
 
-```commandline
-$ cd 08-build-simple-deposit-form/
-$ ./init.sh
+```bash
+$ ./start-from.sh 11-linking-records
 ```
 
 ### Use case:
@@ -45,7 +44,7 @@ Restrict the access to read, edit and delete action for the record only to it's 
     "owner": {
       "type": "integer"
     },
-``` 
+```
 
 so the permission factory requires an user to provide his ID as stored in the record in the `"owner"` field:
 
@@ -153,7 +152,7 @@ def owner_permission_filter():
 
 ```
 
-2. We implement search class which features the implemented filter 
+2. We implement search class which features the implemented filter
 
 ```diff
 from elasticsearch_dsl import Q
@@ -274,7 +273,7 @@ RECORDS_REST_ENDPOINTS = {
         error_handlers=dict(),
 -       create_permission_factory_imp=allow_all
 +       create_permission_factory_imp=authenticated_user_permission,
- 
+
 ```
 
 3. Perform POST request by using curl to test creation permission (as unauthenticated user)
@@ -391,7 +390,7 @@ RECORDS_REST_ENDPOINTS = {
 
 ### Explicit access per action type - additional excersize
 
-1. Implement access management for the record having in mind the structure below 
+1. Implement access management for the record having in mind the structure below
 
 ```json
 {

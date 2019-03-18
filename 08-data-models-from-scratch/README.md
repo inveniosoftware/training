@@ -4,22 +4,24 @@ In this session we will learn how to build a new data model from scratch. During
 process we will see how to create a new REST **module** for our model and provide functonalities
 such as storing and searching.
 
-Table of contents:
-- [Bootstrap exercise](#Bootstrap-exercise)
-- [Create an Authors flask extension](#Create-an-`Authors`-flask-extension)
-- [Internal representation: JSONSchema and ElasticSearch mappings](#Internal-representation-JSONSchema-and-ElasticSearch-mappings)
-- [External representation: loaders and serializers](#External-representation-loaders-and-serializers)
-- [Data validation: Marshmallow](#Data-validation-Marshmallow)
-- [Persistent identifiers](#Persistent-identifiers)
-- [Create an author](#Create-an-author)
+### Table of contents
 
-## Bootstrap exercise
+- [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
+- [Step 2: Create an Authors flask extension](#step-2-create-an-Authors-flask-extension)
+- [Step 3: Internal representation: JSONSchema and ElasticSearch mappings](#step-3-internal-representation-JSONSchema-and-ElasticSearch-mappings)
+- [Step 4: External representation: loaders and serializers](#step-4-External-representation-loaders-and-serializers)
+- [Step 5: Data validation: Marshmallow](#step-5-Data-validation-Marshmallow)
+- [Step 6: Persistent identifiers](#step-6-Persistent-identifiers)
+- [Step 7: Create an author](#step-7-Create-an-author)
+- [What did we learn](#what-did-we-learn)
 
-Start from a clean and working instance:
+## Step 1: Bootstrap exercise
+
+If you completed the previous tutorial, you can skip this step. If instead you would like to start from a clean state run the following commands:
 
 ```bash
-$ cd 08-data-models-build-from-scratch/
-$ ./init.sh
+$ cd ~/src/training/
+$ ./start-from.sh 07-data-models-new-field
 ```
 
 **Note**: In order to reduce the amount of code that we need to write we have prepared beforehand the module structure in `/08-data-models-from-scratch/author_module` folder in which will go through and **uncomment** the needed code snippets to enable different functionalities and eventually build our module!
@@ -32,7 +34,7 @@ $ ./bootstrap.sh
 
 You should now see in your application folder a newly created `authors` folder which will be the module we will develop through this tutorial.
 
-## Create an `Authors` flask extension
+## Step 2: Create an `Authors` flask extension
 
 First thing we need to do is to create an extension called `Authors` and register it in our `setup.py` so our Invenio application can know about it.
 
@@ -50,7 +52,7 @@ First thing we need to do is to create an extension called `Authors` and registe
 
   In that way we register our extension under Invenio API application.
 
-## Internal representation: JSONSchema and ElasticSearch mappings
+## Step 3: Internal representation: JSONSchema and ElasticSearch mappings
 
 Now that we have our extension registered, we need to tell Invenio how the internal representation of our data model is. To do so, we use [a JSONSchema](author_module/authors/jsonschemas/authors/author-v1.0.0.json) and [an ElasticSearch mapping](author_module/authors/mappings/v6/authors/author-v1.0.0.json): the former to validate the internal JSON format and the latter to tell ElasticSearch what shape our data model has so it can handle correctly its values.
 
@@ -82,7 +84,7 @@ Now that we have our extension registered, we need to tell Invenio how the inter
   By doing this we told Invenio to register our new schema and mapping. We are also defining the name of the ElasticSearch index which will be created to enable author search.
 
 
-## External representation: loaders and serializers
+## Step 4: External representation: loaders and serializers
 
 So far we have a new extension which defines how our data model is **stored** and **searchable**, but have not yet provided means to transform this data when its received or served by Invenio. To do so, we will introduce two new concepts: **loaders** whose responsibility is to transform incoming data to the internal format, and **serializers** which will be in charge of transforming the internal data to a different format, based on our needs.
 
@@ -141,7 +143,7 @@ During the first step we registered our **loader** in the configuration of our n
 In the upcoming steps we created and registered our serializers. We splitted them in two categories: **Record serializers** and **Search serializers**. The first are used to **serialize** the internal representation of one specific record(e.g author) while the latter are transforming each record result of a search. They are capable of doing that by using again a `Marshmallow` schema which we will explain in detail in the next section.
 
 
-## Data validation: Marshmallow
+## Step 5: Data validation: Marshmallow
 
 In the previous section we have configured loaders and serializers but we also started to configure our first validation check by making reference to two Marshmallow schemas. These schemas will make sure that the data has the correct format both when it arrives to the system and when it is returned to the user.
 
@@ -152,7 +154,7 @@ In the previous section we have configured loaders and serializers but we also s
 Here we have added two classes which we made reference in the previous step, `AuthorMetadataSchemaV1` and `AuthorSchemaV1`. The first will take care of validating in coming author metadata and the second will take care of validating the author output format. Marshmallow is not mandatory, but highly recommended since it can do from simple validations to complex ones, for more information visit [Marshmallow documentation](https://marshmallow.readthedocs.io/en/2.x-line/).
 
 
-## Persistent identifiers
+## Step 6: Persistent identifiers
 
 So far we have only cared about our content and its format, but we need to provide a way to retrieve our records. We are doing this by using PIDs, and the difference with normal IDs is that they do not change over time to avoid broken references.
 
@@ -194,7 +196,7 @@ This is how we are registering our new minter and fetcher making them available.
 **Important**: the value of the `pid_minter` and the `pid_fetcher` defined in `config.py` should match exactly with the entrypoint names defined in `setup.py`. Also we should make sure that the `pid_type` value and the `RECORDS_REST_ENDPOINTS` endpoint key match exactly.
 
 
-## Create an author
+## Step 7: Create an author
 
 In order to reflect our changes in the database and Elasticsearch but also to register our new entrypoints in Invenio we need to run the following commands:
 

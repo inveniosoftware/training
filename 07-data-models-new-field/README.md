@@ -1,28 +1,30 @@
-# Tutorial 03 - Data models: Adding a new field
+# Tutorial 07 - Data models: Adding a new field
 
 The goal of this tutorial is to learn how to update your datamodel. We will show how you going to
 update your [`JSONSchema`](https://json-schema.org/) to store a new field in the DB and your ES mapping so you can search for it.
 Moreover we will learn how [`Marshmallow`](https://marshmallow.readthedocs.io) schema can be used to validate your data.
 
-Table of contents:
-- [Bootstrap exercise](#Bootstrap-exercise)
-- [Update the JSONSchema](#Update-the-JSONSchema)
-- [Update the Elasticsearch mapping](#Update-the-Elasticsearch-mapping)
-- [Update the Marshmallow schema](#Update-the-Marshmallow-schema)
-- [Create a new record including our new field](#Create-a-new-record-including-our-new-field)
-- [Search for our new record](#Search-for-our-new-record)
-- [Manipulate response using serializers](#Manipulate-response-using-serializers)
+### Table of Contents
 
-## Bootstrap exercise
+- [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
+- [Step 2: Update the JSONSchema](#step-2-update-the-JSONSchema)
+- [Step 3: Update the Elasticsearch mapping](#step-3-update-the-Elasticsearch-mapping)
+- [Step 4: Update the Marshmallow schema](#step-4-update-the-Marshmallow-schema)
+- [Step 5: Create a new record including our new field](#step-5-create-a-new-record-including-our-new-field)
+- [Step 6: Search for our new record](#step-6-search-for-our-new-record)
+- [Step 7: Manipulate response using serializers](#step-7-manipulate-response-using-serializers)
+- [What did we learn](#what-did-we-learn)
 
-Start from a clean and working instance:
+## Step 1: Bootstrap exercise
+
+If you completed the previous tutorial, you can skip this step. If instead you would like to start from a clean state run the following commands:
 
 ```bash
-$ cd 03-add-new-field/
-$ ./init.sh
+$ cd ~/src/training/
+$ ./start-from.sh 05-customizing-invenio
 ```
 
-## Update the JSONSchema
+## Step 2: Update the JSONSchema
 
 Our use case: we have created our data model and we want to update it by adding a new field. Let's
 call that field `owner` and it will be an integer that represents the owner of the corresponding
@@ -48,7 +50,7 @@ We edit the `jsonschemas/records/record-v1.0.0.json` file:
 +   },
 ```
 
-## Update the Elasticsearch mapping
+## Step 3: Update the Elasticsearch mapping
 
 Now our system can validate and store our new field correctly in the DB. Now we want to enable search of a record by this new field. For this purpose we need to update the mapping of our ES index in order to add our new field. By doing that we let ES know how to handle our new field(field type, searchable, analyzable, etc.).
 
@@ -75,7 +77,7 @@ So, in order to update the mapping we edit the `/mappings/v6/records/record-v1.0
 +       },
 ```
 
-## Update the Marshmallow schema
+## Step 4: Update the Marshmallow schema
 Next thing is to update our marshmallow schema in order to allow our new field to be validated by our loader. To
 achieve that we edit the `marshmallow/json.py`:
 
@@ -91,7 +93,7 @@ class MetadataSchemaV1(StrictKeysMixin):
 +   owner = fields.Integer()
 ```
 
-## Create a new record including our new field
+## Step 5: Create a new record including our new field
 
 Now in order to **reflect our changes** in our system we will have to run the `/scripts/setup` script. With that we start fresh our DB and ES along with the updated information about schemas and mappings.
 
@@ -158,7 +160,7 @@ Now you should see an output similar to the below:
 
 Our new record was successfully created!
 
-## Search for our new record
+## Step 6: Search for our new record
 
 **Checkpoint 2**: At this point we have created our new record and we are able to search it. Let's do this!
 
@@ -202,7 +204,7 @@ record we had created in the previous step we can search in the page for our rec
 }
 ```
 
-## Manipulate response using serializers
+## Step 7: Manipulate response using serializers
 
 Here you can see the data returned from the search regarding our record. The output of each result is controlled
 by our `serializers`. These entities are responsible for getting the internal representation of our data and transform
@@ -259,3 +261,10 @@ Then now if search again we will take the following result:
   }
 }
 ```
+
+## What did we learn
+
+- How to update the JSONSchema
+- How to update a Elasticsearch mapping
+- How to use Marshmallow schema along with loaders
+- How to control your API responses with serializers

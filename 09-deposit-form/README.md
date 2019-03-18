@@ -15,8 +15,7 @@ We will need:
 Start from a clean and working instance:
 
 ```bash
-$ cd 09-deposit-form/
-$ ./init.sh
+$ ./start-from.sh 08-data-models-from-scratch
 ```
 
 ## Step 2

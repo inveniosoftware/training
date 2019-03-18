@@ -62,8 +62,7 @@ Let's implement it.
 Start from a clean and working instance:
 
 ```bash
-$ cd 11-linking-records/
-$ ./init.sh
+$ ./start-from.sh 10-indexing-records
 ```
 
 ## Step 2
