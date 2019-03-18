@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://localhost/schemas/authors/author-v1.0.0.json",
+  "additionalProperties": false,
+  "title": "My site v1.0.0",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "description": "Invenio record identifier (integer).",
+      "type": "string"
+    },
+    "name": {
+      "description": "Author name.",
+      "type": "string"
+    },
+    "organization": {
+      "description": "Organization the author belongs to.",
+      "type": "string"
+    }
+  },
+  "required": ["id", "name", "$schema"]
+}

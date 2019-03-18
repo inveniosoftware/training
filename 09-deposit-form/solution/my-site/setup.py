@@ -47,6 +47,9 @@ setup(
             'my_site_records = my_site.records.views:blueprint',
             'my_site_deposit = my_site.deposit.views:blueprint',
         ],
+        'invenio_assets.webpack': [
+            'my_site_theme = my_site.theme.webpack:theme',
+        ],
         'invenio_config.module': [
             'my_site = my_site.config',
         ],
@@ -55,12 +58,21 @@ setup(
         ],
         'invenio_base.api_apps': [
             'my_site = my_site.records:Mysite',
-         ],
+            'authors = my_site.authors:Authors',
+        ],
+        'invenio_pidstore.fetchers': [
+            'authid = my_site.authors.fetchers:author_pid_fetcher',
+        ],
+        'invenio_pidstore.minters': [
+            'authid = my_site.authors.minters:author_pid_minter',
+        ],
         'invenio_jsonschemas.schemas': [
-            'my_site = my_site.records.jsonschemas'
+            'my_site = my_site.records.jsonschemas',
+            'authors = my_site.authors.jsonschemas',
         ],
         'invenio_search.mappings': [
-            'records = my_site.records.mappings'
+            'records = my_site.records.mappings',
+            'authors = my_site.authors.mappings',
         ],
     },
     classifiers=[

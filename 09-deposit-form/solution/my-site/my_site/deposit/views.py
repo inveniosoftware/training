@@ -3,6 +3,8 @@
 from __future__ import absolute_import, print_function
 
 from flask import Blueprint, redirect, render_template, url_for
+from flask_login import login_required
+from flask_security import current_user
 
 from .forms import RecordForm
 from .api import create_record
@@ -18,6 +20,7 @@ blueprint = Blueprint(
 )
 
 @blueprint.route('/create', methods=('GET', 'POST'))
+@login_required
 def create():
     """The create view."""
     form = RecordForm()
@@ -25,11 +28,14 @@ def create():
     if form.validate_on_submit():
         # we creare one contributor object with the submitted name
         contributors = [dict(name=form.contributor_name.data)]
+        # set the owner as the current logged in user
+        owner = int(current_user.get_id())
         # create the record
         create_record(
           dict(
             title=form.title.data,
-            contributors=contributors
+            contributors=contributors,
+            owner=owner,
           )
         )
         # redirect to the success page
@@ -38,6 +44,7 @@ def create():
 
 
 @blueprint.route("/success")
+@login_required
 def success():
     """The success view."""
     return render_template('deposit/success.html')

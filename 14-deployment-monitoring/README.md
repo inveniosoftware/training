@@ -1,11 +1,15 @@
 # Tutorial 14 - Deployment and monitoring
 
+In this session, we will present how tune deployment configuration of each part of the infrastructure and how to size it to be able to serve a targeted number of requests. We will also explain what to monitor and a few tips on how to take advantage of logging.
+
 ## Benchmark
 
 You can use [Locust](https://locust.io/).
 
 ```bash
-pip install locustio
+$ pipenv run pip install locustio
+$ ./scripts/server
+$ pipenv run locust --host=https://127.0.0.1/ --no-web -c 1000 -r 100
 ```
 
 `locustfile.py`

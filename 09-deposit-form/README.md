@@ -2,23 +2,32 @@
 
 The goal of this tutorial is to learn how we can build a new simple form to be able to deposit new records. The `invenio-deposit` module is not in the scope of this exercise.
 
-Jump to: [Step 1](#step-1) | [Step 2](#step-2) | [Step 3](#step-3) | [Step 4](#step-4) | [Step 5](#step-5) | [Step 6](#step-6) | [Step 7](#step-7) | [Step 8](#step-8) | [Step 9](#step-9)
-
 We now have to enable users to deposit new records. For this exercise, we won't use what `invenio-records-rest` already provides out-of-the-box, but we will implement a custom view.
 We will need:
 * to render a simple form to create a record, where the user can input the value of each field
 * a new view where to post the form, validate the input and create the new record
 * a new view to display a success message or an error
 
-## Step 1
+### Table of Contents
 
-Start from a clean and working instance:
+- [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
+- [Step 2: Create a simple form](#step-2-create-a-simple-form)
+- [Step 3: Display the form](#step-3-display-the-form)
+- [Step 4: Create the submitted record](#step-4-create-the-submitted-record)
+- [Step 5: Update the entrypoints](#step-5-update-the-entrypoints)
+- [Step 6: Try it!](#step-6-try-it)
+- [What did we learn](#what-did-we-learn)
+
+## Step 1: Bootstrap exercise
+
+If you completed the previous tutorial, you can skip this step. If instead you would like to start from a clean state run the following commands:
 
 ```bash
+$ cd ~/src/training/
 $ ./start-from.sh 08-data-models-from-scratch
 ```
 
-## Step 2
+## Step 2: Create a simple form
 
 We are going to create a new module in our project which will contain all our files.
 Let's create a new module folder: `my-site/my_site/deposit/`. When creating a new module, do not forget to add `__init__.py`:
@@ -53,9 +62,9 @@ class RecordForm(FlaskForm):
     )
 ```
 
-## Step 3
+## Step 3: Display the form
 
-We have to create a new view for the form. We will take advantage of the HTTP verbs `GET`, to render the form, and `POST`, to handle the submitted data.
+We have to create a new view for the form. We will take advantage of the HTTP verbs `GET`, to render the form, and `POST`, to handle the submitted data. We are also going to protect the view with the `login_required` decorator: in this way, Invenio will redirect to the login view if the user is anoymous and we can then set the owner of the newly created record to the id of the logged in user.
 
 `my-site/my_site/deposit/views.py`
 
@@ -65,6 +74,8 @@ We have to create a new view for the form. We will take advantage of the HTTP ve
 from __future__ import absolute_import, print_function
 
 from flask import Blueprint, redirect, render_template, url_for
+from flask_login import login_required
+from flask_security import current_user
 
 from .forms import RecordForm
 from .api import create_record
@@ -80,6 +91,7 @@ blueprint = Blueprint(
 )
 
 @blueprint.route('/create', methods=('GET', 'POST'))
+@login_required
 def create():
     """The create view."""
     form = RecordForm()
@@ -87,11 +99,14 @@ def create():
     if form.validate_on_submit():
         # we creare one contributor object with the submitted name
         contributors = [dict(name=form.contributor_name.data)]
+        # set the owner as the current logged in user
+        owner = int(current_user.get_id())
         # create the record
         create_record(
           dict(
             title=form.title.data,
-            contributors=contributors
+            contributors=contributors,
+            owner=owner,
           )
         )
         # redirect to the success page
@@ -100,6 +115,7 @@ def create():
 
 
 @blueprint.route("/success")
+@login_required
 def success():
     """The success view."""
     return render_template('deposit/success.html')
@@ -171,7 +187,7 @@ Templates creation: create a folder `templates` and a subfolder `deposit` (the n
 {% endblock page_body %}
 ```
 
-### Step 6
+## Step 4: Create the submitted record
 
 We will now implement the `create_record` method: its responsabilities are to create the record in the database, mint a new persistent identifier and index it to make it searchable.
 
@@ -208,7 +224,7 @@ def create_record(data):
     db.session.commit()
 ```
 
-### Step 7
+## Step 5: Update the entrypoints
 
 Last step: add the new view in the app entrypoints. When the Invenio app will run, it will find the new blueprint and register its routes.
 
@@ -218,29 +234,37 @@ Add this in `my-site/setup.py`:
         'invenio_base.blueprints': [
             'my_site = my_site.theme.views:blueprint',
             'my_site_records = my_site.records.views:blueprint',
-+           'deposit = my_site.deposit.views:blueprint',
++           'my_site_deposit = my_site.deposit.views:blueprint',
         ],
-        'invenio_config.module': [
-            'my_site = my_site.config',
+        'invenio_assets.webpack': [
+            'my_site_theme = my_site.theme.webpack:theme',
         ],
 ```
 
-Finally, re-install the app to register the entrypoints:
+Re-install the app to register the entrypoints:
 
 ```bash
 $ pipenv run pip install -e .
 ```
 
-## Step 9
+Finally, let's create an user to access to the protected form.
+
+```bash
+$ pipenv run my-site users create deposit@test.ch -a --password=123456
+```
+
+## Step 6: Try it!
 
 Try it! Ensure `docker-compose` is running and reload the server (if not done already automatically):
 
 ```bash
 $ ./scripts/server
-$ firefox https://127.0.0.1/deposit/create
+$ firefox https://127.0.0.1:5000/deposit/create
 ```
 
-Now, create a record and verify it is indexed correctly:
+Login with the credentials set before: username `deposit@test.ch` and password `123456`.
+Now, create a record by entering some data and submitting the form.
+Finally, verify it is indexed correctly:
 
 ```bash
 $ firefox https://127.0.0.1:5000/api/records/?prettyprint=1
@@ -249,5 +273,6 @@ $ firefox https://127.0.0.1:5000/api/records/?prettyprint=1
 ## What did we learn
 
 - We have seen how to create a new view with templates
+- We have seen how to protect a view requiring login
 - We have built a new form with validation
 - We learned how to create a record minting its PID and then index it
