@@ -5,8 +5,12 @@ The goal of this tutorial is to learn how we can link records using references, 
 ### Table of Contents
 
 - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
-- [Step 2: Modify the record before indexing](#step-2-modify-the-record-before-indexing)
-- [Step 3: Try it!](#step-3-try-it)
+- [Step 2: Add author reference to the record](#step-2-add-author-reference-to-the-record)
+- [Step 3: Create a JSON resolver](#step-3-create-a-JSON-resolver)
+- [Step 4: Update the entrypoints](#step-4-update-the-entrypoints)
+- [Step 5: Try it!](#step-5-try-it)
+- [Bonus](#bonus)
+- [About references in Invenio](#about-references-in-Invenio)
 - [What did we learn](#what-did-we-learn)
 
 In tutorial 08, we have learned how to create a new data model, the author record. It would be now very useful to link a record to his author so that, when using the REST APIs to return records, we can immediately return also the details of the author without performing any extra query.
@@ -71,7 +75,7 @@ $ cd ~/src/training/
 $ ./start-from.sh 10-indexing-records
 ```
 
-## Step 2:
+## Step 2: Add author reference to the record
 
 We need to create a reference (in a similar way as we would do using foreign keys in the SQL world) between record and author. Let's add a new `$ref` field in the record data model to reference the author.
 
@@ -100,7 +104,6 @@ Since we have changed the data model, we need to change the Elasticsearch mappin
 `my-site/my_site/records/mappings/v6/records/record-v1.0.0.json`
 
 ```diff
-
 +       "author": {
 +         "type": "object",
 +         "properties": {
@@ -117,7 +120,7 @@ Since we have changed the data model, we need to change the Elasticsearch mappin
         },
 ```
 
-## Step 3:
+## Step 3: Create a JSON resolver
 
 What will now happen is that when creating a new record, there will be a new `$ref` field with the URL to resolve the related author. For example, `$ref: https://my-site.com/api/resolver/author/1`.
 
@@ -149,7 +152,7 @@ def record_jsonresolver(authid):
     return record
 ```
 
-## Step 4:
+## Step 4: Update the entrypoints
 
 We need to add the JSON resolver method in the entrypoints.
 
@@ -165,7 +168,7 @@ We need to add the JSON resolver method in the entrypoints.
             'records = my_site.records.mappings',
 ```
 
-## Step 5:
+## Step 5: Try it!
 
 We can now try to create an author and then a record with a reference to it. But first, since we have changed schema, mappings and entrypoints, let's re-install the app and re-init DB and Elasticsearch.
 
@@ -204,24 +207,33 @@ Now, we can query Elasticsearch and verify that the author metadata are in the r
 $ firefox http://127.0.0.1:9200/records/_search?pretty=true
 ```
 
+If, instead, we check what's in the database (using the Admin panel) we can see that the record has still the `$ref` field:
+
+```bash
+# create an admin user
+$ pipenv run invenio users create admin@invenio.org --password 123456 --active
+$ pipenv run invenio roles add admin@invenio.org admin
+$ firefox https://127.0.0.1:5000/admin/persistentidentifier/
+```
+
 ## Bonus
 
-FIXME
-Did you notice the `contributors_count` field in the author list of results? Can you guess why?
+Did you notice that the `contributors_count` field is also showing up in the author records?
 
-## A more complete explanation
+```bash
+$ firefox http://127.0.0.1:9200/authors/_search?pretty=true
+```
 
-# TODO complete me
+Can you guess why? How can we fix it?
 
-`$ref` is an internal resolution of records references. As we usually don't expose foreign keys of our DB, it might be not a great idea to expose a field with an URL that has a meaning only in our instance. The URL contains a "fake" domain as host and it is meant to be used with JSON resolvers without performing a real HTTP call.
-When using this technique, think about it in advance because the URL will be hardcoded in each record. If you have to change it, you will have most probably to perform un update of all your record.
-Moreover, if you want to expose your records schema, it might not make sense to expose the `$ref` field. It is probably a good practice to always resolve `$ref` when exporting data as JSON or any other format.
+## About references in Invenio
 
-`replace_refs` here description
+Invenio uses the [jsonresolver](https://github.com/inveniosoftware/jsonresolver) module to define and resolve references between records. The `$ref` URL is generated using a "fake" domain defined by the config variable `JSONSCHEMA_HOST` (it is not meant to be a real URL) to be able to avoid performing real HTTP request when resolving but instead calling a Flask route method implementation.
 
+Given that it is an internal reference, you should not expose this field and URL when returning the schema and the records through APIs. To avoid that, by default [invenio-records-rest](https://invenio-records-rest.readthedocs.io/en/latest/usage.html) JSON serializers defines `replace_refs=True` as parameter.
+Moreover, as you saw, the URL will be hardcoded in each record. If you need to change it, you will have most probably to perform an update to all your records.
 
-To keep things simple, we will POST a new record with the right `$ref` URL.
-In reality, we really recommend you to create your own record class and add the `author` field in the overridden `create` method, something like:
+To hide references and solve this problem, we recommend you to create your own record class and add the `author` field creation in the overridden `create` method. In this way, everything you create a record, the `$ref` is automatically generated. As reference, here an example:
 
 ```python
 class MyRecord(Record):
