@@ -265,8 +265,82 @@ run these you have use the `celery` command:
 [2019-03-18 11:46:48,509: INFO/MainProcess] celery@invenio ready.
 ```
 
-When Celery tasks are triggered by the web application (e.g. when registration
-emails are sent), you will see log entries of them running and finishing.
+Let's ship-off a Celery task to send an email to a user:
+
+```bash
+(my-site) $ invenio shell
+Python 3.6.7 (default, Jan 20 2019, 17:24:36)
+[GCC 7.3.0] on linux
+IPython: 7.3.0
+App: invenio [production]
+Instance: /home/bootcamp/.local/share/virtualenvs/my-site-7Oi5HgLM/var/instance
+In [1]: from invenio_mail.tasks import send_email
+In [2]: message_data = {
+   ...:     'sender': 'test@invenio.org',
+   ...:     'recipients': ['example@invenio.org'],
+   ...:     'subject': 'Greetings!',
+   ...:     'body': 'Hi there user!',
+   ...: }
+In [3]: send_email.delay(data=message_data)
+Out[3]: <AsyncResult: 3f592586-2b72-4da1-abca-20ac04f7fdd0>
+```
+
+You should be able to see log entries of the task running and finishing:
+
+```
+[2019-03-18 14:35:44,679: INFO/MainProcess] Received task: invenio_mail.tasks.send_email[209f9f5d-117d-448b-83f2-cf8d0b5123b1]
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Greetings!
+From: test@invenio.org
+To: example@invenio.org
+Date: Mon, 18 Mar 2019 14:35:44 +0100
+Message-ID: <155291614468.7058.17159562492750391584@invenio.cern.ch>
+
+Hi there user!
+-------------------------------------------------------------------------------
+[2019-03-18 14:35:44,699: INFO/ForkPoolWorker-2] Task invenio_mail.tasks.send_email[209f9f5d-117d-448b-83f2-cf8d0b5123b1] succeeded in 0.017092917001718888s: None
+```
+
+## Step 8: Entrypoints: where the magic happens
+
+In order for an Invenio instance to be modular and extensible, there has to be
+a plugin system in place which allows for automatic discovery of e.g.
+extensions, views, DB models, ES indices, etc. Invenio uses [Python's
+entrypoints](https://setuptools.readthedocs.io/en/latest/setuptools.html#dynamic-discovery-of-services-and-plugins)
+feature to facilitate this.
+
+You can get a full list of all the entrypoints Invenio packages and your
+instance use, by running:
+
+```bash
+(my-site) $ invenio instance entrypoints
+invenio_assets.webpack
+  invenio_i18n = invenio_i18n.webpack:i18n
+  invenio_search_ui = invenio_search_ui.webpack:search_ui
+  ...
+invenio_base.apps
+  invenio_access = invenio_access:InvenioAccess
+  my_site_records = my_site.records:Mysite
+  ...
+invenio_base.blueprints
+  invenio_accounts = invenio_accounts.views.settings:blueprint
+  my_site = my_site.theme.views:blueprint
+  ...
+invenio_celery.tasks
+  invenio_indexer = invenio_indexer.tasks
+  invenio_mail = invenio_mail.tasks
+invenio_config.module
+  my_site = my_site.config
+invenio_db.models
+  invenio_access = invenio_access.models
+  invenio_accounts = invenio_accounts.models
+  ...
+invenio_jsonschemas.schemas
+  my_site = my_site.records.jsonschemas
+  ...
+```
 
 ## What did we learn
 
@@ -274,3 +348,4 @@ emails are sent), you will see log entries of them running and finishing.
 - Programmatically interacting with our application
 - Running the web development server
 - Running the Celery worker
+- Inspecting Invenio entrypoints
