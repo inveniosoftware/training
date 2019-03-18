@@ -31,8 +31,10 @@ $ ./start-from.sh 12-managing-access
 We will clean all the data created before and create some users and records for this tutorial.
 
 ```console
+$ ~/src/my-site
 $ ./scripts/setup
-$ ./demo-data.sh # with an instance of ./scripts/server running
+$ # with an instance of ./scripts/server running we create users and records
+$ . ~/src/training/13-securing-your-instance/demo-data.sh
 ```
 
 
@@ -42,21 +44,24 @@ $ ./demo-data.sh # with an instance of ./scripts/server running
 You should update our `APP_ALLOWED_HOSTS` to the correct value in your production instances. If you try to make a request with different host header than this one you will be blocked.
 
 ```console
-$ curl -ki -H "Host: evil.io" https://127.0.0.1:5000/api/records/
+$ curl -ki -H "Host: evil.io" https://127.0.0.1:5000/api/records/ -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
 HTTP/1.0 400 BAD REQUEST
 Content-Type: application/json
-Content-Length: 56
+Content-Length: 69
 X-Frame-Options: sameorigin
 X-XSS-Protection: 1; mode=block
 X-Content-Type-Options: nosniff
-Content-Security-Policy: default-src 'self'; object-src 'none'
-X-Content-Security-Policy: default-src 'self'; object-src 'none'
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-inline'; object-src 'none'
+X-Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-inline'; object-src 'none'
 Strict-Transport-Security: max-age=31556926; includeSubDomains
 Referrer-Policy: strict-origin-when-cross-origin
 Server: Werkzeug/0.14.1 Python/3.6.7
-Date: Wed, 13 Mar 2019 05:35:18 GMT
+Date: Mon, 18 Mar 2019 23:29:58 GMT
 
-{"message":"Host \"evil.io\" is not trusted","status":400}
+{
+  "message": "Host \"evil.io\" is not trusted",
+  "status": 400
+}
 ```
 
 Lets say now that you allow now  any host in `my_site/config.py`:
@@ -75,24 +80,25 @@ Lets say now that you allow now  any host in `my_site/config.py`:
 Now potential attackers could inject a host header and make all your self links point to their evil site:
 
 ```console
-$ curl -kI -H 'Host: evil.io' https://127.0.0.1:5000/api/records/
+$ curl -kI -H "Host: evil.io" "https://127.0.0.1:5000/api/records/?prettyprint=1" -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
 HTTP/1.0 200 OK
 Content-Type: application/json
-Content-Length: 539
+Content-Length: 1351
 Link: <https://evil.io/api/records/?page=1&sort=mostrecent&size=10>; rel="self"
 X-Frame-Options: sameorigin
 X-XSS-Protection: 1; mode=block
 X-Content-Type-Options: nosniff
-Content-Security-Policy: default-src 'self'; object-src 'none'
-X-Content-Security-Policy: default-src 'self'; object-src 'none'
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-inline'; object-src 'none'
+X-Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-inline'; object-src 'none'
 Strict-Transport-Security: max-age=31556926; includeSubDomains
 Referrer-Policy: strict-origin-when-cross-origin
 X-RateLimit-Limit: 5000
-X-RateLimit-Remaining: 4998
-X-RateLimit-Reset: 1552928463
-Retry-After: 3526
+X-RateLimit-Remaining: 4988
+X-RateLimit-Reset: 1552954862
+Retry-After: 3170
+X-User-ID: 1
 Server: Werkzeug/0.14.1 Python/3.6.7
-Date: Mon, 18 Mar 2019 16:02:16 GMT
+Date: Mon, 18 Mar 2019 23:28:11 GMT
 ```
 
 ## Step 4: Configuration `SECRET_KEY`
@@ -127,24 +133,25 @@ The `docker-compose.full.yml` represents the common way Invenio is deployed, wit
 ## Step 7: Invenio HTTP headers walk-through
 
 ```console
-$ curl -kI  https://127.0.0.1:5000/api/records/
+$ curl -kI https://127.0.0.1:5000/api/records/ -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
 HTTP/1.0 200 OK
 Content-Type: application/json
-Content-Length: 293
+Content-Length: 822
 Link: <https://127.0.0.1:5000/api/records/?page=1&sort=mostrecent&size=10>; rel="self"
 X-Frame-Options: sameorigin
 X-XSS-Protection: 1; mode=block
 X-Content-Type-Options: nosniff
-Content-Security-Policy: default-src 'self'; object-src 'none'
-X-Content-Security-Policy: default-src 'self'; object-src 'none'
+Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-inline'; object-src 'none'
+X-Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-inline'; object-src 'none'
 Strict-Transport-Security: max-age=31556926; includeSubDomains
 Referrer-Policy: strict-origin-when-cross-origin
 X-RateLimit-Limit: 5000
-X-RateLimit-Remaining: 4995
-X-RateLimit-Reset: 1552654657
+X-RateLimit-Remaining: 4985
+X-RateLimit-Reset: 1552954862
 Retry-After: 3024
+X-User-ID: 1
 Server: Werkzeug/0.14.1 Python/3.6.7
-Date: Fri, 15 Mar 2019 12:07:12 GMT
+Date: Mon, 18 Mar 2019 23:30:37 GMT
 ```
 
 **Content-Type**: depending on the type user agents will perform default actions on the served content. For example, if an HTML file is served with `text/html` content type, the browser will render the HTML and execute any code inside the file. For more information see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type).
@@ -233,7 +240,7 @@ This JWT token is compatible with REST applications since it holds all necessary
 
 **Access token based**:
 
-Access tokens can be retrieved through the user interface:
+We have been using access tokens during the exercises, but if you want to create them yourself you can do it through the user interface:
 
 ![](token-ui.png)
 
@@ -241,13 +248,13 @@ Or through the command line interface:
 
 ```console
 $ my-site tokens create -n tokenname -u <username>
-secrettoken
+newsupersecrettoken
 ```
 
-Once you have your token you can start doing authenticated requests to your instance:
+Once you have your token you can start doing authenticated requests by adding the token in the HTTP header:
 
 ```console
-$ export MY_SITE_ACCESS_TOKEN=manageruseraccesstoken
+$ export MY_SITE_ACCESS_TOKEN=newsupersecrettoken
 $ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization: Bearer $MY_SITE_ACCESS_TOKEN"
 {
   "created": "2019-03-17T08:32:29.935720+00:00",
@@ -275,9 +282,9 @@ $ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization
 All user tokens are encrypted when stored in the database. Therefore, if the application `SECRET_KEY` is changed, these tokens need to be migrated:
 
 ```console
-$ export OLD_SECRET_KEY=myoldsecretkey
-$ export NEW_SECRET_KEY=`python -c 'import secrets; print(secrets.token_hex(32))'`
-$ sed -i "s/$OLD_SECRET_KEY/$NEW_SECRET_KEY/g" my_site/config.py
+$ export NEW_SECRET_KEY=myoldsecretkey
+$ export EVEN_NEWER_SECRET_KEY=`python -c 'import secrets; print(secrets.token_hex(32))'`
+$ sed -i "s/$NEW_SECRET_KEY/$EVEN_NEWER_SECRET_KEY/g" my_site/config.py
 ```
 
 If we just change the secret key, our users will not be able to use their credentials:
@@ -288,7 +295,7 @@ $ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization
 
 We need to migrate all tokens:
 ```console
-$ my-site instance migrate-secret-key --old-key $OLD_SECRET_KEY
+$ my-site instance migrate-secret-key --old-key $NEW_SECRET_KEY
 Successfully changed secret key.
 $ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization: Bearer $MY_SITE_ACCESS_TOKEN"
 {
