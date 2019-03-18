@@ -7,15 +7,15 @@ results for records are displayed and the display page for every record.
 ### Table of Contents
 
 - [Step 1: Run the development server](#step-1-run-the-development-server)
-- [Step 2: Change the frontpage title](#step-2-change-the-frontpage-title)
+- [Step 2: Change the frontpage titles](#step-2-change-the-frontpage-titles)
 - [Step 3: Change the site logo](#step-3-change-the-site-logo)
 - [Step 4: Change the theme color](#step-4-change-the-theme-color)
 - [Step 5: Change how record search results are displayed](#step-5-change-how-record-search-results-are-displayed)
-- [Step 6: Change how the record page](#step-6-change-how-the-record-page)
+- [Step 6: Change the record page](#step-6-change-the-record-page)
 
 ## Step 1: Run the development server
 
-If your development server is not running you can type:
+If your development server is not running you can run:
 
 ```bash
 $ cd ~/src/my-site
@@ -23,7 +23,7 @@ $ docker-compose up -d
 $ ./scripts/server
 ```
 
-## Step 2: Change the frontpage title
+## Step 2: Change the frontpage titles
 
 Although the default look of the instance looks fine, we can do better! Let's
 start small by changing some text on the frontpage. To do so we have to edit
@@ -43,7 +43,24 @@ THEME_FRONTPAGE = True
 THEME_FRONTPAGE_TEMPLATE = 'my_site/frontpage.html'
 ```
 
-If you now go to <https://localhost:5000/> you will see the changed title:
+Let's also change the "Welcome to My site." text to something motivational, by
+editing `my_site/theme/templates/my_site/frontpage.html`:
+
+```diff
+{%- extends "invenio_theme/frontpage.html" %}
+
+{%- block page_body %}
+<div class="container marketing">
+  <div class="row">
+    <div class="col-lg-12">
+-   <h1 class="text-center">Welcome to My site.</h1>
++   <h1 class="text-center">Get educated!</h1>
+  </div>
+</div>
+{%- endblock %}
+```
+
+If you now go to <https://localhost:5000/> you will see the changed titles:
 
 ![](./images/frontpage-title.png)
 
@@ -159,7 +176,7 @@ And now, if we refresh we'll see that our search results display differently:
 
 ![](./images/search-new.png)
 
-## Step 6: Change how the record page
+## Step 6: Change the record page
 
 If you actually click on one of the search results you will be redirected to
 the record's page:
