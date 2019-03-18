@@ -1,33 +1,34 @@
 # Tutorial 14 - Deployment and monitoring
 
-In this session, we will present how tune deployment configuration of each part of the infrastructure and how to size it to be able to serve a targeted number of requests. We will also explain what to monitor and a few tips on how to take advantage of logging.
+In this session, we will present how to tune deployment configuration of each part of the infrastructure and how to size it to be able to serve a targeted number of requests. We will also explain what to monitor and a few tips on how to take advantage of logging.
 
-## Benchmark
+### Table of Contents
 
-You can use [Locust](https://locust.io/).
+- [Step 1: Benchmark](#benchmark)
+- [Step 2: Sentry configuration](#step-2-example-of-sentry-configuration)
+
+## Step 1: Benchmark
+
+[Locust](https://locust.io/) is a nice tool to test your instance given that you can set the number of concurrent requests per second to perform.
+
+It does not make much sense to run this stress test in the development environment, but we will do it just to see how it works.
 
 ```bash
 $ pipenv run pip install locustio
 $ ./scripts/server
-$ pipenv run locust --host=https://127.0.0.1/ --no-web -c 1000 -r 100
 ```
 
-`locustfile.py`
+Now, copy the file `locustfile.py` in your `my-site` folder (to be in the virtualenv) and then run locust in the same folder:
 
-```python
-from locust import HttpLocust, TaskSet, task
-
-class Home(TaskSet):
-
-    @task
-    def get_something(self):
-        self.client.get("/")
-
-class WebsiteUser(HttpLocust):
-    task_set = Home
+```
+$ cp ~/src/training/14-deployement-monitoring/locustfile.py ~/src/my-site/
+$ pipenv run locust --host=https://127.0.0.1:5000/
+$ firefox http://127.0.0.1:8089
 ```
 
-## Sentry configuration
+## Step 2: Example of Sentry configuration
+
+If you need to configure Sentry in your Invenio instance, here an example:
 
 ```python
 SENTRY_DSN = "sync+https://mysentry.domain.org/4",
