@@ -4,11 +4,16 @@ The goal of this tutorial is to learn how to update your datamodel. We will show
 update your [`JSONSchema`](https://json-schema.org/) to store a new field in the DB and your ES mapping so you can search for it.
 Moreover we will learn how [`Marshmallow`](https://marshmallow.readthedocs.io) schema can be used to validate your data.
 
-If you have a lot of steps, add some shortcuts
+Table of contents:
+- [Bootstrap exercise](#Bootstrap-exercise)
+- [Update the JSONSchema](#Update-the-JSONSchema)
+- [Update the Elasticsearch mapping](#Update-the-Elasticsearch-mapping)
+- [Update the Marshmallow schema](#Update-the-Marshmallow-schema)
+- [Create a new record including our new field](#Create-a-new-record-including-our-new-field)
+- [Search for our new record](#Search-for-our-new-record)
+- [Manipulate response using serializers](#Manipulate-response-using-serializers)
 
-[Step 1](#step-1) | [Step 2](#step-2) | [Step 3](#step-3) | [Step 4](#step-4)
-
-## Step 1
+## Bootstrap exercise
 
 Start from a clean and working instance:
 
@@ -17,7 +22,7 @@ $ cd 03-add-new-field/
 $ ./init.sh
 ```
 
-## Step 2
+## Update the JSONSchema
 
 Our use case: we have created our data model and we want to update it by adding a new field. Let's
 call that field `owner` and it will be an integer that represents the owner of the corresponding
@@ -43,20 +48,7 @@ We edit the `jsonschemas/records/record-v10.0.json` file:
 +   },
 ```
 
-Next thing is to update our marshmallow schema in order to allow our new field to be validated by our loader. To
-achieve that we edit the `marshmallow/json.py`:
-
-```diff
-class MetadataSchemaV1(StrictKeysMixin):
-    """Schema for the record metadata."""
-
-    id = PersistentIdentifier()
-    title = SanitizedUnicode(required=True, validate=validate.Length(min=3))
-    keywords = fields.List(SanitizedUnicode(), many=True)
-    publication_date = DateString()
-    contributors = Nested(ContributorSchemaV1, many=True, required=True)
-+   owner = fields.Integer()
-```
+## Update the Elasticsearch mapping
 
 Now our system can validate and store our new field correctly in the DB. Now we want to enable search of a record by this new field. For this purpose we need to update the mapping of our ES index in order to add our new field. By doing that we let ES know how to handle our new field(field type, searchable, analyzable, etc.).
 
@@ -82,6 +74,24 @@ So, in order to update the mapping we edit the `/mappings/v6/records/record-v10.
 +         "type": "keyword"
 +       },
 ```
+
+## Update the Marshmallow schema
+Next thing is to update our marshmallow schema in order to allow our new field to be validated by our loader. To
+achieve that we edit the `marshmallow/json.py`:
+
+```diff
+class MetadataSchemaV1(StrictKeysMixin):
+    """Schema for the record metadata."""
+
+    id = PersistentIdentifier()
+    title = SanitizedUnicode(required=True, validate=validate.Length(min=3))
+    keywords = fields.List(SanitizedUnicode(), many=True)
+    publication_date = DateString()
+    contributors = Nested(ContributorSchemaV1, many=True, required=True)
++   owner = fields.Integer()
+```
+
+## Create a new record including our new field
 
 Now in order to **reflect our changes** in our system we will have to run the `/scripts/setup` script. With that we start fresh our DB and ES along with the updated information about schemas and mappings.
 
@@ -148,7 +158,7 @@ Now you should see an output similar to the below:
 
 Our new record was successfully created!
 
-## Step 3
+## Search for our new record
 
 **Checkpoint 2**: At this point we have created our new record and we are able to search it. Let's do this!
 
@@ -191,6 +201,8 @@ record we had created in the previous step we can search in the page for our rec
   }
 }
 ```
+
+## Manipulate response using serializers
 
 Here you can see the data returned from the search regarding our record. The output of each result is controlled
 by our `serializers`. These entities are responsible for getting the internal representation of our data and transform
