@@ -27,13 +27,12 @@ $ ./start-from.sh 05-customizing-invenio
 ## Step 2: Update the JSONSchema
 
 Our use case: we have created our data model and we want to update it by adding a new field. Let's
-call that field `owner` and it will be an integer that represents the owner of the corresponding
-record.
+call that field `owner` and it will be an integer (a User ID) that represents the owner of the corresponding record.
 
 First thing we need to do is update our record schema in order to be able to store the new field in
 the DB.
 
-We edit the `jsonschemas/records/record-v1.0.0.json` file:
+We edit the `my_site/records/jsonschemas/records/record-v1.0.0.json` file:
 
 ```diff
 "properties": {
@@ -54,7 +53,7 @@ We edit the `jsonschemas/records/record-v1.0.0.json` file:
 
 Now our system can validate and store our new field correctly in the DB. Now we want to enable search of a record by this new field. For this purpose we need to update the mapping of our ES index in order to add our new field. By doing that we let ES know how to handle our new field(field type, searchable, analyzable, etc.).
 
-So, in order to update the mapping we edit the `/mappings/v6/records/record-v1.0.0.json` file:
+So, in order to update the mapping we edit the `my_site/records/mappings/v6/records/record-v1.0.0.json` file:
 
 ```diff
       "properties": {
@@ -79,7 +78,7 @@ So, in order to update the mapping we edit the `/mappings/v6/records/record-v1.0
 
 ## Step 4: Update the Marshmallow schema
 Next thing is to update our marshmallow schema in order to allow our new field to be validated by our loader. To
-achieve that we edit the `marshmallow/json.py`:
+achieve that we edit the `my_site/records/marshmallow/json.py`:
 
 ```diff
 class MetadataSchemaV1(StrictKeysMixin):
@@ -95,12 +94,21 @@ class MetadataSchemaV1(StrictKeysMixin):
 
 ## Step 5: Create a new record including our new field
 
-Now in order to **reflect our changes** in our system we will have to run the `/scripts/setup` script. With that we start fresh our DB and ES along with the updated information about schemas and mappings.
+Now in order to **reflect our changes** in our system we will have to run the following command:
 
+```bash
+$ ./scripts/setup
+```
+
+With that we start fresh our DB and ES along with the updated information about schemas and mappings.
 
 **Checkpoint 1**: At this point we are able to create a new record in our system that includes our new field. Let's do this!
 
-**Note**: Make sure you have up and running our development server by running the `/scripts/server` script.
+**Note**: Make sure you have up and running our development server by running:
+
+```bash
+./scripts/server
+```
 
 Run the below command to create our new record:
 
@@ -156,7 +164,7 @@ Now you should see an output similar to the below:
   "updated": "2019-03-13T10:39:57.345895+00:00"
 }
 ```
-**Tip**: Save somewhere the `id` value of this value!
+**Tip**: Save somewhere the `id` value of this response!
 
 Our new record was successfully created!
 
@@ -164,20 +172,25 @@ Our new record was successfully created!
 
 **Checkpoint 2**: At this point we have created our new record and we are able to search it. Let's do this!
 
-**Note**: Make sure you have up and running our development server by running the `/scripts/server` script.
+**Note**: Make sure you have up and running our development server by running:
 
-Let's search now for our newly created record in `https://localhost:5000/api/records/`. Having the `id` of the
-record we had created in the previous step we can search in the page for our record.
+```bash
+./scripts/server
+```
+
+Let's search now for our newly created record. Replace the `<id>` with the `id` of the
+record we had created in the previous step. Run the following command:
 
 
-```json
+```bash
+$ curl -k "https://localhost:5000/api/records/?q=owner:<id>"
 {
   "aggregations": {...},
   "hits": {
     "hits": [
       {
         "created": "2019-03-13T10:39:57.345889+00:00",
-        "id": "2",
+        "id": "<id>",
         "links": {
           "self": "https://localhost:5000/api/records/2"
         },
@@ -187,16 +200,15 @@ record we had created in the previous step we can search in the page for our rec
               "name": "Doe, John"
             }
           ],
-          "id": "2",
+          "id": "<id>",
           "owner": 1,
           "title": "Some title"
         },
         "revision": 0,
         "updated": "2019-03-13T10:39:57.345895+00:00"
-      },
-      {...}
+      }
     ],
-    "total": 2
+    "total": 1
   },
   "links": {
     "self": "https://localhost:5000/api/records/?page=1&sort=mostrecent&size=10"
@@ -230,13 +242,14 @@ class RecordSchemaV1(StrictKeysMixin):
 
 Then now if search again we will take the following result:
 
-```json
+```bash
+curl -k "https://localhost:5000/api/records/?q=owner:<id>"
 {
   "aggregations": {...},
   "hits": {
     "hits": [
       {
-        "id": "2",
+        "id": "<id>",
         "links": {
           "self": "https://localhost:5000/api/records/2"
         },
@@ -246,7 +259,7 @@ Then now if search again we will take the following result:
               "name": "Doe, John"
             }
           ],
-          "id": "2",
+          "id": "<id>",
           "title": "Some title"
         },
         "revision": 0,
@@ -254,7 +267,7 @@ Then now if search again we will take the following result:
       },
       {...}
     ],
-    "total": 2
+    "total": 1
   },
   "links": {
     "self": "https://localhost:5000/api/records/?page=1&sort=mostrecent&size=10"
