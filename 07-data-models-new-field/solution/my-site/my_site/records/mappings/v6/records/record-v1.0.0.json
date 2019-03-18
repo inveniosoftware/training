@@ -19,7 +19,7 @@
           "type": "keyword"
         },
         "owner": {
-          "type": "keyword"
+          "type": "integer"
         },
         "keywords": {
           "type": "keyword"
