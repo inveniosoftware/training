@@ -2,12 +2,6 @@
 
 The goal of this tutorial is to learn how we can build a new simple form to be able to deposit new records. The `invenio-deposit` module is not in the scope of this exercise.
 
-We now have to enable users to deposit new records. For this exercise, we won't use what `invenio-records-rest` already provides out-of-the-box, but we will implement a custom view.
-We will need:
-* to render a simple form to create a record, where the user can input the value of each field
-* a new view where to post the form, validate the input and create the new record
-* a new view to display a success message or an error
-
 ### Table of Contents
 
 - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
@@ -17,6 +11,12 @@ We will need:
 - [Step 5: Update the entrypoints](#step-5-update-the-entrypoints)
 - [Step 6: Try it!](#step-6-try-it)
 - [What did we learn](#what-did-we-learn)
+
+We now have to enable users to deposit new records. For this exercise, we won't use what `invenio-records-rest` already provides out-of-the-box, but we will implement a custom view.
+We will need:
+* to render a simple form to create a record, where the user can input the value of each field
+* a new view where to post the form, validate the input and create the new record
+* a new view to display a success message or an error
 
 ## Step 1: Bootstrap exercise
 

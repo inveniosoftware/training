@@ -2,6 +2,13 @@
 
 The goal of this tutorial is to learn how to take advantage of Elasticsearch by manipulating records fields when indexing.
 
+### Table of Contents
+
+- [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
+- [Step 2: Modify the record before indexing](#step-2-modify-the-record-before-indexing)
+- [Step 3: Try it!](#step-3-try-it)
+- [What did we learn](#what-did-we-learn)
+
 Let's imagine that we now have a new use case: when retrieving a list of records from our REST endpoint, we would like to have an extra field for each record that counts the number of contributors. Moreover, we actually don't need the `keywords` field, so we can remove it.
 For example, given the following record:
 
@@ -40,13 +47,6 @@ it would be handy to have an extra field `contributors_count` that has value `2`
 ```
 
 Let's see how to do it.
-
-### Table of Contents
-
-- [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
-- [Step 2: Modify the record before indexing](#step-2-modify-the-record-before-indexing)
-- [Step 3: Try it!](#step-3-try-it)
-- [What did we learn](#what-did-we-learn)
 
 ## Step 1: Bootstrap exercise
 

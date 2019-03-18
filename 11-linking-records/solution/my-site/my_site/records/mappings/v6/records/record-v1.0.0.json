@@ -15,8 +15,22 @@
         "suggest_title": {
           "type": "completion"
         },
+        "author": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "text"
+            }
+          }
+        },
         "id": {
           "type": "keyword"
+        },
+        "owner": {
+          "type": "integer"
         },
         "publication_date": {
           "type": "date",

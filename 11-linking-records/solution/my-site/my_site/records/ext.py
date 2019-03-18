@@ -26,11 +26,7 @@ class Mysite(object):
         """Flask application initialization."""
         self.init_config(app)
         app.extensions['my-site'] = self
-        self.register_signals()
-
-    def register_signals(self):
-        """Register signals."""
-       before_record_index.connect(indexer_receiver, sender=app, weak=False)
+        before_record_index.connect(indexer_receiver, sender=app, weak=False)
 
     def init_config(self, app):
         """Initialize configuration.
