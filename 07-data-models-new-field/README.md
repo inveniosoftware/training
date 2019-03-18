@@ -31,7 +31,7 @@ record.
 First thing we need to do is update our record schema in order to be able to store the new field in
 the DB.
 
-We edit the `jsonschemas/records/record-v10.0.json` file:
+We edit the `jsonschemas/records/record-v1.0.0.json` file:
 
 ```diff
 "properties": {
