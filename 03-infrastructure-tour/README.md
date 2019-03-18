@@ -6,6 +6,18 @@ balancer, web server, application server and application background workers. We
 will explore tools to interact with the services and we will see monitoring and
 debugging interfaces like Flower, Kibana and the RabbitMQ management interface.
 
+### Table of Contents
+
+- [Step 1: Bring up the full docker-compose setup](#step-1-bring-up-the-full-docker-compose-setup)
+- [Step 2: Access the database (PostgreSQL)](#step-2-access-the-database-postgresql)
+- [Step 3: Access the cache (Redis)](#step-3-access-the-cache-redis)
+- [Step 4: Access Elasticsearch (and Kibana)](#step-4-access-elasticsearch-and-kibana)
+- [Step 5: Access the message queue (RabbitMQ)](#step-5-access-the-message-queue-rabbitmq)
+- [Step 6: Monitor background workers (Flower)](#step-6-monitor-background-workers-flower)
+- [Step 7: Access the web application(s) (uWSGI)](#step-7-access-the-web-applications-uwsgi)
+- [Step 8: Access the load balancer (HAProxy)](#step-8-access-the-load-balancer-haproxy)
+- [What did we learn](#what-did-we-learn)
+
 ## Step 1: Bring up the full docker-compose setup
 
 In order to be able to go through all of the infrastructure components that an
