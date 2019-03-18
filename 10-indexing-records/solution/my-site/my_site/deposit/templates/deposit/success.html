@@ -1,0 +1,14 @@
+{%- extends config.BASE_TEMPLATE %}
+
+{% block page_body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="alert alert-success">
+          <b>Success!</b>
+        </div>
+        <a href="{{ url_for('deposit.create') }}" class="btn btn-warning">Create more</a>
+      </div>
+    </div>
+  </div>
+{% endblock page_body %}

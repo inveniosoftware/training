@@ -18,6 +18,9 @@
         "id": {
           "type": "keyword"
         },
+        "owner": {
+          "type": "integer"
+        },
         "publication_date": {
           "type": "date",
           "format": "date"

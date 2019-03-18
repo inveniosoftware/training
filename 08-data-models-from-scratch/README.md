@@ -8,7 +8,7 @@ such as storing and searching.
 
 - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
 - [Step 2: Create an Authors flask extension](#step-2-create-an-Authors-flask-extension)
-- [Step 3: Internal representation: JSONSchema and ElasticSearch mappings](#step-3-internal-representation-JSONSchema-and-ElasticSearch-mappings)
+- [Step 3: Internal representation: JSONSchema and Elasticsearch mappings](#step-3-internal-representation-JSONSchema-and-Elasticsearch-mappings)
 - [Step 4: External representation: loaders and serializers](#step-4-External-representation-loaders-and-serializers)
 - [Step 5: Data validation: Marshmallow](#step-5-Data-validation-Marshmallow)
 - [Step 6: Persistent identifiers](#step-6-Persistent-identifiers)
@@ -52,9 +52,9 @@ First thing we need to do is to create an extension called `Authors` and registe
 
   In that way we register our extension under Invenio API application.
 
-## Step 3: Internal representation: JSONSchema and ElasticSearch mappings
+## Step 3: Internal representation: JSONSchema and Elasticsearch mappings
 
-Now that we have our extension registered, we need to tell Invenio how the internal representation of our data model is. To do so, we use [a JSONSchema](author_module/authors/jsonschemas/authors/author-v1.0.0.json) and [an ElasticSearch mapping](author_module/authors/mappings/v6/authors/author-v1.0.0.json): the former to validate the internal JSON format and the latter to tell ElasticSearch what shape our data model has so it can handle correctly its values.
+Now that we have our extension registered, we need to tell Invenio how the internal representation of our data model is. To do so, we use [a JSONSchema](author_module/authors/jsonschemas/authors/author-v1.0.0.json) and [an Elasticsearch mapping](author_module/authors/mappings/v6/authors/author-v1.0.0.json): the former to validate the internal JSON format and the latter to tell Elasticsearch what shape our data model has so it can handle correctly its values.
 
 
 ### Actions
@@ -81,7 +81,7 @@ Now that we have our extension registered, we need to tell Invenio how the inter
     + search_index='authors',
     ```
 
-  By doing this we told Invenio to register our new schema and mapping. We are also defining the name of the ElasticSearch index which will be created to enable author search.
+  By doing this we told Invenio to register our new schema and mapping. We are also defining the name of the Elasticsearch index which will be created to enable author search.
 
 
 ## Step 4: External representation: loaders and serializers
@@ -285,7 +285,7 @@ TODO add autonomous exercise
 
 - How to create a new Invenio module
 - How to define a REST endpoints connected to our data model
-- How to create ElasticSearch mappings
+- How to create Elasticsearch mappings
 - How to create JSONSchemas
 - How to define and use loaders and serializers
 - How to use minters and fetchers to manipulate PIDs

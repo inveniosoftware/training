@@ -9,12 +9,10 @@
 
 from __future__ import absolute_import, print_function
 
-from invenio_indexer.signals import before_record_index
-from .indexer import indexer_receiver
 from . import config
 
 
-class Mysite(object):
+class Authors(object):
     """My site extension."""
 
     def __init__(self, app=None):
@@ -25,28 +23,20 @@ class Mysite(object):
     def init_app(self, app):
         """Flask application initialization."""
         self.init_config(app)
-        app.extensions['my-site'] = self
-        before_record_index.connect(indexer_receiver, sender=app, weak=False)
+        app.extensions['my-site-authors'] = self
 
     def init_config(self, app):
         """Initialize configuration.
 
         Override configuration variables with the values in this package.
         """
-        with_endpoints = app.config.get(
-            'MY_SITE_ENDPOINTS_ENABLED', True)
         for k in dir(config):
-            if k.startswith('MY_SITE_'):
+            if k.startswith('AUTHORS_'):
                 app.config.setdefault(k, getattr(config, k))
-            elif k == 'SEARCH_UI_JSTEMPLATE_RESULTS':
-                app.config['SEARCH_UI_JSTEMPLATE_RESULTS'] = getattr(
-                    config, k)
-            elif k == 'PIDSTORE_RECID_FIELD':
-                app.config['PIDSTORE_RECID_FIELD'] = getattr(config, k)
             else:
-                for n in ['RECORDS_REST_ENDPOINTS', 'RECORDS_UI_ENDPOINTS',
-                          'RECORDS_REST_FACETS', 'RECORDS_REST_SORT_OPTIONS',
+                for n in ['RECORDS_REST_ENDPOINTS', 'RECORDS_REST_FACETS',
+                          'RECORDS_REST_SORT_OPTIONS',
                           'RECORDS_REST_DEFAULT_SORT']:
-                    if k == n and with_endpoints:
+                    if k == n:
                         app.config.setdefault(n, {})
                         app.config[n].update(getattr(config, k))

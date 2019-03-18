@@ -91,7 +91,7 @@ We need to create a reference (in a similar way as we would do using foreign key
     },
 ```
 
-Since we have changed the data model, we need to change the ElasticSearch mappings.
+Since we have changed the data model, we need to change the Elasticsearch mappings.
 
 `my-site/my_site/records/mappings/v6/records/record-v1.0.0.json`
 
@@ -164,7 +164,7 @@ def record_jsonresolver(authid):
 
 ## Step 4
 
-We can now try to create an author and then a record with a reference to it. But first, since we have changed schema and mappings, let's re-install the app and re-init DB and ElasticSearch.
+We can now try to create an author and then a record with a reference to it. But first, since we have changed schema and mappings, let's re-install the app and re-init DB and Elasticsearch.
 
 ```bash
 $ pipenv run pip install -e .
@@ -191,7 +191,7 @@ $ curl -k --header "Content-Type: application/json" \
     https://127.0.0.1:5000/api/records/?prettyprint=1
 ```
 
-Now, we can query ElasticSearch and verify that the author metadata are in the record.
+Now, we can query Elasticsearch and verify that the author metadata are in the record.
 
 ```bash
 $ firefox http://127.0.0.1:9200/records/_search?pretty=true
