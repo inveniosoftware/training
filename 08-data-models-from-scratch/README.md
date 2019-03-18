@@ -4,9 +4,16 @@ In this session we will learn how to build a new data model from scratch. During
 process we will see how to create a new REST **module** for our model and provide functonalities
 such as storing and searching.
 
-Jump to: [Step 1](#step-1) | [Step 2](#step-2) | [Step 3](#step-3) | [Step 4](#step-4)
+Table of contents:
+- [Bootstrap exercise](#Bootstrap-exercise)
+- [Create an Authors flask extension](#Create-an-`Authors`-flask-extension)
+- [Internal representation: JSONSchema and ElasticSearch mappings](#Internal-representation-JSONSchema-and-ElasticSearch-mappings)
+- [External representation: loaders and serializers](#External-representation-loaders-and-serializers)
+- [Data validation: Marshmallow](#Data-validation-Marshmallow)
+- [Persistent identifiers](#Persistent-identifiers)
+- [Create an author](#Create-an-author)
 
-## Step 1
+## Bootstrap exercise
 
 Start from a clean and working instance:
 
@@ -187,7 +194,9 @@ This is how we are registering our new minter and fetcher making them available.
 **Important**: the value of the `pid_minter` and the `pid_fetcher` defined in `config.py` should match exactly with the entrypoint names defined in `setup.py`. Also we should make sure that the `pid_type` value and the `RECORDS_REST_ENDPOINTS` endpoint key match exactly.
 
 
-##
+## Create an author
+
+In order to reflect our changes in the database and Elasticsearch but also to register our new entrypoints in Invenio we need to run the following commands:
 
 ```console
 $ pipenv run pip install -e . # register entrypoints and update our applications code
@@ -195,6 +204,7 @@ $ ./scrips/setup # reset DB and ES, create new index
 ```
 
 We can now create new authors:
+
 ```bash
 $ curl -k --header "Content-Type: application/json" \
     --request POST \
@@ -211,7 +221,10 @@ $ curl -k --header "Content-Type: application/json" \
   "updated": "2019-03-17T16:01:07.148181+00:00"
 }
 ```
-```console
+
+Now we can search in the `/api/authors/` endpoint to see if our new author is there:
+
+```bash
 $ curl -k "https://127.0.0.1:5000/api/authors/?prettyprint=1"
 {
   "aggregations": {
@@ -246,7 +259,9 @@ $ curl -k "https://127.0.0.1:5000/api/authors/?prettyprint=1"
 }
 ```
 
-```console
+If we want to retrieve the information about a specific author and we already know its `PID` then we can use the `/api/authors/<id>` endpoint:
+
+```bash
 $ curl -k "https://127.0.0.1:5000/api/authors/1?prettyprint=1"
 {
   "created": "2019-03-17T15:55:53.927754+00:00",
