@@ -4,6 +4,16 @@ In this tutorial, we will explore Invenio from a user's perspective. We will
 see the different parts of the user interface, explore the REST API and create
 and search for records.
 
+### Table of Contents
+
+- [Step 1: Prerequisites](#step-1-prerequisites)
+- [Step 2: Register a user](#step-2-register-a-user)
+- [Step 3: Go through the account settings](#step-3-go-through-the-account-settings)
+- [Step 4: Access the records REST API](#step-4-access-the-records-rest-api)
+- [Step 5: Search and Record UI](#step-5-search-and-record-ui)
+- [Step 6: Create an admin user through the CLI](#step-6-create-an-admin-user-through-the-cli)
+- [Step 7: Access the Admin Panel](#step-7-access-the-admin-panel)
+
 ## Step 1: Prerequisites
 
 First ensure you have initialized your Invenio instance according to [the

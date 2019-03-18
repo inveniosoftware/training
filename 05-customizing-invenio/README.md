@@ -4,6 +4,15 @@ In this session we will customize minor visual elements of our Invenio
 instance, like the logo of our instance, the colors and fonts, the way search
 results for records are displayed and the display page for every record.
 
+### Table of Contents
+
+- [Step 1: Run the development server](#step-1-run-the-development-server)
+- [Step 2: Change the frontpage title](#step-2-change-the-frontpage-title)
+- [Step 3: Change the site logo](#step-3-change-the-site-logo)
+- [Step 4: Change the theme color](#step-4-change-the-theme-color)
+- [Step 5: Change how record search results are displayed](#step-5-change-how-record-search-results-are-displayed)
+- [Step 6: Change how the record page](#step-6-change-how-the-record-page)
+
 ## Step 1: Run the development server
 
 To run the web development server:
