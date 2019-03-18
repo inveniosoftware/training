@@ -166,7 +166,22 @@ number of results, paginate through them and sort by various options.
 
 ![](./images/search-page.png)
 
-If you click on one of the record results you will be redirected to the
+Let's create some more records, to demonstrate the querying capabilities:
+
+![](./images/search-more-records.png)
+
+Let's say, we want to get all of the records written by "Smith" we could
+naively type `Smith` in the searchbox, but that would give us all records that
+contain the text "Smith" in any of their fields (even the title):
+
+![](./images/search-query.png)
+
+To refine our results we can search on a specific field by searching for
+something like `contributors.name:Smith`:
+
+![](./images/search-field-query.png)
+
+If you click on any of the record results you will be redirected to the
 record's page, which at the moment displays in a very basic way the metadata:
 
 ![](./images/record-page.png)
