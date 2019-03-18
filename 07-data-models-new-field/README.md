@@ -52,7 +52,7 @@ We edit the `jsonschemas/records/record-v1.0.0.json` file:
 
 Now our system can validate and store our new field correctly in the DB. Now we want to enable search of a record by this new field. For this purpose we need to update the mapping of our ES index in order to add our new field. By doing that we let ES know how to handle our new field(field type, searchable, analyzable, etc.).
 
-So, in order to update the mapping we edit the `/mappings/v6/records/record-v10.0.json` file:
+So, in order to update the mapping we edit the `/mappings/v6/records/record-v1.0.0.json` file:
 
 ```diff
       "properties": {
