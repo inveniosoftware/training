@@ -78,9 +78,29 @@ use the `redis-cli` tool:
 
 ```bash
 $ docker-compose -f docker-compose.full.yml exec cache bash
-root@fe08ce46945e:/# redis-cli
-localhost# info
-...
+root@cecefcf8bb2c:/data# redis-cli
+127.0.0.1:6379> info server
+# Server
+redis_version:5.0.3
+redis_git_sha1:00000000
+redis_git_dirty:0
+redis_build_id:5a396a3a77241301
+redis_mode:standalone
+os:Linux 4.15.0-46-generic x86_64
+arch_bits:64
+multiplexing_api:epoll
+atomicvar_api:atomic-builtin
+gcc_version:6.3.0
+process_id:1
+run_id:4c81e496de94b2f7dcc2ed849bc396dec211e8b9
+tcp_port:6379
+uptime_in_seconds:75
+uptime_in_days:0
+hz:10
+configured_hz:10
+lru_clock:9360847
+executable:/data/redis-server
+config_file:
 ```
 
 ## Step 4: Access Elasticsearch (and Kibana)
@@ -166,7 +186,7 @@ node: localhost - cwd: /opt/invenio/src - uid: 1000 - gid: 1000 - masterpid: 706
  1      0.0     7877    0       0       0       0       idle    0ms     0       0       0       1       0       0.0     13:19:57
  2      0.0     7879    0       0       0       0       idle    0ms     0       0       0       1       0       0.0     13:19:57
 
-$ uwsgi_curl 127.0.0.1:5000 /ping
+[root@1d5f2e316bdc src]# uwsgi_curl 127.0.0.1:5000 /ping
 HTTP/1.1 200 OK
 Content-Type: text/html; charset=utf-8
 Content-Length: 2
