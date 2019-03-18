@@ -13,6 +13,8 @@ and search for records.
 - [Step 5: Search and Record UI](#step-5-search-and-record-ui)
 - [Step 6: Create an admin user through the CLI](#step-6-create-an-admin-user-through-the-cli)
 - [Step 7: Access the Admin Panel](#step-7-access-the-admin-panel)
+- [Step 8: Access the OAI-PMH endpoint](#step-8-access-the-oai-pmh-endpoint)
+- [What did we learn](#what-did-we-learn)
 
 ## Step 1: Prerequisites
 
@@ -220,3 +222,35 @@ can manage a variety of internal entities for your Invenio instance:
 
 ![](./images/admin-records.png)
 ![](./images/admin-users.png)
+
+## Step 8: Access the OAI-PMH endpoint
+
+The instance also provides by default an OAI-PMH endpoint at
+<https://localhost:5000/oai2d>. Let's access the `Identify` verb via `curl`:
+
+
+```bash
+$ curl -k "https://localhost:5000/oai2d?verb=Identify"
+<?xml version='1.0' encoding='UTF-8'?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2019-03-18T23:21:19Z</responseDate>
+  <request verb="Identify">https://localhost:5000/oai2d</request>
+  <Identify>
+    <repositoryName>My site</repositoryName>
+    <baseURL>https://localhost:5000/oai2d</baseURL>
+    <protocolVersion>2.0</protocolVersion>
+    <adminEmail>info@inveniosoftware.org</adminEmail>
+    <earliestDatestamp>0001-01-01T00:00:00Z</earliestDatestamp>
+    <deletedRecord>no</deletedRecord>
+    <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
+  </Identify>
+</OAI-PMH>
+```
+
+## What did we learn
+
+- How to register a user and the UI views a registered user has access to
+- Basic REST API operations
+- How to use the search and record UI pages
+- How to create an admin user and access the Admin panel
+- Where the OAI-PMH endpoint is
