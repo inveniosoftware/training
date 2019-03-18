@@ -3,28 +3,41 @@
 In this session, you will discover the key points which will ensure that your Invenio instances are secure. You will learn how to protect the web application with configuration, package management and authentication.
 
 Table of contents:
-- [Bootstrap exercise](#bootstrap-exercise)
-- [Configuration: allowed hosts](#configuration-allowed-hosts)
-- [Configuration: secret key](#configuration-secret-key)
-- [Configuration: SSL certificates](#configuration-ssl-certificates)
-- [Configuration: WSGI proxies](#configuration-wsgi-proxies)
-- [Invenio HTTP headers walk-through](#invenio-http-headers-walk-through)
-- [Content-Security-Policy](#content-security-policy)
-- [Keeping packages up to date](#keeping-packages-up-to-date)
-- [Secure file uploads](#secure-file-uploads)
-- [Auth workflows](#auth-workflows)
-- [Migrating user tokens](#migrating-user-tokens)
+- [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
+- [Step 2: Lets create some demo data](#step-2-lets-create-some-demo-data)
+- [Step 3: Configuration - allowed hosts](#step-3-Configuration-allowed-hosts)
+- [Step 4: Configuration - secret key](#step-4-configuration-secret_key)
+- [Step 5: Configuration - SSL certificates](#step-5-configuration-ssl-certificates)
+- [Step 6: Configuration - WSGI proxies](#step-6-configuration-wsgi-proxies)
+- [Step 7: Invenio HTTP headers walk-through](#step-7-invenio-http-headers-walk-through)
+- [Step 8: Content-Security-Policy](#step-8-content-security-policy)
+- [Step 9: Keeping packages up to date](#step-9-keeping-packages-up-to-date)
+- [Step 10: Secure file uploads](#step-10-secure-file-uploads)
+- [Step 11: Auth workflows](#step-11-auth-workflows)
+- [Step 12: Migrating user tokens](#step-12-migrating-user-tokens)
+- [What did we learn](#what-did-we-learn)
 
-## Bootstrap exercise
+## Step 1: Bootstrap exercise
 
-Start from a clean and working instance with some demo data:
+If you completed the previous tutorial, you can skip this step. If instead you would like to start from a clean state run the following commands:
+
+```bash
+$ cd ~/src/training/
+$ ./start-from.sh 12-managing-access
+```
+
+## Step 2: Lets create some demo data
+
+We will clean all the data created before and create some users and records for this tutorial.
 
 ```console
-$ ./start-from.sh 12-managing-access
+$ ./scripts/setup
 $ ./demo-data.sh # with an instance of ./scripts/server running
 ```
 
-## Configuration: allowed hosts
+
+
+## Step 3: Configuration allowed hosts
 
 You should update our `APP_ALLOWED_HOSTS` to the correct value in your production instances. If you try to make a request with different host header than this one you will be blocked.
 
@@ -62,11 +75,11 @@ Lets say now that you allow now  any host in `my_site/config.py`:
 Now potential attackers could inject a host header and make all your self links point to their evil site:
 
 ```console
-$ curl -kI -H 'Host: evil.io' https://127.0.0.1:5000/api/records
-HTTP/1.0 301 MOVED PERMANENTLY
-Content-Type: text/html; charset=utf-8
-Content-Length: 263
-Location: https://evil.io/api/records/
+$ curl -kI -H 'Host: evil.io' https://127.0.0.1:5000/api/records/
+HTTP/1.0 200 OK
+Content-Type: application/json
+Content-Length: 539
+Link: <https://evil.io/api/records/?page=1&sort=mostrecent&size=10>; rel="self"
 X-Frame-Options: sameorigin
 X-XSS-Protection: 1; mode=block
 X-Content-Type-Options: nosniff
@@ -74,11 +87,15 @@ Content-Security-Policy: default-src 'self'; object-src 'none'
 X-Content-Security-Policy: default-src 'self'; object-src 'none'
 Strict-Transport-Security: max-age=31556926; includeSubDomains
 Referrer-Policy: strict-origin-when-cross-origin
+X-RateLimit-Limit: 5000
+X-RateLimit-Remaining: 4998
+X-RateLimit-Reset: 1552928463
+Retry-After: 3526
 Server: Werkzeug/0.14.1 Python/3.6.7
-Date: Sun, 17 Mar 2019 10:57:46 GMT
+Date: Mon, 18 Mar 2019 16:02:16 GMT
 ```
 
-## Configuration: secret key
+## Step 4: Configuration `SECRET_KEY`
 
 Change in `my_site/config.py` your `SECRET_KEY` and store it safely with only one user with read permissions:
 
@@ -99,15 +116,15 @@ $ export NEW_SECRET_KEY=`python -c 'import secrets; print(secrets.token_hex(32))
 $ sed -i "s/$OLD_SECRET_KEY/$NEW_SECRET_KEY/g" my_site/config.py
 ```
 
-## Configuration: SSL certificates
+## Step 5: Configuration SSL certificates
 
 Invenio works only with HTTPS so we create temporary certificates when starting new instances, **these certificates need to be updated**.
 
-## Configuration: WSGI proxies
+## Step 6: Configuration WSGI proxies
 
 The `docker-compose.full.yml` represents the common way Invenio is deployed, with two reverse proxies in front of the application. If you have a different number of proxies in front you should update your `WSGI_PROXY`, for more information read [here](https://invenio-base.readthedocs.io/en/latest/api.html#invenio_base.wsgi.wsgi_proxyfix).
 
-## Invenio HTTP headers walk-through
+## Step 7: Invenio HTTP headers walk-through
 
 ```console
 $ curl -kI  https://127.0.0.1:5000/api/records/
@@ -144,7 +161,7 @@ Date: Fri, 15 Mar 2019 12:07:12 GMT
 
 **Referrer-Policy**: Controls which `Referer` header should be set.  For more information see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy)
 
-## Content-Security-Policy
+## Step 8: Content-Security-Policy
 
 Where do we allow content in our Invenio instances to be loaded from?
 
@@ -165,7 +182,7 @@ Where do we allow content in our Invenio instances to be loaded from?
 
 Note: It is possible to run into problems regarding CSP rules when dealing with third party libraries such as Flask-Admin, which provides a part of the application's UI. Something similar to [this](https://github.com/inveniosoftware/invenio-admin/commit/0d4ef61040e2db5183ba59e93d64ec4242f752f3) can be done.
 
-## Keeping packages up to date
+## Step 9: Keeping packages up to date
 
 It is really important that you keep your packages up to date. Since we are using `pipenv` to manage our application we should follow [`pipenv`'s upgrade workflow](https://pipenv.readthedocs.io/en/latest/basics/#example-pipenv-upgrade-workflow)
 ```console
@@ -179,7 +196,7 @@ $ pipenv update [all|specific-outdated-package]
 $ pipenv check
 ```
 
-## Secure file uploads
+## Step 10: Secure file uploads
 
 We should be really careful with what we allow users to upload in our instances, since we are serving them back and they could contain malicious code. Some effective methods to avoid these vulnerabilities are:
 
@@ -187,7 +204,7 @@ We should be really careful with what we allow users to upload in our instances,
 - Sanitizing MIMETypes so they do not get executed on the browser, for example sanitizing HTML files to plain text.
 - Serve your files from a different domain with a static server where there are no sessions or anything  to be compromised.
 
-## Auth workflows
+## Step 11: Auth workflows
 
 **Server-side rendered applications**
 
@@ -212,7 +229,7 @@ If we open console in the browser and try to display the cookies, we will only b
 
 The behaviour when building a single app application should be the same as the one currently used in Invenio. The _Secure_ and _HttpOnly_ session cookie plus a JWT as CSRF.
 
-This JWT token is compatible wiht REST applications since it holds all necessary data to identify the user allowing a stateful communication between frontend and backend.
+This JWT token is compatible with REST applications since it holds all necessary data to identify the user allowing a stateful communication between frontend and backend.
 
 **Access token based**:
 
@@ -253,7 +270,7 @@ $ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization
 }
 ```
 
-## Migrating user tokens
+## Step 12: Migrating user tokens
 
 All user tokens are encrypted when stored in the database. Therefore, if the application `SECRET_KEY` is changed, these tokens need to be migrated:
 
