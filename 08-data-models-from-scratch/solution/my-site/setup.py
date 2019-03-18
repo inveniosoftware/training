@@ -45,7 +45,6 @@ setup(
         'invenio_base.blueprints': [
             'my_site = my_site.theme.views:blueprint',
             'my_site_records = my_site.records.views:blueprint',
-            'my_site_deposit = my_site.deposit.views:blueprint',
         ],
         'invenio_assets.webpack': [
             'my_site_theme = my_site.theme.webpack:theme',

@@ -58,19 +58,6 @@ RECORDS_REST_ENDPOINTS = {
 """REST API for my-site."""
 
 
-RECORDS_REST_FACETS = dict(
-    authors=dict(
-        aggs=dict(
-            name=dict(terms=dict(field='name')),
-        ),
-        post_filters=dict(
-            name=terms_filter('name'),
-        )
-    )
-)
-"""Introduce searching facets."""
-
-
 RECORDS_REST_SORT_OPTIONS = dict(
     authors=dict(
         bestmatch=dict(
