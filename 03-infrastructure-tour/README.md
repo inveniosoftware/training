@@ -233,5 +233,7 @@ panel at <http://localhost:8080>:
 
 ## What did we learn
 
+![](./images/diagram-labels.png)
+
 - The different services composing an Invenio instance
 - How to interface with them on a basic level
