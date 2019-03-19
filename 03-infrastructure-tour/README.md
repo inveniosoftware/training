@@ -159,7 +159,7 @@ We can also access the instance via the Kibana service container at
 ## Step 5: Access the message queue (RabbitMQ)
 
 To access the RabbitMQ service, we can use Management Web UI at
-<https://localhost:15672>. The default username/password is `guest`/`guest`:
+<http://localhost:15672>. The default username/password is `guest`/`guest`:
 
 ![](./images/rabbitmq-login.png)
 
@@ -196,7 +196,7 @@ There are two insteresting commands for these type of containers:
 - `uwsgi_curl`, for making `curl` like requests using the uWSGI protocol
 
 ```bash
-[root@1d5f2e316bdc src]# uwsgitop
+[root@1d5f2e316bdc src]# uwsgitop localhost:9000
 uwsgi-2.0.18 - Sun Mar 16 13:20:27 2019 - req: 0 - RPS: 0 - lq: 0 - tx: 0
 node: localhost - cwd: /opt/invenio/src - uid: 1000 - gid: 1000 - masterpid: 7064
  WID    %       PID     REQ     RPS     EXC     SIG     STATUS  AVG     RSS     VSZ     TX      ReSpwn  HC      RunT    LastSpwn

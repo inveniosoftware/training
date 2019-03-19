@@ -22,7 +22,7 @@ First, let's bring back the basic development container setup:
 
 ```bash
 # Bring down the full setup
-$ docker-compose -f docker-compose.full.yml down
+$ docker-compose -f docker-compose.full.yml stop
 $ docker-compose up -d
 ```
 
