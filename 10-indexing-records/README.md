@@ -141,6 +141,7 @@ $ pipenv run pip install -e .
 $ pipenv run invenio index destroy --force --yes-i-know
 $ pipenv run invenio index init --force
 $ pipenv run invenio index queue init purge
+$ ./scripts/server
 ```
 
 In case you have a clean instance, we can create a record like this:
