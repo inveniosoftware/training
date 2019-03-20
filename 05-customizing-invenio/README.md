@@ -110,7 +110,7 @@ modify the "style" of the site we have to make changes to the produced CSS.
 
 Invenio uses SCSS in order define CSS styles in a flexible and extensible way.
 The `.scss` we are interested in changing is
-`my_site/theme/assets/scss/variables.scss`:
+`my_site/theme/assets/scss/my_site/variables.scss`:
 
 ```diff
 @import "../invenio_theme/variables";
