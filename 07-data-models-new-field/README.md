@@ -72,7 +72,7 @@ So, in order to update the mapping we edit the `my_site/records/mappings/v6/reco
           "type": "keyword"
         },
 +       "owner": {
-+         "type": "keyword"
++         "type": "integer"
 +       },
 ```
 
