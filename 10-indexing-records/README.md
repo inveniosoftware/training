@@ -137,6 +137,7 @@ Finally, let's change the Elasticsearch mappings to update the fields that we ha
 The code is now ready and we can try it. Since we have changed the Elasticsearch mappings, we need to re-create them.
 
 ```bash
+$ cd ~/src/my-site
 $ pipenv run pip install -e .
 $ pipenv run invenio index destroy --force --yes-i-know
 $ pipenv run invenio index init --force
@@ -153,9 +154,10 @@ $ curl -k --header "Content-Type: application/json" \
     "https://127.0.0.1:5000/api/records/?prettyprint=1"
 ```
 
-Let's re-index all records:
+Stop the server. Let's re-index all records:
 
 ```bash
+$ cd ~/src/my-site
 $ pipenv run invenio index reindex --pid-type recid --yes-i-know
 $ pipenv run invenio index run
 ```

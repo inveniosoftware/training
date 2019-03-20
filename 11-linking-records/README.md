@@ -188,9 +188,11 @@ $ curl -k --header "Content-Type: application/json" \
 $ firefox http://127.0.0.1:9200/authors/_search?pretty=true
 ```
 
+Now, stop the server.
 Create a new record. In the `$ref` field, we will put the route URL that we have defined in the JSON resolver method. To use the REST API, we would have to change the loaders, since the `author` field is not defined. Let's create the record using the CLI.
 
 ```bash
+$ cd ~/src/my-site
 $ echo '{"author": { "$ref": "https://my-site.com/api/resolver/author/1" }, "title": "Invenio is awesome", "contributors": [{"name": "Kent, Clark"}], "owner": 1}' | pipenv run invenio records create --pid-minter recid
 ```
 
@@ -204,6 +206,7 @@ $ pipenv run invenio index run
 Now, we can query Elasticsearch and verify that the author metadata are in the record.
 
 ```bash
+$ ./scripts/server
 $ firefox http://127.0.0.1:9200/records/_search?pretty=true
 ```
 
@@ -228,7 +231,7 @@ Can you guess why? How can we fix it?
 
 ## About references in Invenio
 
-Invenio uses the [jsonresolver](https://github.com/inveniosoftware/jsonresolver) module to define and resolve references between records. The `$ref` URL is generated using a "fake" domain defined by the config variable `JSONSCHEMA_HOST` (it is not meant to be a real URL) to be able to avoid performing real HTTP request when resolving but instead calling a Flask route method implementation.
+Invenio uses the [jsonresolver](https://github.com/inveniosoftware/jsonresolver) module to define and resolve references between records. The `$ref` URL is generated using an host domain defined by the config variable `JSONSCHEMA_HOST` (it is not meant to be an existing URL) to be able to avoid performing real HTTP request when resolving but instead calling a Flask route method implementation.
 
 Given that it is an internal reference, you should not expose this field and URL when returning the schema and the records through APIs. To avoid that, by default [invenio-records-rest](https://invenio-records-rest.readthedocs.io/en/latest/usage.html) JSON serializers defines `replace_refs=True` as parameter.
 Moreover, as you saw, the URL will be hardcoded in each record. If you need to change it, you will have most probably to perform an update to all your records.
