@@ -35,7 +35,7 @@ echo "Boostrapping Invenio on $invenio_instance_folder."
 cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c v3.1 --no-input
 
 # Reinstalling appliation with preivious steps solutions
-cp -R "$invenio_training_folder/$exercise_tutorial_folder/solution/" "$invenio_src_folder"
+cp -R "$invenio_training_folder/$exercise_tutorial_folder/solution/my-site/" "$invenio_src_folder"
 echo "Reinstalling application."
 cd "$invenio_instance_folder"
 pipenv run pip install -e .
