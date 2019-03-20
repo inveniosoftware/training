@@ -277,6 +277,8 @@ Finally, verify it is indexed correctly:
 $ firefox https://127.0.0.1:5000/api/records/?prettyprint=1
 ```
 
+![](./images/result.png)
+
 ## What did we learn
 
 - We have seen how to create a new view with templates
