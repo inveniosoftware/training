@@ -255,7 +255,7 @@ $ pipenv run my-site users create deposit@test.ch -a --password=123456
 
 ## Step 6: Try it!
 
-Try it! Ensure `docker-compose` is running and reload the server (if not done already automatically):
+Try it! Ensure `docker-compose` is running and **restart** the server (if not done already automatically):
 
 ```bash
 $ ./scripts/server
@@ -264,6 +264,13 @@ $ firefox https://127.0.0.1:5000/deposit/create
 
 Login with the credentials set before: username `deposit@test.ch` and password `123456`.
 Now, create a record by entering some data and submitting the form.
+
+![](./images/form.png)
+
+Hit the `Create` button! You should see the `Success` message.
+
+![](./images/success.png)
+
 Finally, verify it is indexed correctly:
 
 ```bash
