@@ -1,6 +1,7 @@
 # Developing with Invenio
 
 ## Table of contents
+
 - [Step 1: Inspect Invenio project file structure](#step-1-inspect-invenio-project-file-structure)
 - [Step 2: Initialize the git repository](#step-2-initialize-the-git-repository)
 - [Step 3: Build the documentation](#step-3-build-the-documentation)
@@ -17,6 +18,7 @@ Open the project directory and scan the files
 ![](images/06-repo.png)
 
 ## Step 2: Initialize the git repository
+
 Initialize git repo
 ```commandline
 git init
@@ -29,7 +31,7 @@ git add --all
 
 Update manifest file
 ```commandline
-check-manifest update
+check-manifest --update
 ```
 
 ## Step 3: Build the documentation
@@ -40,11 +42,12 @@ Build documentation:
 ```commandline
 (my-site)$ python setup.py build_sphinx
 ```
-Now you can visit the http://127.0.0.1/docs/_build/html/index.html to see the documentation in the browser:
+Now you can open `docs/_build/html/index.html` (so when using the VM: `file:///home/bootcamp/src/my-site/docs/_build/html/index.html`) in the browser to see the documentation:
 
 ![](images/06-documentation.png)
 
 ## Step 4: Running tests
+
 Invenio provides examples of tests in the project's repository: 
 
 ![](images/06-tests.png)
@@ -67,9 +70,9 @@ To run the test functions one by one you should activate the virtualenv of your 
 ```commandline
 (my-site)$ pytest tests/api/test_api_simple_flow::test_simple_flow
 ```
-  
 
 ## Step 5: End-to-end testing
+
 To enable end-to-end testing you have to set up your environment variables, as well as install proper browser drivers (e2e testing opens up a browser to test UI).
 
 1. Install driver for browser
@@ -82,7 +85,6 @@ https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.
 export E2E="yes"
 ```
 
- 
 ## Step 6: Fix the failing test
 
 Open the file `tests/e2e/test_front_page.py` in your editor.
@@ -92,7 +94,6 @@ Run tests again:
 ```commandline
 ./run-tests.sh
 ```
-
 
 ## Step 7: Installing a new Python dependency
 
@@ -162,6 +163,7 @@ pipenv shell
 ```
 
 ### Docker troubleshooting
+
 To kill and remove all docker containers
 ```commandline
 docker stop $(docker ps -a -q); docker rm $(docker ps -a -q)
