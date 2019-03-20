@@ -74,7 +74,7 @@ Now that we have our extension registered, we need to tell Invenio how the inter
   ],
   ```
 
-- Uncomment the following line from `/my_site/authors/config.py`:
+- Uncomment the following line from `my_site/authors/config.py`:
 
     ```diff
     - # search_index='authors',
@@ -92,8 +92,8 @@ So far we have a new extension which defines how our data model is **stored** an
 
 For creating and registering our **loaders** we should:
 
-- Uncomment the code in the `/my_site/authors/loaders/__init__.py`
-- Uncomment the following lines from /my_site/authors/config.py.
+- Uncomment the code in the `my_site/authors/loaders/__init__.py`
+- Uncomment the following lines from `my_site/authors/config.py`.
 
 ```diff
 - # record_loaders={
@@ -109,7 +109,7 @@ For creating and registering our **loaders** we should:
 For creating and registering the **record serializers** we should:
 
 - Uncomment the `json_v1_response` variable in the `my_site/authors/serializers/__init__.py`
-- Uncomment the following lines from /my_site/authors/config.py.
+- Uncomment the following lines from `my_site/authors/config.py`.
 
 ```diff
 - # record_loaders={
@@ -125,7 +125,7 @@ For creating and registering the **record serializers** we should:
 For creating and registering the **search serializers** we should:
 
 - Uncomment the `json_v1_search` variable in the `my_site/authors/serializers/__init__.py`
-- Uncomment the following lines from /my_site/authors/config.py.
+- Uncomment the following lines from `my_site/authors/config.py`.
 
 ```diff
 - # search_serializers={
@@ -149,7 +149,7 @@ In the previous section we have configured loaders and serializers but we also s
 
 ### Actions
 
-- Uncomment the code in the `/my_site/authors/marshmallow/json.py`
+- Uncomment the code in the `my_site/authors/marshmallow/json.py`
 
 Here we have added two classes which we made reference in the previous step, `AuthorMetadataSchemaV1` and `AuthorSchemaV1`. The first will take care of validating in coming author metadata and the second will take care of validating the author output format. Marshmallow is not mandatory, but highly recommended since it can do from simple validations to complex ones, for more information visit [Marshmallow documentation](https://marshmallow.readthedocs.io/en/2.x-line/).
 
@@ -162,9 +162,9 @@ Having identifiers which do not change over time adds certain complexity to the 
 
 ### Actions
 
-- Uncomment the code in `/my_site/authors/fetchers.py`
-- Uncomment the code in `/my_site/authors/minters.py`
-- Uncomment the following lines from `/my_site/authors/config.py`:
+- Uncomment the code in `my_site/authors/fetchers.py`
+- Uncomment the code in `my_site/authors/minters.py`
+- Uncomment the following lines from `my_site/authors/config.py`:
 
 ```diff
 pid_type='authid',
@@ -174,7 +174,7 @@ pid_type='authid',
 + pid_fetcher='authid',
 default_endpoint_prefix=True,
 ```
-- Uncomment the following lines from `/my_site/setup.py`.
+- Uncomment the following lines from `my_site/setup.py`.
 
 ```diff
 - # 'invenio_pidstore.fetchers': [
