@@ -13,15 +13,27 @@ In this session, we will present how to tune deployment configuration of each pa
 
 It does not make much sense to run this stress test in the development environment, but we will do it just to see how it works.
 
+Ensure that docker-compose **full** is running.
+
 ```bash
+$ cd ~/src/my-site
+$ docker-compose stop
+$ docker-compose -f docker-compose.full.yml up
+```
+
+Let's install `locust` in our virtualenv and run the server.
+
+```bash
+$ cd ~/src/my-site
 $ pipenv run pip install locustio
 $ ./scripts/server
 ```
 
-Now, copy the file `locustfile.py` in your `my-site` folder (to be in the virtualenv) and then run locust in the same folder:
+In another terminal, now copy the file `locustfile.py` in your `my-site` folder (to be in the virtualenv) and then run locust in the same folder:
 
 ```
 $ cp ~/src/training/14-deployement-monitoring/locustfile.py ~/src/my-site/
+$ cd ~/src/my-site
 $ pipenv run locust --host=https://127.0.0.1:5000/
 $ firefox http://127.0.0.1:8089
 ```
