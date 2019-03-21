@@ -31,9 +31,9 @@ curl -k --header "Content-Type: application/json" --request POST --data '{"title
 ## Step 1 - Allow for access only from the owner
 
 ### Use case:
-Restrict the access to read, edit and delete action for the record only to it's owner.
+Restrict the access to read, edit and delete action for the record only to its owner.
 
-1. We implement permission factory. The permission requires a need to be fulfilled by a user for a record. In this case we remember that:
+1. We implement the permission factory. The permission requires a need to be fulfilled by a user for a record. In this case we remember that:
 
 ```json
     "owner": {
@@ -41,7 +41,8 @@ Restrict the access to read, edit and delete action for the record only to it's 
     },
 ```
 
-so the permission factory requires an user to provide his ID as stored in the record in the `"owner"` field:
+so the permission factory requires users to provide their ID as stored in the the `"owner"` field of the record.
+Add the following `my_site/records/permissions.py` file:
 
 ```python
 from invenio_access import Permission
@@ -53,7 +54,7 @@ def owner_permission_factory(record=None):
 
 ```
 
-2. We add the permission factory implemented to the configuration file to let the application know that this endpoint has a permission requirement (RUD)
+2. We use the permission factory in the configuration file to let the application know that this endpoint has a permission requirement (RUD). Edit `my_site/records/config.py`:
 
 ```diff
 +from my_site.records.permissions import owner_permission_factory
@@ -113,8 +114,7 @@ RECORDS_REST_ENDPOINTS = {
 
 Record still not protected!
 
-5. Apply the permission factory for UI endpoints
-
+5. Set permission factory also for UI endpoints in `my_site/records/config.py`:
 ```diff
 RECORDS_UI_ENDPOINTS = {
     'recid': {
@@ -132,9 +132,10 @@ RECORDS_UI_ENDPOINTS = {
 
 ## Step 2 - search filter
 
-Records are protected at their details pages. But if we visit `/search?page=1&size=20&q=` all the records are still visible in the search page. The same happens for REST API: `/api/records/`. In most of the cases we would like to hide the results from search if they are not owned by the current user.
+The details pages of records are now protected. But if we visit `/search?page=1&size=20&q=`, all the records are still visible in the search page. The same is true for the REST API: `/api/records/`. We would like to hide the results from search if they are not owned by the current user.
 
-1. We implement search filter - restriction for displaying this record in the search results only for it's owner
+1. We implement a search filter that will display records in the search results only to their owner.
+Let' s create `my_site/records/search.py`:
 
 ```python
 from elasticsearch_dsl import Q
@@ -147,7 +148,7 @@ def owner_permission_filter():
 
 ```
 
-2. We implement search class which features the implemented filter
+2. We implement a search class that uses the implemented filter (also in `search.py`).
 
 ```diff
 from elasticsearch_dsl import Q
@@ -170,7 +171,7 @@ def owner_permission_filter():
 
 ```
 
-3. We add the search class to the configuration
+3. We add the search class to the configuration in `my_site/records/config.py`:
 
 ```diff
 
@@ -213,15 +214,15 @@ RECORDS_REST_ENDPOINTS = {
 """REST API for my-site."""
 ```
 
-4. Go to the api search page `https://127.0.0.1:5000/api/records/` and check that if it displays only the records owned by current user
+4. Go to the api search page `https://127.0.0.1:5000/api/records/` and check that it displays only the records owned by the current user
 
-5. Go to UI search page `https://127.0.0.1:5000/search?page=1&size=20&q=` and check if it displays only the records owned by current user
+5. Go to the UI search page `https://127.0.0.1:5000/search?page=1&size=20&q=` and check that it displays only the records owned by the current user
 
 ## Step 3 - Create permissions
 
-### Use case: restrict creation of the records only for authenticated users
+### Use case: restrict creation of records to authenticated users
 
-1. Implement the permission factory
+1. Implement the permission factory in `my_site/records/permissions.py` 
 
 ```python
 from invenio_access import Permission, authenticated_user
@@ -232,12 +233,13 @@ def authenticated_user_permission(record=None):
 
 ```
 
-2. Add the permission factory to the configuration of the records rest endpoints
+2. Add the permission factory to the configuration of the records REST endpoints
+in `my_site/records/config.py`
 
 ```diff
 -from my_site.records.permissions import owner_permission_factory
 +from my_site.records.permissions import owner_permission_factory, \
-    authenticated_user_permission
++   authenticated_user_permission
 
 RECORDS_REST_ENDPOINTS = {
     'recid': dict(
@@ -271,7 +273,7 @@ RECORDS_REST_ENDPOINTS = {
 
 ```
 
-3. Perform POST request by using curl to test creation permission (as unauthenticated user)
+3. Perform a POST request by using curl to test permission to create records as an unauthenticated user (should fail)
 
 ```commandline
 curl -k --header "Content-Type: application/json" --request POST --data '{"title":"Second test record", "contributors": [{"name": "Copernicus, Mikolaj"}], "owner": 2}' https://localhost:5000/api/records/?prettyprint=1
