@@ -1,13 +1,18 @@
 from locust import HttpLocust, TaskSet, task
 
+
 class AnonymousWebsiteTasks(TaskSet):
 
     base_url = 'https://127.0.0.1:5000/'
+
+    def on_start(self):
+        self.client.verify = False
 
     @task
     def homepage(self):
         """Task home page."""
         self.client.get(self.base_url)
+
 
 class WebsiteUser(HttpLocust):
     """Locust.
