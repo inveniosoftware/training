@@ -11,7 +11,7 @@ development/tooling knowledge and will produce the most consistent result.
 1. [Install VirtualBox](https://www.virtualbox.org/wiki/Downloads) for your
    platform
 2. Download the OVA file from
-   <https://cernbox.cern.ch/index.php/s/SJtgSgIimVSun5K> (~3GB)
+   <https://inveniosoftware.web.cern.ch/inveniosoftware/download/virtualbox/Invenio%20Bootcamp%20Ubuntu%202019.ova> (~3GB)
 3. Open the VirtualBox application and go to "File -> Import Appliance..." and
    select the downloaded OVA file from the previous step. Proceed with clicking
    "Next" and then "Import".
