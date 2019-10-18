@@ -1,4 +1,4 @@
-# Tutorial 8 - Record access management
+# Tutorial 12 - Record access management
 
 ## Table of contents
 - [Step 1 - Allow for access only from the owner](#step-1---allow-for-access-only-from-the-owner)
