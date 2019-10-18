@@ -18,7 +18,7 @@ $ git clone https://github.com/inveniosoftware/training.git
 ```
 
 **Tip:** To copy/paste into the terminal inside the Ubuntu virtual machine
-use: Ctrl+Shift+P (paste), Ctrl+Shift+C (copy), Ctrl+Shift+X (cut).
+use: Ctrl+Shift+V (paste), Ctrl+Shift+C (copy), Ctrl+Shift+X (cut).
 
 ## Step 3: Scaffold
 

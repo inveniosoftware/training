@@ -54,7 +54,7 @@ First thing we need to do is to create an extension called `Authors` and registe
 
 ## Step 3: Internal representation: JSONSchema and Elasticsearch mappings
 
-Now that we have our extension registered, we need to tell Invenio how the internal representation of our data model is. To do so, we use [a JSONSchema](author_module/authors/jsonschemas/authors/author-v1.0.0.json) and [an Elasticsearch mapping](author_module/authors/mappings/v6/authors/author-v1.0.0.json): the former to validate the internal JSON format and the latter to tell Elasticsearch what shape our data model has so it can handle correctly its values.
+Now that we have our extension registered, we need to tell Invenio how the internal representation of our data model is. To do so, we use [a JSONSchema](author_module/my_site/authors/jsonschemas/authors/author-v1.0.0.json) and [an Elasticsearch mapping](author_module/my_site/authors/mappings/v6/authors/author-v1.0.0.json): the former to validate the internal JSON format and the latter to tell Elasticsearch what shape our data model has so it can handle correctly its values.
 
 
 ### Actions
@@ -112,13 +112,13 @@ For creating and registering the **record serializers** we should:
 - Uncomment the following lines from `my_site/authors/config.py`.
 
 ```diff
-- # record_loaders={
-- #     'application/json': ('my_site.authors.loaders'
-- #                          ':json_v1'),
+- # record_serializers={
+- #     'application/json': ('my_site.authors.serializers'
+- #                          ':json_v1_response'),
 - # },
-+ record_loaders={
-+     'application/json': ('my_site.authors.loaders'
-+                          ':json_v1'),
++ record_serializers={
++     'application/json': ('my_site.authors.serializers'
++                          ':json_v1_response'),
 + },
 ```
 
