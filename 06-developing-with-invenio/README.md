@@ -68,7 +68,7 @@ To run the tests you can use the test script provided in the repository (the scr
 To run the test functions one by one you should activate the virtualenv of your project and use pytest command, like on the example below:
 
 ```commandline
-(my-site)$ pytest tests/api/test_api_simple_flow::test_simple_flow
+(my-site)$ pytest tests/api/test_api_simple_flow.py::test_simple_flow
 ```
 
 ## Step 5: End-to-end testing
