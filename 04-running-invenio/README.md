@@ -29,6 +29,8 @@ $ docker-compose up -d
 We are now running only the database, Elasticsearch, Redis and RabbitMQ
 service containers.
 
+> Warning: please note that ``SQLite`` should not be added as part of the Docker installation. This would create a database file that can not be shared amongst the different services.
+
 ## Step 2: Understanding your Python environment
 
 When developing a Python project, we usually want to manage our environment in
