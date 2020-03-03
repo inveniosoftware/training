@@ -128,7 +128,10 @@ Invenio works only with HTTPS so we create temporary certificates when starting 
 
 ## Step 6: Configuration WSGI proxies
 
-The `docker-compose.full.yml` represents the common way Invenio is deployed, with two reverse proxies in front of the application. If you have a different number of proxies in front you should update your `WSGI_PROXY`, for more information read [here](https://invenio-base.readthedocs.io/en/latest/api.html#invenio_base.wsgi.wsgi_proxyfix).
+The `docker-compose.full.yml` is an example of an Invenio application deployment. In this example, each HTTP request passes through
+two servers, the HAProxy load balancer and the Nginx reserve proxy, before arriving to the Invenio Flask application: this is why we should set
+`WSGI_PROXIES=2`. If you have a different number of reverse proxies in front of your Invenio application, you should change the value
+`WSGI_PROXIES` accordingly. For more information read [here](https://invenio-base.readthedocs.io/en/latest/api.html#invenio_base.wsgi.wsgi_proxyfix).
 
 ## Step 7: Invenio HTTP headers walk-through
 

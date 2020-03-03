@@ -22,7 +22,9 @@ debugging interfaces like Flower, Kibana and the RabbitMQ management interface.
 
 In order to be able to go through all of the infrastructure components that an
 Invenio instance is built from, we have to use the `docker-compose.full.yml`
-setup. To bring it up we have to execute the following commands:
+setup. It is used for demonstration purposes, since it allows us to run all
+components in containers. To bring it up we have to execute the following
+commands:
 
 ```bash
 # Build our Invenio application images first
@@ -217,7 +219,8 @@ X-RateLimit-Limit: 5000
 X-RateLimit-Remaining: 4999
 X-RateLimit-Reset: 1552865553
 Retry-After: 3600
-Set-Cookie: session=f22ff41b827e61a4_5c8ecb00.hkULtydCgh-swx8QmHLzhuu-hIo; Expires=Wed, 17-Apr-2019 22:32:32 GMT; Secure; HttpOnly; Path=/
+Set-Cookie: session=f22ff41b827e61a4_5c8ecb00.hkULtydCgh-swx8QmHLzhuu-hIo; 
+            Expires=Wed, 17-Apr-2019 22:32:32 GMT; Secure; HttpOnly; Path=/
 X-Session-ID: f22ff41b827e61a4_5c8ecb00
 
 OK
