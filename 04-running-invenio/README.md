@@ -145,7 +145,7 @@ Let's run the `invenio shell` command:
 Python 3.6.7 (default, Oct 22 2018, 11:32:17)
 [GCC 8.2.0] on linux
 IPython: 7.3.0
-App: invenio [production]
+App: invenio
 Instance: /home/bootcamp/.local/share/virtualenvs/my-site-7Oi5HgLM/var/instance
 In [1]: app.config
 Out[1]: {'ACCOUNTS_BASE_TEMPLATE': 'my_site/page.html',
@@ -287,7 +287,7 @@ Let's ship-off a Celery task to send an email to a user:
 Python 3.6.7 (default, Jan 20 2019, 17:24:36)
 [GCC 7.3.0] on linux
 IPython: 7.3.0
-App: invenio [production]
+App: invenio
 Instance: /home/bootcamp/.local/share/virtualenvs/my-site-7Oi5HgLM/var/instance
 In [1]: from invenio_mail.tasks import send_email
 In [2]: message_data = {
