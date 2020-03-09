@@ -78,7 +78,7 @@ integrations with your Invenio instance:
 Your new instance exposes a REST API for performing CRUD operations on records
 (we will discuss in detail what a "record" is in later sessions).
 
-Let's create a record with some minimal metadata by perfomring a POST request
+Let's create a record with some minimal metadata by performing a POST request
 to the `/api/records/` endpoint with a JSON payload:
 
 ```bash
