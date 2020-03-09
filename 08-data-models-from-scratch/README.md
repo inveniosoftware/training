@@ -174,7 +174,7 @@ pid_type='authid',
 + pid_fetcher='authid',
 default_endpoint_prefix=True,
 ```
-- Uncomment the following lines from `my_site/setup.py`.
+- Uncomment the following lines from `my-site/setup.py`.
 
 ```diff
 - # 'invenio_pidstore.fetchers': [
@@ -202,8 +202,8 @@ In order to reflect our changes in the database and Elasticsearch but also to re
 
 ```console
 $ pipenv run pip install -e . # register entrypoints and update our applications code
-$ ./scrips/setup # reset DB and ES, create new index
-$ ./scrips/server # start invenio
+$ ./scripts/setup # reset DB and ES, create new index
+$ ./scripts/server # start invenio
 ```
 
 We can now create new authors:

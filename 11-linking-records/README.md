@@ -60,7 +60,7 @@ we would like that when we retrieve the record, the details of the author are au
 How do we do it?
 
 1. In the record data model, we define a `$ref` attribute that is an URL pointing to the author record.
-2. When indexing the record, Invenio will find the `$ref` record and use the URL to retrieve the referenced record.
+2. When indexing the record, Invenio will find the `$ref` record and use the URL to retrieve the referenced author.
 3. The URL is a Flask route that we have to define and implement and it will be called by Invenio. This won't be a real HTTP call (see below for more explanations).
 4. The indexed record will contain the replaced object instead of the `$ref` field.
 
