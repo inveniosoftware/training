@@ -1,7 +1,7 @@
 # Tutorial 08 - Data models: Build from scratch
 
 In this session we will learn how to build a new data model from scratch. During that
-process we will see how to create a new REST **module** for our model and provide functonalities
+process we will see how to create a new REST **module** for our model and provide functionalities
 such as storing and searching.
 
 ### Table of contents
@@ -54,7 +54,7 @@ First thing we need to do is to create an extension called `Authors` and registe
 
 ## Step 3: Internal representation: JSONSchema and Elasticsearch mappings
 
-Now that we have our extension registered, we need to tell Invenio how the internal representation of our data model is. To do so, we use [a JSONSchema](author_module/my_site/authors/jsonschemas/authors/author-v1.0.0.json) and [an Elasticsearch mapping](author_module/my_site/authors/mappings/v6/authors/author-v1.0.0.json): the former to validate the internal JSON format and the latter to tell Elasticsearch what shape our data model has so it can handle correctly its values.
+Now that we have our extension registered, we need to tell Invenio how the internal representation of our data model is. To do so, we use [a JSONSchema](author_module/my_site/authors/jsonschemas/authors/author-v1.0.0.json) and [an Elasticsearch mapping](author_module/my_site/authors/mappings/v7/authors/author-v1.0.0.json): the former to validate the internal JSON format and the latter to tell Elasticsearch what shape our data model has so it can handle correctly its values.
 
 
 ### Actions
@@ -81,12 +81,12 @@ Now that we have our extension registered, we need to tell Invenio how the inter
     + search_index='authors',
     ```
 
-  By doing this we told Invenio to register our new schema and mapping. We are also defining the name of the Elasticsearch index which will be created to enable author search.
+By doing this we told Invenio to register our new schema and mapping. We are also defining the name of the Elasticsearch index which will be created to enable author search.
 
 
 ## Step 4: External representation: loaders and serializers
 
-So far we have a new extension which defines how our data model is **stored** and **searchable**, but have not yet provided means to transform this data when its received or served by Invenio. To do so, we will introduce two new concepts: **loaders** whose responsibility is to transform incoming data to the internal format, and **serializers** which will be in charge of transforming the internal data to a different format, based on our needs.
+So far we have a new extension which defines how our data model is **stored** and **searchable**, but have not yet provided means to transform this data when it's received or served by Invenio. To do so, we will introduce two new concepts: **loaders** whose responsibility is to transform incoming data to the internal format, and **serializers** which will be in charge of transforming the internal data to a different format, based on our needs.
 
 ### Actions
 
@@ -138,9 +138,9 @@ For creating and registering the **search serializers** we should:
 + },
 ```
 
-During the first step we registered our **loader** in the configuration of our new `authors` endpoint. Now every time we try to create a new author the loader is going to transform the incoming data to match the internal representation of an author document in our system.
+During the first step, we registered our **loader** in the configuration of our new `authors` endpoint. Now every time we try to create a new author the loader is going to transform the incoming data to match the internal representation of an author document in our system.
 
-In the upcoming steps we created and registered our serializers. We splitted them in two categories: **Record serializers** and **Search serializers**. The first are used to **serialize** the internal representation of one specific record(e.g author) while the latter are transforming each record result of a search. They are capable of doing that by using again a `Marshmallow` schema which we will explain in detail in the next section.
+In the upcoming steps, we created and registered our serializers. We split them into two categories: **Record serializers** and **Search serializers**. The first is used to **serialize** the internal representation of one specific record (e.g author) while the latter is transforming each record result of a search. They are capable of doing that by using again a `Marshmallow` schema which we will explain in detail in the next section.
 
 
 ## Step 5: Data validation: Marshmallow
@@ -151,14 +151,14 @@ In the previous section we have configured loaders and serializers but we also s
 
 - Uncomment the code in the `my_site/authors/marshmallow/json.py`
 
-Here we have added two classes which we made reference in the previous step, `AuthorMetadataSchemaV1` and `AuthorSchemaV1`. The first will take care of validating in coming author metadata and the second will take care of validating the author output format. Marshmallow is not mandatory, but highly recommended since it can do from simple validations to complex ones, for more information visit [Marshmallow documentation](https://marshmallow.readthedocs.io/en/2.x-line/).
+Here we have added two classes which we made reference in the previous step, `AuthorMetadataSchemaV1` and `AuthorSchemaV1`. The first will take care of validating incoming author metadata and the second will take care of validating the author output format. Marshmallow is not mandatory, but highly recommended since it can do from simple validations to complex ones, for more information visit [Marshmallow documentation](https://marshmallow.readthedocs.io/en/2.x-line/).
 
 
 ## Step 6: Persistent identifiers
 
 So far we have only cared about our content and its format, but we need to provide a way to retrieve our records. We are doing this by using PIDs, and the difference with normal IDs is that they do not change over time to avoid broken references.
 
-Having identifiers which do not change over time adds certain complexity to the system. We need to have a way of generating new PIDs, which what we will reference as **minters** and we will also need a way of indentifying the PID inside the record metadata, this is what **fetchers** do.
+Having identifiers which do not change over time adds certain complexity to the system. We need to have a way of generating new PIDs, which what we will reference as **minters** and we will also need a way of identifying the PID inside the record metadata, this is what **fetchers** do.
 
 ### Actions
 
@@ -193,7 +193,7 @@ default_endpoint_prefix=True,
 
 This is how we are registering our new minter and fetcher making them available.
 
-**Important**: the value of the `pid_minter` and the `pid_fetcher` defined in `config.py` should match exactly with the entrypoint names defined in `setup.py`. Also we should make sure that the `pid_type` value and the `RECORDS_REST_ENDPOINTS` endpoint key match exactly.
+**Important**: the value of the `pid_minter` and the `pid_fetcher` defined in `config.py` should match exactly with the entrypoint names defined in `setup.py`. Also, we should make sure that the `pid_type` value and the `RECORDS_REST_ENDPOINTS` endpoint key match exactly.
 
 
 ## Step 7: Create an author

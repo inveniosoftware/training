@@ -1,8 +1,8 @@
 # Tutorial 07 - Data models: Adding a new field
 
-The goal of this tutorial is to learn how to update your datamodel. We will show how you going to
+The goal of this tutorial is to learn how to update your data model. We will show how you going to
 update your [`JSONSchema`](https://json-schema.org/) to store a new field in the DB and your ES mapping so you can search for it.
-Moreover we will learn how [`Marshmallow`](https://marshmallow.readthedocs.io) schema can be used to validate your data.
+Moreover, we will learn how [`Marshmallow`](https://marshmallow.readthedocs.io) schema can be used to validate your data.
 
 ### Table of Contents
 
@@ -51,9 +51,9 @@ We edit the `my_site/records/jsonschemas/records/record-v1.0.0.json` file:
 
 ## Step 3: Update the Elasticsearch mapping
 
-Now our system can validate and store our new field correctly in the DB. Now we want to enable search of a record by this new field. For this purpose we need to update the mapping of our ES index in order to add our new field. By doing that we let ES know how to handle our new field(field type, searchable, analyzable, etc.).
+Now our system can validate and store our new field correctly in the DB. Now we want to enable search of a record by this new field. For this purpose, we need to update the mapping of our ES index in order to add our new field. By doing that we let ES know how to handle our new field(field type, searchable, analyzable, etc.).
 
-So, in order to update the mapping we edit the `my_site/records/mappings/v6/records/record-v1.0.0.json` file:
+So, in order to update the mapping we edit the `my_site/records/mappings/v7/records/record-v1.0.0.json` file:
 
 ```diff
       "properties": {
@@ -100,7 +100,7 @@ Now in order to **reflect our changes** in our system we will have to run the fo
 $ ./scripts/setup
 ```
 
-With that we start fresh our DB and ES along with the updated information about schemas and mappings.
+We have created and started a new DB and ES along with the updated schemas and mappings.
 
 **Checkpoint 1**: At this point we are able to create a new record in our system that includes our new field. Let's do this!
 
@@ -125,10 +125,10 @@ After executing the command you should see in your console the following output:
 {"status": 400, "message": "Validation error.", "errors": [{"field": "owner", "message": "Not a valid integer."}]}
 ```
 
-It seems that our request wasn't successfull. By checking again the error message we can see that in our request
+It seems that our request wasn't successful. By checking again the error message we can see that in our request
 the `owner` field has a `string` value rather than an `integer`. But who validated that?
 
-If you remember we talked earlier about `loaders` and specifically we updated our `marshmallow` schema. But how are these related? To answer that let's talk about what is the responsibility of the `loaders`. It's purpose is to load the data which is passed when doing a request to create a new record, validate them by using our `marshmallow` schema and transform them in our internal representation.
+If you remember we talked earlier about `loaders` and specifically we updated our `marshmallow` schema. But how is it related? To answer that let's talk about what is the responsibility of the `loaders`. Its purpose is to load the data received in the create a new record request, validate it using our `marshmallow` schema and transform it into our internal representation.
 
 By having that in mind, before when we did our request our loader used the marshmallow `MetadataSchemaV1` schema to validate the incoming data and noticed that the owner field isn't an integer as it was declared so it threw an error.
 
@@ -145,10 +145,12 @@ Now you should see an output similar to the below:
 
 ```json
 {
-  "created": "2019-03-13T10:39:57.345889+00:00",
-  "id": "2",
+  "_bucket": "60f2b083-8f7b-4aba-a00e-09e3bb3e12af",
+  "created": "2019-11-25T07:41:44.620275+00:00",
+  "id": "1",
   "links": {
-    "self": "https://localhost:5000/api/records/2"
+    "files": "https://localhost:5000/api/records/1/files",
+    "self": "https://localhost:5000/api/records/1"
   },
   "metadata": {
     "contributors": [
@@ -156,12 +158,12 @@ Now you should see an output similar to the below:
         "name": "Doe, John"
       }
     ],
-    "id": "2",
+    "id": "1",
     "owner": 1,
     "title": "Some title"
   },
   "revision": 0,
-  "updated": "2019-03-13T10:39:57.345895+00:00"
+  "updated": "2019-11-25T07:41:44.620282+00:00"
 }
 ```
 **Tip**: Save somewhere the `id` value of this response!
@@ -178,9 +180,8 @@ Our new record was successfully created!
 ./scripts/server
 ```
 
-Let's search now for our newly created record. Replace the `<id>` with the `id` of the
-record we had created in the previous step. Run the following command:
-
+Let's search now for our newly created record. Replace the `<id>` with the actual `id` of the
+record we created in the previous step. Run the following command:
 
 ```bash
 $ curl -k "https://localhost:5000/api/records/?q=owner:<id>"
@@ -219,13 +220,13 @@ $ curl -k "https://localhost:5000/api/records/?q=owner:<id>"
 ## Step 7: Manipulate response using serializers
 
 Here you can see the data returned from the search regarding our record. The output of each result is controlled
-by our `serializers`. These entities are responsible for getting the internal representation of our data and transform
-it in an output that the users of our system will see when they will use our api.
+by our `serializers`. These entities are responsible for getting the internal representation of our data and transforming
+it into an output that the users of our system will see when they will use our API.
 
-The `serializers` are using also a `Marshmallow` schema to validate the internal data and define which information should be returned. This means that if we want to hide some data and don't return every available information all we need to do is just
+The `serializers` are also using a `Marshmallow` schema to validate the internal data and define which information should be returned. This means that if we want to hide some data and don't return every available information all we need to do is just
 not define it in the `Marshmallow` schema.
 
-For example, from the above output we want to display only when the record was `updated` and not when was `created`. In order to
+For example, from the above output, we want to display only when the record was `updated` and not when was `created`. In order to
 do that we need to update our `RecordSchemaV1` schema as below:
 
 ```diff
