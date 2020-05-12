@@ -45,14 +45,18 @@ Restrict the access to read, edit and delete action for the record only to its o
 so the permission factory requires users to provide their ID as stored in the the `"owner"` field of the record.
 Add the following `my_site/records/permissions.py` file:
 
-```python
-from invenio_access import Permission
-from flask_principal import UserNeed
+```diff
+ from invenio_access import Permission, any_user
++from flask_principal import UserNeed
 
-def owner_permission_factory(record=None):
-    """Permission factory with owner access to the record."""
-    return Permission(UserNeed(record["owner"]))
 
+ def files_permission_factory(obj, action=None):
+     """Permissions factory for buckets."""
+     return Permission(any_user)
++
++def owner_permission_factory(record=None):
++    """Permission factory with owner access to the record."""
++    return Permission(UserNeed(record["owner"]))
 ```
 
 2. We use the permission factory in the configuration file to let the application know that this endpoint has a permission requirement (RUD). Edit `my_site/records/config.py`:
@@ -117,15 +121,14 @@ Record still not protected!
 
 5. Set permission factory also for UI endpoints in `my_site/records/config.py`:
 ```diff
-RECORDS_UI_ENDPOINTS = {
-    'recid': {
-        'pid_type': 'recid',
-        'route': '/records/<pid_value>',
-        'template': 'records/record.html',
-+       'permission_factory_imp': 'my_site.records.permissions:owner_permission_factory',
-    },
-}
-"""Records UI for my-site."""
+RECORDS_UI_ENDPOINTS = dict(
+    recid=dict(
+        pid_type='recid',
+        route='/records/<pid_value>',
+        template='records/record.html',
+        record_class='invenio_records_files.api:Record',
++       permission_factory_imp='my_site.records.permissions:owner_permission_factory',
+    ),
 ```
 
 6. visit `/records/<id>`
@@ -215,7 +218,7 @@ RECORDS_REST_ENDPOINTS = {
 """REST API for my-site."""
 ```
 
-4. Go to the api search page `https://127.0.0.1:5000/api/records/` and check that it displays only the records owned by the current user
+4. Go to the api search page `https://127.0.0.1:5000/api/records/?prettyprint=1` and check that it displays only the records owned by the current user
 
 5. Go to the UI search page `https://127.0.0.1:5000/search?page=1&size=20&q=` and check that it displays only the records owned by the current user
 
@@ -383,7 +386,7 @@ RECORDS_REST_ENDPOINTS = {
 """REST API for my-site."""
 ```
 
-6. Visit `https://127.0.0.1:5000/search?page=1&size=20&q=` and `https://127.0.0.1:5000/api/records/` as manager user and check if all the records are listed.
+6. Visit `https://127.0.0.1:5000/search?page=1&size=20&q=` and `https://127.0.0.1:5000/api/records/?prettyprint=1` as manager user and check if all the records are listed.
 
 
 ### Explicit access per action type - additional excersize

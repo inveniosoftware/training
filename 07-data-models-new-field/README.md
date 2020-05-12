@@ -42,7 +42,7 @@ We edit the `my_site/records/jsonschemas/records/record-v1.0.0.json` file:
     },
     "id": {
       "description": "Invenio record identifier (integer).",
-      "type": "number"
+      "type": "string"
     },
 +   "owner": {
 +     "type": "integer"

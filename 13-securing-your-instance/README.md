@@ -182,8 +182,7 @@ Where do we allow content in our Invenio instances to be loaded from?
 <div class="container marketing">
   <div class="row">
     <div class="col-lg-12">
--    <h1 class="text-center">Welcome to My site.</h1>
-+    <h1 class="text-center" style="color: red;">Welcome to My site.</h1>
+    <h1 class="text-center">Welcome to My site.</h1>
   </div>
 </div>
 {%- endblock %}

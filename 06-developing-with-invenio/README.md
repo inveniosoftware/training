@@ -75,7 +75,7 @@ To run the tests you can use the test script provided in the repository (the scr
 To run the test functions one by one you should activate the virtualenv of your project and use pytest command, like on the example below:
 
 ```commandline
-(my-site)$ pytest tests/api/test_api_simple_flow::test_record_creation
+(my-site)$ pytest tests/api/test_api_record_files.py::test_record_creation
 ```
 
 > If you get an error `IndexAlreadyExistsError: index/alias with name ... already exists` you have to destroy the development indexes for tests. `invenio index destroy` which takes the optional params `--force` and `--yes-i-know` to skip any confirmation steps.
