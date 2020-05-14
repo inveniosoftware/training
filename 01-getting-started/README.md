@@ -1,16 +1,15 @@
 # Tutorial 01 - Getting started
 
 The goal of this tutorial is to scaffold, install and run your first Invenio
-instance. This step is identical to the [Quickstart](https://invenio.readthedocs.io/en/latest/getting-started/quickstart/installation.html)
+instance. This step is identical to [Quickstart](https://invenio.readthedocs.io/en/latest/quickstart/quickstart.html)
 
 ## Step 1: Prerequisites
 
-First ensure you have prepared your environment according to
-[the guide](../00-prerequisites/).
+Follow the [Prerequisites](../00-prerequisites/) guide to prepare your local environment.
 
 ## Step 2: Checkout source code
 
-First, open a terminal and checkout the trainings' source code:
+Open a terminal and checkout the tutorial's source code:
 
 ```bash
 cd ~/src
@@ -63,13 +62,11 @@ Last, open [https://127.0.0.1:5000/](https://127.0.0.1:5000/) in your browser:
 firefox https://127.0.0.1:5000/
 ```
 
-Firefox and other browsers will display a security warning because we are trying
-to open a secure connection to a server with a self-signed certificate:
+Browsers will display a security warning because we try to open a secure connection to a server with a self-signed certificate:
 
 ![Browser insecure connection warning](security-warning.png)
 
-Simply by pass this warning, by clicking "Advanced" and confirm the certificate
-as an execption. Afterwards, you should now see your first Invenio instance
-running:
+Simply bypass this warning, by clicking "Advanced" and confirm the certificate as an exception.
+Afterwards, you should see your first Invenio instance running:
 
 ![Invenio instance welcome page](mysite-running.png)
