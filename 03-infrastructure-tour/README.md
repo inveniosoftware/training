@@ -130,15 +130,15 @@ the HTTP API exposed at <http://localhost:9200>:
 ```bash
 $ curl localhost:9200
 {
-  "name" : "D0umeI7",
+  "name" : "1d918545d06c",
   "cluster_name" : "docker-cluster",
-  "cluster_uuid" : "78iDs5LMQDS2G2uBySKTaw",
+  "cluster_uuid" : "KXLh0twjTlaF8KdYqzifQQ",
   "version" : {
     "number" : "7.2.0",
     "build_flavor" : "oss",
     "build_type" : "docker",
-    "build_hash" : "a9861f4",
-    "build_date" : "2019-01-24T11:27:09.439740Z",
+    "build_hash" : "508c38a",
+    "build_date" : "2019-06-20T15:54:18.811730Z",
     "build_snapshot" : false,
     "lucene_version" : "8.0.0",
     "minimum_wire_compatibility_version" : "6.8.0",
