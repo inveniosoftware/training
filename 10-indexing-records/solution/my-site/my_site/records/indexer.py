@@ -20,7 +20,6 @@ def indexer_receiver(
     :param doc_type: The doc_type for the record.
     :param arguments: The arguments to pass to Elasticsearch for indexing.
     """
-
     # delete the `keywords` field before indexing
     if 'keywords' in json:
         del json['keywords']
