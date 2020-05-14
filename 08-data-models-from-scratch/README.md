@@ -6,13 +6,21 @@ such as storing and searching.
 
 ## Table of contents
 
+- [Table of contents](#table-of-contents)
 - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
-- [Step 2: Create an Authors flask extension](#step-2-create-an-Authors-flask-extension)
-- [Step 3: Internal representation: JSONSchema and Elasticsearch mappings](#step-3-internal-representation-JSONSchema-and-Elasticsearch-mappings)
-- [Step 4: External representation: loaders and serializers](#step-4-External-representation-loaders-and-serializers)
-- [Step 5: Data validation: Marshmallow](#step-5-Data-validation-Marshmallow)
-- [Step 6: Persistent identifiers](#step-6-Persistent-identifiers)
-- [Step 7: Create an author](#step-7-Create-an-author)
+  - [1.1](#11)
+  - [1.2](#12)
+- [Step 2: Create an `Authors` flask extension](#step-2-create-an-authors-flask-extension)
+  - [Actions](#actions)
+- [Step 3: Internal representation: JSONSchema and Elasticsearch mappings](#step-3-internal-representation-jsonschema-and-elasticsearch-mappings)
+  - [Actions](#actions-1)
+- [Step 4: External representation: loaders and serializers](#step-4-external-representation-loaders-and-serializers)
+  - [Actions](#actions-2)
+- [Step 5: Data validation: Marshmallow](#step-5-data-validation-marshmallow)
+  - [Actions](#actions-3)
+- [Step 6: Persistent identifiers](#step-6-persistent-identifiers)
+  - [Actions](#actions-4)
+- [Step 7: Create an author](#step-7-create-an-author)
 - [What did we learn](#what-did-we-learn)
 
 ## Step 1: Bootstrap exercise
@@ -20,8 +28,8 @@ such as storing and searching.
 If you completed the previous tutorial, you can skip this step. If instead you would like to start from a clean state run the following commands:
 
 ```bash
-$ cd ~/src/training/
-$ ./start-from.sh 07-data-models-new-field
+cd ~/src/training/
+./start-from.sh 07-data-models-new-field
 ```
 ### 1.2
 **Note**: In order to reduce the amount of code that we need to write we have prepared beforehand the module structure in `/08-data-models-from-scratch/author_module` folder in which will go through and **uncomment** the needed code snippets to enable different functionalities and eventually build our module!
@@ -29,7 +37,7 @@ $ ./start-from.sh 07-data-models-new-field
 Run the below command to copy the module over:
 
 ```bash
-$ ./bootstrap.sh
+./bootstrap.sh
 ```
 
 You should now see in your application folder a newly created `authors` folder which will be the module we will develop through this tutorial.
@@ -94,48 +102,48 @@ For creating and registering our **loaders** we should:
 - Uncomment the code in the `my_site/authors/loaders/__init__.py`
 - Uncomment the following lines from `my_site/authors/config.py`.
 
-```diff
-- # record_loaders={
-- #     'application/json': ('my_site.authors.loaders'
-- #                          ':json_v1'),
-- # },
-+ record_loaders={
-+     'application/json': ('my_site.authors.loaders'
-+                          ':json_v1'),
-+ },
-```
+  ```diff
+  - # record_loaders={
+  - #     'application/json': ('my_site.authors.loaders'
+  - #                          ':json_v1'),
+  - # },
+  + record_loaders={
+  +     'application/json': ('my_site.authors.loaders'
+  +                          ':json_v1'),
+  + },
+  ```
 
 For creating and registering the **record serializers** we should:
 
 - Uncomment the `json_v1_response` variable in the `my_site/authors/serializers/__init__.py`
 - Uncomment the following lines from `my_site/authors/config.py`.
 
-```diff
-- # record_serializers={
-- #     'application/json': ('my_site.authors.serializers'
-- #                          ':json_v1_response'),
-- # },
-+ record_serializers={
-+     'application/json': ('my_site.authors.serializers'
-+                          ':json_v1_response'),
-+ },
-```
+  ```diff
+  - # record_serializers={
+  - #     'application/json': ('my_site.authors.serializers'
+  - #                          ':json_v1_response'),
+  - # },
+  + record_serializers={
+  +     'application/json': ('my_site.authors.serializers'
+  +                          ':json_v1_response'),
+  + },
+  ```
 
 For creating and registering the **search serializers** we should:
 
 - Uncomment the `json_v1_search` variable in the `my_site/authors/serializers/__init__.py`
 - Uncomment the following lines from `my_site/authors/config.py`.
 
-```diff
-- # search_serializers={
-- #     'application/json': ('my_site.authors.serializers'
-- #                          ':json_v1_search'),
-- # },
-+ search_serializers={
-+     'application/json': ('my_site.authors.serializers'
-+                          ':json_v1_search'),
-+ },
-```
+  ```diff
+  - # search_serializers={
+  - #     'application/json': ('my_site.authors.serializers'
+  - #                          ':json_v1_search'),
+  - # },
+  + search_serializers={
+  +     'application/json': ('my_site.authors.serializers'
+  +                          ':json_v1_search'),
+  + },
+  ```
 
 During the first step, we registered our **loader** in the configuration of our new `authors` endpoint. Now every time we try to create a new author the loader is going to transform the incoming data to match the internal representation of an author document in our system.
 
@@ -163,30 +171,31 @@ Having identifiers which do not change over time adds certain complexity to the 
 - Uncomment the code in `my_site/authors/minters.py`
 - Uncomment the following lines from `my_site/authors/config.py`:
 
-```diff
-pid_type='authid',
-- # pid_minter='authid',
-- # pid_fetcher='authid',
-+ pid_minter='authid',
-+ pid_fetcher='authid',
-default_endpoint_prefix=True,
-```
+  ```diff
+  pid_type='authid',
+  - # pid_minter='authid',
+  - # pid_fetcher='authid',
+  + pid_minter='authid',
+  + pid_fetcher='authid',
+  default_endpoint_prefix=True,
+  ```
+
 - Uncomment the following lines from `my-site/setup.py`.
 
-```diff
-- # 'invenio_pidstore.fetchers': [
-- #     'authid = my_site.authors.fetchers:author_pid_fetcher'
-- # ],
-- # 'invenio_pidstore.minters': [
-- #     'authid = my_site.authors.minters:author_pid_minter'
-- # ],
-+ 'invenio_pidstore.fetchers': [
-+     'authid = my_site.authors.fetchers:author_pid_fetcher'
-+ ],
-+ 'invenio_pidstore.minters': [
-+     'authid = my_site.authors.minters:author_pid_minter'
-+ ],
-```
+  ```diff
+  - # 'invenio_pidstore.fetchers': [
+  - #     'authid = my_site.authors.fetchers:author_pid_fetcher'
+  - # ],
+  - # 'invenio_pidstore.minters': [
+  - #     'authid = my_site.authors.minters:author_pid_minter'
+  - # ],
+  + 'invenio_pidstore.fetchers': [
+  +     'authid = my_site.authors.fetchers:author_pid_fetcher'
+  + ],
+  + 'invenio_pidstore.minters': [
+  +     'authid = my_site.authors.minters:author_pid_minter'
+  + ],
+  ```
 
 This is how we are registering our new minter and fetcher making them available.
 
@@ -197,9 +206,9 @@ This is how we are registering our new minter and fetcher making them available.
 In order to reflect our changes in the database and Elasticsearch but also to register our new entrypoints in Invenio we need to run the following commands:
 
 ```console
-$ pipenv run pip install -e . # register entrypoints and update our applications code
-$ ./scripts/setup # reset DB and ES, create new index
-$ ./scripts/server # start invenio
+pipenv run pip install -e . # register entrypoints and update our applications code
+./scripts/setup # reset DB and ES, create new index
+./scripts/server # start invenio
 ```
 
 We can now create new authors:
@@ -209,7 +218,6 @@ $ curl -k --header "Content-Type: application/json" \
     --request POST \
     --data '{"name":"John Doe"}' \
     https://127.0.0.1:5000/api/authors/\?prettyprint\=1
-
 {
   "created": "2019-03-17T16:01:07.148176+00:00",
   "id": "1",
@@ -267,16 +275,11 @@ $ curl -k "https://127.0.0.1:5000/api/authors/1?prettyprint=1"
   "id": "1",
   "metadata": {
     "id": "1",
-    "name": "Zacharias"
+    "name": "John Doe"
   },
   "updated": "2019-03-17T15:55:53.927761+00:00"
 }
 ```
-
-TODO add autonomous exercise
-- New serializer to export data in different format
-- Modify loader to do custom validation
-- ...
 
 ## What did we learn
 
