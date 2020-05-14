@@ -6,7 +6,7 @@ balancer, web server, application server and application background workers. We
 will explore tools to interact with the services and we will see monitoring and
 debugging interfaces like Flower, Kibana and the RabbitMQ management interface.
 
-### Table of Contents
+## Table of Contents
 
 - [Step 1: Bring up the full docker-compose setup](#step-1-bring-up-the-full-docker-compose-setup)
 - [Step 2: Access the database (PostgreSQL)](#step-2-access-the-database-postgresql)
@@ -37,7 +37,7 @@ To make sure our instance is running properly, open <https://localhost>
 Here's a full diagram of what the `docker-compose.full.yml` infrastructure
 looks like:
 
-![](./images/diagram.png)
+![Infrastructure diagram](./images/diagram.png)
 
 ## Step 2: Access the database (PostgreSQL)
 
@@ -134,15 +134,15 @@ $ curl localhost:9200
   "cluster_name" : "docker-cluster",
   "cluster_uuid" : "78iDs5LMQDS2G2uBySKTaw",
   "version" : {
-    "number" : "6.6.0",
+    "number" : "7.2.0",
     "build_flavor" : "oss",
-    "build_type" : "tar",
+    "build_type" : "docker",
     "build_hash" : "a9861f4",
     "build_date" : "2019-01-24T11:27:09.439740Z",
     "build_snapshot" : false,
-    "lucene_version" : "7.6.0",
-    "minimum_wire_compatibility_version" : "5.6.0",
-    "minimum_index_compatibility_version" : "5.0.0"
+    "lucene_version" : "8.0.0",
+    "minimum_wire_compatibility_version" : "6.8.0",
+    "minimum_index_compatibility_version" : "6.0.0-beta1"
   },
   "tagline" : "You Know, for Search"
 }
@@ -156,30 +156,30 @@ green  open   .kibana_1             UKkc1n2lS5a-zZu6izIJIg   1   0          0   
 We can also access the instance via the Kibana service container at
 <http://localhost:5601>:
 
-![](./images/kibana.png)
+![Kibana interface](./images/kibana.png)
 
 ## Step 5: Access the message queue (RabbitMQ)
 
 To access the RabbitMQ service, we can use Management Web UI at
 <http://localhost:15672>. The default username/password is `guest`/`guest`:
 
-![](./images/rabbitmq-login.png)
+![Rabbitmq login page](./images/rabbitmq-login.png)
 
-![](./images/rabbitmq.png)
+![Rabbitmq overview page](./images/rabbitmq.png)
 
 An interesting view in the RabbitMQ Management UI is the Queues tab, where you
 can inspect the number of messages and throughput of important queues used by
 Invenio:
 
-![](./images/rabbitmq-queues.png)
+![Rabbitmq queues page](./images/rabbitmq-queues.png)
 
 ## Step 6: Monitor background workers (Flower)
 
-The Invenio instance is making use of Celery workers to run asynchornous
+The Invenio instance is making use of Celery workers to run asynchronous
 background tasks. You can monitor these workers by accessing the Flower
-monitoging UI at <http://localhost:5555>:
+monitoring UI at <http://localhost:5555>:
 
-![](./images/flower.png)
+![Flower interface](./images/flower.png)
 
 ## Step 7: Access the web application(s) (uWSGI)
 
@@ -192,7 +192,7 @@ $ docker-compose -f docker-compose.full.yml exec web-ui bash
 [root@1d5f2e316bdc src]#
 ```
 
-There are two insteresting commands for these type of containers:
+There are two interesting commands for these type of containers:
 
 - `uwsgitop`, for getting a `top`-like overview of the uWSGI web workers
 - `uwsgi_curl`, for making `curl` like requests using the uWSGI protocol
@@ -219,7 +219,7 @@ X-RateLimit-Limit: 5000
 X-RateLimit-Remaining: 4999
 X-RateLimit-Reset: 1552865553
 Retry-After: 3600
-Set-Cookie: session=f22ff41b827e61a4_5c8ecb00.hkULtydCgh-swx8QmHLzhuu-hIo; 
+Set-Cookie: session=f22ff41b827e61a4_5c8ecb00.hkULtydCgh-swx8QmHLzhuu-hIo;
             Expires=Wed, 17-Apr-2019 22:32:32 GMT; Secure; HttpOnly; Path=/
 X-Session-ID: f22ff41b827e61a4_5c8ecb00
 
