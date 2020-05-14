@@ -67,6 +67,7 @@ Babel==2.8.0
 backcall==0.1.0
 base32-lib==1.0.2
 billiard==3.6.3.0
+bleach==3.1.5
 blinker==1.4
 cachelib==0.1
 cchardet==2.1.6
@@ -125,7 +126,6 @@ Commands:
   instance  Instance commands.
   npm       Generate a package.json file.
   pid       PID-Store management commands.
-  records   Records management.
   roles     Role commands.
   routes    Show the routes for the app.
   run       Run a development server.
@@ -305,7 +305,7 @@ Out[3]: <AsyncResult: 3f592586-2b72-4da1-abca-20ac04f7fdd0>
 
 You should be able to see log entries of the task running and finishing:
 
-``` bash
+```bash
 [2019-03-18 14:35:44,679: INFO/MainProcess] Received task: invenio_mail.tasks.send_email[209f9f5d-117d-448b-83f2-cf8d0b5123b1]
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
