@@ -43,7 +43,7 @@ We will clean all the data created before and create some users and records for 
 You should update our `APP_ALLOWED_HOSTS` to the correct value in your production instances. If you try to make a request with different host header than this one you will be blocked.
 
 ```bash
-curl -ki -H "Host: evil.io" https://127.0.0.1:5000/api/records/ -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
+$ curl -ki -H "Host: evil.io" https://127.0.0.1:5000/api/records/ -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
 HTTP/1.0 400 BAD REQUEST
 Content-Type: application/json
 Content-Length: 69
@@ -79,7 +79,7 @@ Lets say now that you allow now  any host in `my_site/config.py`:
 Now potential attackers could inject a host header and make all your self links point to their evil site:
 
 ```bash
-curl -kI -H "Host: evil.io" "https://127.0.0.1:5000/api/records/?prettyprint=1" -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
+$ curl -kI -H "Host: evil.io" "https://127.0.0.1:5000/api/records/?prettyprint=1" -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
 HTTP/1.0 200 OK
 Content-Type: application/json
 Content-Length: 1351
@@ -136,7 +136,7 @@ two servers, the HAProxy load balancer and the Nginx reserve proxy, before arriv
 ## Step 7: Invenio HTTP headers walk-through
 
 ```bash
-curl -kI https://127.0.0.1:5000/api/records/ -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
+$ curl -kI https://127.0.0.1:5000/api/records/ -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
 HTTP/1.0 200 OK
 Content-Type: application/json
 Content-Length: 822
@@ -216,7 +216,7 @@ We should be really careful with what we allow users to upload in our instances,
 
 ## Step 11: Auth workflows
 
-**Server-side rendered applications**
+### Server-side rendered applications
 
 Invenio works currently by rendering the application on server-side using Jinja2 templates.
 
@@ -235,9 +235,9 @@ If we open console in the browser and try to display the cookies, we will only b
 "csrftoken=secretJWTtoken; fldt=hide"
 ```
 
-**Client-side/REST applications**
+### Client-side/REST applications
 
-The behaviour when building a single app application should be the same as the one currently used in Invenio. The _Secure_ and _HttpOnly_ session cookie plus a JWT as CSRF.
+The behavior when building a single app application should be the same as the one currently used in Invenio. The _Secure_ and _HttpOnly_ session cookie plus a JWT as CSRF.
 
 This JWT token is compatible with REST applications since it holds all necessary data to identify the user allowing a stateful communication between frontend and backend.
 
@@ -250,15 +250,15 @@ We have been using access tokens during the exercises, but if you want to create
 Or through the command line interface:
 
 ```bash
-my-site tokens create -n tokenname -u <username>
+$ my-site tokens create -n tokenname -u <username>
 newsupersecrettoken
 ```
 
 Once you have your token you can start doing authenticated requests by adding the token in the HTTP header:
 
 ```bash
-export MY_SITE_ACCESS_TOKEN=newsupersecrettoken
-curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization: Bearer $MY_SITE_ACCESS_TOKEN"
+$ export MY_SITE_ACCESS_TOKEN=newsupersecrettoken
+$ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization: Bearer $MY_SITE_ACCESS_TOKEN"
 {
   "created": "2019-03-17T08:32:29.935720+00:00",
   "id": "2",
@@ -293,14 +293,14 @@ sed -i "s/$NEW_SECRET_KEY/$EVEN_NEWER_SECRET_KEY/g" my_site/config.py
 If we just change the secret key, our users will not be able to use their credentials:
 
 ```bash
-curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization: Bearer $MY_SITE_ACCESS_TOKEN"
+$ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization: Bearer $MY_SITE_ACCESS_TOKEN"
 {"message":"The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required.","status":401}
 ```
 
 We need to migrate all tokens:
 
 ```bash
-my-site instance migrate-secret-key --old-key $NEW_SECRET_KEY
+$ my-site instance migrate-secret-key --old-key $NEW_SECRET_KEY
 Successfully changed secret key.
 curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization: Bearer $MY_SITE_ACCESS_TOKEN"
 {
@@ -328,9 +328,9 @@ We should do all together to minimize downtime. We first change secret key, we m
 
 ## What did we learn
 
-* How to securely configure Invenio
-* Why Invenio behaves like it does by default, HTTP headers
-* How Invenio handles CSP rules
-* How to keep your Invenio instance up to date and free of vulnerable packages
-* How Invenio will take care of serving files (potential vector of attack) but for now you should take care of it yourself
-* How auth workflows work in Invenio
+- How to securely configure Invenio
+- Why Invenio behaves like it does by default, HTTP headers
+- How Invenio handles CSP rules
+- How to keep your Invenio instance up to date and free of vulnerable packages
+- How Invenio will take care of serving files (potential vector of attack) but for now you should take care of it yourself
+- How auth workflows work in Invenio
