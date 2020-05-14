@@ -2,7 +2,7 @@
 
 In this session, we will present how to tune deployment configuration of each part of the infrastructure and how to size it to be able to serve a targeted number of requests. We will also explain what to monitor and a few tips on how to take advantage of logging.
 
-### Table of Contents
+## Table of Contents
 
 - [Step 1: Benchmark](#benchmark)
 - [Step 2: Sentry configuration](#step-2-example-of-sentry-configuration)
