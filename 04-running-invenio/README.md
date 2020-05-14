@@ -3,7 +3,7 @@
 In this session, we will explore basic concepts and commands that are useful
 for the day-to-day development and running of an Invenio instance.
 
-### Table of Contents
+## Table of Contents
 
 - [Step 1: Bring up the basic/development docker-compose setup](#step-1-bring-up-the-basicdevelopment-docker-compose-setup)
 - [Step 2: Understanding your Python environment](#step-2-understanding-your-python-environment)
@@ -55,21 +55,22 @@ $ pipenv shell
 Python 3.6.7
 (my-site) $ pip freeze  # let's see what packages were installed
 alabaster==0.7.12
-alembic==1.0.8
-amqp==2.4.2
+alembic==1.4.2
+amqp==2.5.2
 angular-gettext-babel==0.3
+aniso8601==8.0.0
 apipkg==1.5
-arrow==0.13.1
-asn1crypto==0.24.0
-atomicwrites==1.3.0
-attrs==19.1.0
-Babel==2.6.0
+appnope==0.1.0
+arrow==0.15.6
+attrs==19.3.0
+Babel==2.8.0
 backcall==0.1.0
-billiard==3.5.0.5
-binaryornot==0.4.4
-bleach==3.1.0
+base32-lib==1.0.2
+billiard==3.6.3.0
 blinker==1.4
-celery==4.2.1
+cachelib==0.1
+cchardet==2.1.6
+celery==4.4.2
 ...
 ```
 
@@ -119,6 +120,7 @@ Commands:
   assets    Web assets commands.
   collect   Collect static files.
   db        Database commands.
+  files     File management commands.
   index     Manage search indices.
   instance  Instance commands.
   npm       Generate a package.json file.
@@ -126,7 +128,7 @@ Commands:
   records   Records management.
   roles     Role commands.
   routes    Show the routes for the app.
-  run       Runs a development server.
+  run       Run a development server.
   shell     Runs a shell in the app context.
   tokens    OAuth2 server token commands.
   users     User commands.
@@ -148,7 +150,7 @@ IPython: 7.3.0
 App: invenio
 Instance: /home/bootcamp/.local/share/virtualenvs/my-site-7Oi5HgLM/var/instance
 In [1]: app.config
-Out[1]: {'ACCOUNTS_BASE_TEMPLATE': 'my_site/page.html',
+Out[1]: <Config {'ACCOUNTS_BASE_TEMPLATE': 'my_site/page.html',
  'ACCOUNTS_COVER_TEMPLATE': 'invenio_theme/page_cover.html',
  'ACCOUNTS_SESSION_REDIS_URL': 'redis://localhost:6379/1',
  'ACCOUNTS_SETTINGS_TEMPLATE': 'invenio_theme/page_settings.html',
@@ -157,7 +159,7 @@ Out[1]: {'ACCOUNTS_BASE_TEMPLATE': 'my_site/page.html',
  'ACCOUNTS_USE_CELERY': True,
  'ADMIN_BASE_TEMPLATE': 'invenio_theme/page_admin.html',
  'ADMIN_LOGIN_ENDPOINT': 'security.login',
- ... }
+ ... }>
 
 In [2]: from invenio_accounts.models import User
 In [3]: User.query.all()
@@ -223,7 +225,8 @@ $ curl -k https://localhost:5000/api/records/?prettyprint=1
   "aggregations": {...},
   "hits": {
     "hits": [...]
-  }
+  },
+  "links": {...}
 }
 ```
 
@@ -302,7 +305,7 @@ Out[3]: <AsyncResult: 3f592586-2b72-4da1-abca-20ac04f7fdd0>
 
 You should be able to see log entries of the task running and finishing:
 
-```
+``` bash
 [2019-03-18 14:35:44,679: INFO/MainProcess] Received task: invenio_mail.tasks.send_email[209f9f5d-117d-448b-83f2-cf8d0b5123b1]
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
