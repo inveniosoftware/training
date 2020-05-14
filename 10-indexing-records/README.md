@@ -2,7 +2,7 @@
 
 The goal of this tutorial is to learn how to take advantage of Elasticsearch by manipulating records fields when indexing.
 
-### Table of Contents
+## Table of Contents
 
 - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
 - [Step 2: Modify the record before indexing](#step-2-modify-the-record-before-indexing)
@@ -62,7 +62,7 @@ $ ./start-from.sh 09-deposit-form
 We are going to take advantage of the `invenio-indexer` signal [before_record_index](https://github.com/inveniosoftware/invenio-indexer/blob/master/invenio_indexer/signals.py) to modify the record fields before indexing.
 This signal [is called](https://github.com/inveniosoftware/invenio-indexer/blob/master/invenio_indexer/api.py#L305) every time and just before indexing a record.
 
-Create a new file `indexer.py` and copy the following code:
+If it doesn't exist, create a new file `indexer.py` and copy the following code:
 
 `my-site/my_site/records/indexer.py`
 
@@ -100,7 +100,7 @@ def indexer_receiver(
 
 ```
 
-Now we need to register the signal in our Invenio instance. Change the `ext.py` to connect the signal.
+Now we need to register the signal in our Invenio instance. We have to connect the signal with our indexer at `ext.py` in the `init_app` of our extension.
 
 `my-site/my_site/records/ext.py`
 
@@ -122,7 +122,7 @@ from . import config
 
 Finally, let's change the Elasticsearch mappings to update the fields that we have changed.
 
-`my-site/my_site/records/mappings/v6/records/record-v1.0.0.json`
+`my-site/my_site/records/mappings/v7/records/record-v1.0.0.json`
 
 ```diff
          "id": {
@@ -173,7 +173,7 @@ $ pipenv run invenio index reindex --pid-type recid --yes-i-know
 $ pipenv run invenio index run
 ```
 
-We can now create a new record, using the deposit of the previous exercise, and verify that in Elasticsearch we will can see the modified fields.
+We can now create a new record, using the deposit of the previous exercise, and verify that in Elasticsearch we can see the modified fields.
 
 ```bash
 $ ./scripts/server
