@@ -10,7 +10,7 @@ First ensure you have prepared your environment according to
 
 ## Step 2: Checkout source code
 
-First, open a terminal and checkout the tutorials source code:
+First, open a terminal and checkout the trainings' source code:
 
 ```bash
 $ cd ~/src
@@ -25,12 +25,12 @@ use: Ctrl+Shift+V (paste), Ctrl+Shift+C (copy), Ctrl+Shift+X (cut).
 Scaffold the skeleton for your first Invenio instance:
 
 ```bash
-$ cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c v3.1 --no-input
+$ cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c v3.2 --no-input
 ```
 
 ## Step 4: Install
 
-Start the database, Elasticsearch, RabbitMQ and Redis cache using Docker:
+Navigate to the scaffolded code, and start the Docker services (database, Elasticsearch, RabbitMQ and Redis cache):
 
 ```bash
 $ cd my-site
@@ -57,7 +57,7 @@ Start a development server and background job worker:
 $ ./scripts/server
 ```
 
-Last, open https://127.0.0.1:5000/ in your browser:
+Last, open [https://127.0.0.1:5000/](https://127.0.0.1:5000/) in your browser:
 
 ```bash
 $ firefox https://127.0.0.1:5000/
@@ -66,10 +66,10 @@ $ firefox https://127.0.0.1:5000/
 Firefox and other browsers will display a security warning because we are trying
 to open a secure connection to a server with a self-signed certificate:
 
-![](security-warning.png)
+![Browser insecure connection warning](security-warning.png)
 
 Simply by pass this warning, by clicking "Advanced" and confirm the certificate
 as an execption. Afterwards, you should now see your first Invenio instance
 running:
 
-![](mysite-running.png)
+![Invenio instance welcome page](mysite-running.png)
