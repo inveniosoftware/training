@@ -153,6 +153,7 @@ Now you should see an output similar to the below:
     "self": "https://localhost:5000/api/records/1"
   },
   "metadata": {
+    "$schema": "https://my-site.com/schemas/records/record-v1.0.0.json",
     "contributors": [
       {
         "name": "Doe, John"
