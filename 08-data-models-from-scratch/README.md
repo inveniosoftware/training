@@ -4,7 +4,7 @@ In this session we will learn how to build a new data model from scratch. During
 process we will see how to create a new REST **module** for our model and provide functionalities
 such as storing and searching.
 
-### Table of contents
+## Table of contents
 
 - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
 - [Step 2: Create an Authors flask extension](#step-2-create-an-Authors-flask-extension)
@@ -42,6 +42,7 @@ First thing we need to do is to create an extension called `Authors` and registe
 
 - Uncomment the code we find in the `my_site/authors/ext.py`
 - Uncomment in the `setup.py` the following section:
+
   ```diff
    'invenio_base.api_apps': [
         'my_site = my_site.records:Mysite',
@@ -55,7 +56,6 @@ First thing we need to do is to create an extension called `Authors` and registe
 ## Step 3: Internal representation: JSONSchema and Elasticsearch mappings
 
 Now that we have our extension registered, we need to tell Invenio how the internal representation of our data model is. To do so, we use [a JSONSchema](author_module/my_site/authors/jsonschemas/authors/author-v1.0.0.json) and [an Elasticsearch mapping](author_module/my_site/authors/mappings/v7/authors/author-v1.0.0.json): the former to validate the internal JSON format and the latter to tell Elasticsearch what shape our data model has so it can handle correctly its values.
-
 
 ### Actions
 
@@ -82,7 +82,6 @@ Now that we have our extension registered, we need to tell Invenio how the inter
     ```
 
 By doing this we told Invenio to register our new schema and mapping. We are also defining the name of the Elasticsearch index which will be created to enable author search.
-
 
 ## Step 4: External representation: loaders and serializers
 
@@ -142,7 +141,6 @@ During the first step, we registered our **loader** in the configuration of our 
 
 In the upcoming steps, we created and registered our serializers. We split them into two categories: **Record serializers** and **Search serializers**. The first is used to **serialize** the internal representation of one specific record (e.g author) while the latter is transforming each record result of a search. They are capable of doing that by using again a `Marshmallow` schema which we will explain in detail in the next section.
 
-
 ## Step 5: Data validation: Marshmallow
 
 In the previous section we have configured loaders and serializers but we also started to configure our first validation check by making reference to two Marshmallow schemas. These schemas will make sure that the data has the correct format both when it arrives to the system and when it is returned to the user.
@@ -152,7 +150,6 @@ In the previous section we have configured loaders and serializers but we also s
 - Uncomment the code in the `my_site/authors/marshmallow/json.py`
 
 Here we have added two classes which we made reference in the previous step, `AuthorMetadataSchemaV1` and `AuthorSchemaV1`. The first will take care of validating incoming author metadata and the second will take care of validating the author output format. Marshmallow is not mandatory, but highly recommended since it can do from simple validations to complex ones, for more information visit [Marshmallow documentation](https://marshmallow.readthedocs.io/en/2.x-line/).
-
 
 ## Step 6: Persistent identifiers
 
@@ -195,7 +192,6 @@ This is how we are registering our new minter and fetcher making them available.
 
 **Important**: the value of the `pid_minter` and the `pid_fetcher` defined in `config.py` should match exactly with the entrypoint names defined in `setup.py`. Also, we should make sure that the `pid_type` value and the `RECORDS_REST_ENDPOINTS` endpoint key match exactly.
 
-
 ## Step 7: Create an author
 
 In order to reflect our changes in the database and Elasticsearch but also to register our new entrypoints in Invenio we need to run the following commands:
@@ -211,7 +207,7 @@ We can now create new authors:
 ```bash
 $ curl -k --header "Content-Type: application/json" \
     --request POST \
-    --data '{"name":"Zacharias"}' \
+    --data '{"name":"John Doe"}' \
     https://127.0.0.1:5000/api/authors/\?prettyprint\=1
 
 {
@@ -219,7 +215,7 @@ $ curl -k --header "Content-Type: application/json" \
   "id": "1",
   "metadata": {
     "id": "1",
-    "name": "Zacharias"
+    "name": "John Doe"
   },
   "updated": "2019-03-17T16:01:07.148181+00:00"
 }
@@ -235,7 +231,7 @@ $ curl -k "https://127.0.0.1:5000/api/authors/?prettyprint=1"
       "buckets": [
         {
           "doc_count": 1,
-          "key": "Zacharias"
+          "key": "John Doe"
         }
       ],
       "doc_count_error_upper_bound": 0,
@@ -249,7 +245,7 @@ $ curl -k "https://127.0.0.1:5000/api/authors/?prettyprint=1"
         "id": "1",
         "metadata": {
           "id": "1",
-          "name": "Zacharias"
+          "name": "John Doe"
         },
         "updated": "2019-03-17T15:55:53.927761+00:00"
       }
