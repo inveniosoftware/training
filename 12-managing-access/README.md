@@ -4,13 +4,13 @@
 - [Step 1 - Allow for access only from the owner](#step-1---allow-for-access-only-from-the-owner)
 - [Step 2 - search filter](#step-2---search-filter)
 - [Step 3 - Create permissions](#step-3---create-permissions)
-- [Extras - Additional excersises](#extras)
+- [Extras - Additional exercises](#extras)
 
 The goal of this tutorial is to implement record access permissions in simple and complicated cases.
 
 Prerequisites:
-1. previous steps with owner field
 
+1. previous steps with owner field
 2. at least two different users
 
 ```commandline
@@ -19,7 +19,7 @@ my-site users create manager@test.ch -a --password=123456 # create admin user ID
 my-site users create visitor@test.ch -a --password=123456 # create visitor user ID 3
 ```
 
-2. at least two records
+3. at least two records
 
 ```commandline
 curl -k --header "Content-Type: application/json" --request POST --data '{"title":"My test record", "contributors": [{"name": "Doe, John"}], "owner": 1}' https://localhost:5000/api/records/?prettyprint=1
@@ -31,6 +31,7 @@ curl -k --header "Content-Type: application/json" --request POST --data '{"title
 ## Step 1 - Allow for access only from the owner
 
 ### Use case:
+
 Restrict the access to read, edit and delete action for the record only to its owner.
 
 1. We implement the permission factory. The permission requires a need to be fulfilled by a user for a record. In this case we remember that:
@@ -222,7 +223,7 @@ RECORDS_REST_ENDPOINTS = {
 
 ### Use case: restrict creation of records to authenticated users
 
-1. Implement the permission factory in `my_site/records/permissions.py` 
+1. Implement the permission factory in `my_site/records/permissions.py`
 
 ```python
 from invenio_access import Permission, authenticated_user
