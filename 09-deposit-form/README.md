@@ -4,28 +4,30 @@ The goal of this tutorial is to learn how we can build a new simple form to be a
 
 ## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
 - [Step 2: Create a simple form](#step-2-create-a-simple-form)
 - [Step 3: Display the form](#step-3-display-the-form)
 - [Step 4: Create the submitted record](#step-4-create-the-submitted-record)
 - [Step 5: Update the entrypoints](#step-5-update-the-entrypoints)
-- [Step 6: Try it!](#step-6-try-it)
+- [Step 6: Try it](#step-6-try-it)
 - [What did we learn](#what-did-we-learn)
 
 We now have to enable users to deposit new records. For this exercise, we won't use what `invenio-records-rest` already provides out-of-the-box, but we will implement a custom view.
 
 We will need:
-* to render a simple form to create a record, where the user can input the value of each field
-* a new view where to post the form, validate the input and create the new record
-* a new view to display a success message or an error
+
+- to render a simple form to create a record, where the user can input the value of each field
+- a new view where to post the form, validate the input and create the new record
+- a new view to display a success message or an error
 
 ## Step 1: Bootstrap exercise
 
 If you completed the previous tutorial, you can skip this step. If instead you would like to start from a clean state run the following commands:
 
 ```bash
-$ cd ~/src/training/
-$ ./start-from.sh 08-data-models-from-scratch
+cd ~/src/training/
+./start-from.sh 08-data-models-from-scratch
 ```
 
 ## Step 2: Create a simple form
@@ -122,7 +124,7 @@ def success():
     return render_template('deposit/success.html')
 ```
 
-Templates creation: create a folder `templates` and a subfolder `deposit` (the name of the blueprint). Then, inside, two html files (our Jinja templates): `create.html` and `success.html`.
+Templates creation: create a folder `templates` and a sub folder `deposit` (the name of the blueprint). Then, inside, two html files (our Jinja templates): `create.html` and `success.html`.
 
 `my-site/my_site/deposit/templates/deposit/create.html`
 
@@ -245,25 +247,25 @@ Add this in `my-site/setup.py`:
 Re-install the app to register the entrypoints:
 
 ```bash
-$ pipenv run pip install -e .
+pipenv run pip install -e .
 ```
 
 Finally, let's create an user to access to the protected form.
 
 ```bash
-$ pipenv run my-site users create deposit@test.ch -a --password=123456
+pipenv run my-site users create deposit@invenio.org -a --password=123456
 ```
 
-## Step 6: Try it!
+## Step 6: Try it
 
-Try it! Ensure `docker-compose` is running and **restart** the server (if not done already automatically) and visit <https://127.0.0.1:5000/deposit/create>:
+Ensure `docker-compose` is running and **restart** the server (if not done already automatically) and visit <https://127.0.0.1:5000/deposit/create>:
 
 ```bash
-$ ./scripts/server
-$ firefox https://127.0.0.1:5000/deposit/create
+./scripts/server
+firefox https://127.0.0.1:5000/deposit/create
 ```
 
-Login with the credentials set before: username `deposit@test.ch` and password `123456`.
+Login with the credentials set before: username `deposit@invenio.org` and password `123456`.
 Now, create a record by entering some data and submitting the form.
 
 ![Deposit form page](./images/form.png)
@@ -275,7 +277,7 @@ Hit the `Create` button! You should see the `Success` message.
 Finally, you can visit <https://127.0.0.1:5000/api/records/?prettyprint=1> to verify it is indexed correctly:
 
 ```bash
-$ firefox https://127.0.0.1:5000/api/records/?prettyprint=1
+firefox https://127.0.0.1:5000/api/records/?prettyprint=1
 ```
 
 ![JSON api response](./images/result.png)
