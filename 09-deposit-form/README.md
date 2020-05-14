@@ -2,7 +2,7 @@
 
 The goal of this tutorial is to learn how we can build a new simple form to be able to deposit new records. The `invenio-deposit` module is not in the scope of this exercise.
 
-### Table of Contents
+## Table of Contents
 
 - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
 - [Step 2: Create a simple form](#step-2-create-a-simple-form)
@@ -13,6 +13,7 @@ The goal of this tutorial is to learn how we can build a new simple form to be a
 - [What did we learn](#what-did-we-learn)
 
 We now have to enable users to deposit new records. For this exercise, we won't use what `invenio-records-rest` already provides out-of-the-box, but we will implement a custom view.
+
 We will need:
 * to render a simple form to create a record, where the user can input the value of each field
 * a new view where to post the form, validate the input and create the new record
@@ -64,7 +65,7 @@ class RecordForm(FlaskForm):
 
 ## Step 3: Display the form
 
-We have to create a new view for the form. We will take advantage of the HTTP verbs `GET`, to render the form, and `POST`, to handle the submitted data. We are also going to protect the view with the `login_required` decorator: in this way, Invenio will redirect to the login view if the user is anoymous and we can then set the owner of the newly created record to the id of the logged in user.
+We have to create a new view for the form. We will take advantage of the HTTP verbs `GET`, to render the form, and `POST`, to handle the submitted data. We are also going to protect the view with the `login_required` decorator: in this way, Invenio will redirect to the login view if the user is anonymous and we can then set the owner of the newly created record to the id of the logged in user.
 
 `my-site/my_site/deposit/views.py`
 
@@ -97,7 +98,7 @@ def create():
     form = RecordForm()
     # if the form is submitted and valid
     if form.validate_on_submit():
-        # we creare one contributor object with the submitted name
+        # we create one contributor object with the submitted name
         contributors = [dict(name=form.contributor_name.data)]
         # set the owner as the current logged in user
         owner = int(current_user.get_id())
@@ -189,7 +190,7 @@ Templates creation: create a folder `templates` and a subfolder `deposit` (the n
 
 ## Step 4: Create the submitted record
 
-We will now implement the `create_record` method: its responsabilities are to create the record in the database, mint a new persistent identifier and index it to make it searchable.
+We will now implement the `create_record` method: its responsibilities are to create the record in the database, mint a new persistent identifier and index it to make it searchable.
 
 `my-site/my_site/deposit/api.py`
 
@@ -255,7 +256,7 @@ $ pipenv run my-site users create deposit@test.ch -a --password=123456
 
 ## Step 6: Try it!
 
-Try it! Ensure `docker-compose` is running and **restart** the server (if not done already automatically):
+Try it! Ensure `docker-compose` is running and **restart** the server (if not done already automatically) and visit <https://127.0.0.1:5000/deposit/create>:
 
 ```bash
 $ ./scripts/server
@@ -265,19 +266,19 @@ $ firefox https://127.0.0.1:5000/deposit/create
 Login with the credentials set before: username `deposit@test.ch` and password `123456`.
 Now, create a record by entering some data and submitting the form.
 
-![](./images/form.png)
+![Deposit form page](./images/form.png)
 
 Hit the `Create` button! You should see the `Success` message.
 
-![](./images/success.png)
+![Record create success](./images/success.png)
 
-Finally, verify it is indexed correctly:
+Finally, you can visit <https://127.0.0.1:5000/api/records/?prettyprint=1> to verify it is indexed correctly:
 
 ```bash
 $ firefox https://127.0.0.1:5000/api/records/?prettyprint=1
 ```
 
-![](./images/result.png)
+![JSON api response](./images/result.png)
 
 ## What did we learn
 
