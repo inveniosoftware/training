@@ -4,7 +4,7 @@ In this session we will customize minor visual elements of our Invenio
 instance, like the logo of our instance, the colors and fonts, the way search
 results for records are displayed and the display page for every record.
 
-### Table of Contents
+## Table of Contents
 
 - [Step 1: Run the development server](#step-1-run-the-development-server)
 - [Step 2: Change the frontpage titles](#step-2-change-the-frontpage-titles)
@@ -62,7 +62,7 @@ editing `my_site/theme/templates/my_site/frontpage.html`:
 
 If you now go to <https://localhost:5000/> you will see the changed titles:
 
-![](./images/frontpage-title.png)
+![Invenio front page](./images/frontpage-title.png)
 
 ## Step 3: Change the site logo
 
@@ -101,7 +101,7 @@ THEME_FRONTPAGE_TEMPLATE = 'my_site/frontpage.html'
 
 If you reload the page you will see the new logo on the top left:
 
-![](./images/frontpage-logo.png)
+![Invenio front page logo](./images/frontpage-logo.png)
 
 ## Step 4: Change the theme color
 
@@ -134,14 +134,14 @@ webpack` command:
 
 If we reload our page now we should see our brand new design:
 
-![](./images/frontpage-color.png)
+![Invenio front page with purple background](./images/frontpage-color.png)
 
 ## Step 5: Change how record search results are displayed
 
 If you navigate to the search results page (<https://localhost:5000/search>)
 you can see the following:
 
-![](./images/search-old.png)
+![Search page result list](./images/search-old.png)
 
 Let's change the way the title and authors of each result look like. The
 current search UI application is built with AngularJS and its various
@@ -174,14 +174,14 @@ Copied: [my_site_records] '/home/bootcamp/.local/share/virtualenvs/my-site-7Oi5H
 
 And now, if we refresh we'll see that our search results display differently:
 
-![](./images/search-new.png)
+![Invenio page result list with strong and emphasis styles](./images/search-new.png)
 
 ## Step 6: Change the record page
 
 If you actually click on one of the search results you will be redirected to
 the record's page:
 
-![](./images/record-old.png)
+![Record details page](./images/record-old.png)
 
 To change this view we'll have to modify the Jinja template that renders the
 page, `my_site/records/templates/records/record.html`. Let's to something
@@ -206,4 +206,4 @@ similar to what we did with the search results:
 
 If you refresh the record's page you'll see something like this:
 
-![](./images/record-new.png)
+![Record details page with styles](./images/record-new.png)
