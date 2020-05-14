@@ -1,8 +1,9 @@
-## Tutorial 13 - Securing your Invenio instance
+# Tutorial 13 - Securing your Invenio instance
 
 In this session, you will discover the key points which will ensure that your Invenio instances are secure. You will learn how to protect the web application with configuration, package management and authentication.
 
-Table of contents:
+## Table of contents:
+
 - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
 - [Step 2: Lets create some demo data](#step-2-lets-create-some-demo-data)
 - [Step 3: Configuration - allowed hosts](#step-3-Configuration-allowed-hosts)
@@ -188,7 +189,7 @@ Where do we allow content in our Invenio instances to be loaded from?
 {%- endblock %}
 ```
 
-![](csp-rule.png)
+![Content security policy console error](csp-rule.png)
 
 Note: It is possible to run into problems regarding CSP rules when dealing with third party libraries such as Flask-Admin, which provides a part of the application's UI. Something similar to [this](https://github.com/inveniosoftware/invenio-admin/commit/0d4ef61040e2db5183ba59e93d64ec4242f752f3) can be done.
 
@@ -245,7 +246,7 @@ This JWT token is compatible with REST applications since it holds all necessary
 
 We have been using access tokens during the exercises, but if you want to create them yourself you can do it through the user interface:
 
-![](token-ui.png)
+![Settings page, applications tab, token management](token-ui.png)
 
 Or through the command line interface:
 
