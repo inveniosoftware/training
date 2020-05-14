@@ -6,10 +6,11 @@ Moreover, we will learn how [`Marshmallow`](https://marshmallow.readthedocs.io) 
 
 ## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
-- [Step 2: Update the JSONSchema](#step-2-update-the-JSONSchema)
-- [Step 3: Update the Elasticsearch mapping](#step-3-update-the-Elasticsearch-mapping)
-- [Step 4: Update the Marshmallow schema](#step-4-update-the-Marshmallow-schema)
+- [Step 2: Update the JSONSchema](#step-2-update-the-jsonschema)
+- [Step 3: Update the Elasticsearch mapping](#step-3-update-the-elasticsearch-mapping)
+- [Step 4: Update the Marshmallow schema](#step-4-update-the-marshmallow-schema)
 - [Step 5: Create a new record including our new field](#step-5-create-a-new-record-including-our-new-field)
 - [Step 6: Search for our new record](#step-6-search-for-our-new-record)
 - [Step 7: Manipulate response using serializers](#step-7-manipulate-response-using-serializers)
@@ -20,8 +21,8 @@ Moreover, we will learn how [`Marshmallow`](https://marshmallow.readthedocs.io) 
 If you completed the previous tutorial, you can skip this step. If instead you would like to start from a clean state run the following commands:
 
 ```bash
-$ cd ~/src/training/
-$ ./start-from.sh 05-customizing-invenio
+cd ~/src/training/
+./start-from.sh 05-customizing-invenio
 ```
 
 ## Step 2: Update the JSONSchema
@@ -98,7 +99,7 @@ class MetadataSchemaV1(StrictKeysMixin):
 Now in order to **reflect our changes** in our system we will have to run the following command:
 
 ```bash
-$ ./scripts/setup
+./scripts/setup
 ```
 
 We have created and started a new DB and ES along with the updated schemas and mappings.
@@ -114,7 +115,7 @@ $ ./scripts/server
 Run the below command to create our new record:
 
 ```bash
-$ curl -k --header "Content-Type: application/json" \
+curl -k --header "Content-Type: application/json" \
   --request POST \
   --data '{"title":"Some title", "contributors": [{"name": "Doe, John"}], "owner": "owner"}' \
   https://localhost:5000/api/records/?prettyprint=1
@@ -145,7 +146,7 @@ By having that in mind, when we did our request our loader used the marshmallow 
 So now let's fix the data we sent before and create our record!
 
 ```bash
-$ curl -k --header "Content-Type: application/json" \
+curl -k --header "Content-Type: application/json" \
   --request POST \
   --data '{"title":"Some title", "contributors": [{"name": "Doe, John"}], "owner": 1}' \
   https://localhost:5000/api/records/?prettyprint=1
