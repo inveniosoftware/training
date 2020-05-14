@@ -139,7 +139,7 @@ Restrict the access to read, edit and delete action for the record only to its o
 The details pages of records are now protected. But if we visit `/search?page=1&size=20&q=`, all the records are still visible in the search page. The same is true for the REST API: `/api/records/`. We would like to hide the results from search if they are not owned by the current user.
 
 1. We implement a search filter that will display records in the search results only to their owner.
-Let' s create `my_site/records/search.py`:
+    Let' s create `my_site/records/search.py`:
 
     ```python
     from elasticsearch_dsl import Q
@@ -315,7 +315,6 @@ Use case: We would like to allow our site's managers to edit and delete records
     def owner_manager_permission_factory(record=None):
         """Returns permission for managers group."""
         return Permission(UserNeed(record["owner"]), RoleNeed('managers'))
-
     ```
 
 4. Implement search filter for role and owner
@@ -341,7 +340,6 @@ Use case: We would like to allow our site's managers to edit and delete records
             index = 'records'
             default_filter = DefaultFilter(owner_manager_permission_filter)
             doc_types = None
-
     ```
 
 5. Update the configuration file with your new filter and factory
