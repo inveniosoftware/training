@@ -1,67 +1,65 @@
 {
   "mappings": {
-    "record-v1.0.0": {
-      "date_detection": false,
-      "numeric_detection": false,
-      "properties": {
-        "$schema": {
-          "type": "text",
-          "index": false
-        },
-        "title": {
-          "type": "text",
-          "copy_to": "suggest_title"
-        },
-        "suggest_title": {
-          "type": "completion"
-        },
-        "id": {
-          "type": "keyword"
-        },
-        "owner": {
-          "type": "integer"
-        },
-        "keywords": {
-          "type": "keyword"
-        },
-        "publication_date": {
-          "type": "date",
-          "format": "date"
-        },
-        "contributors": {
-          "type": "object",
-          "properties": {
-            "ids": {
-              "type": "object",
-              "properties": {
-                "source": {
-                  "type": "text"
-                },
-                "value": {
-                  "type": "keyword"
-                }
+    "date_detection": false,
+    "numeric_detection": false,
+    "properties": {
+      "$schema": {
+        "type": "text",
+        "index": false
+      },
+      "title": {
+        "type": "text",
+        "copy_to": "suggest_title"
+      },
+      "suggest_title": {
+        "type": "completion"
+      },
+      "id": {
+        "type": "keyword"
+      },
+      "owner": {
+        "type": "integer"
+      },
+      "keywords": {
+        "type": "keyword"
+      },
+      "publication_date": {
+        "type": "date",
+        "format": "date"
+      },
+      "contributors": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "text"
+              },
+              "value": {
+                "type": "keyword"
               }
-            },
-            "affiliations": {
-              "type": "text"
-            },
-            "role": {
-              "type": "keyword"
-            },
-            "email": {
-              "type": "text"
-            },
-            "name": {
-              "type": "text"
             }
+          },
+          "affiliations": {
+            "type": "text"
+          },
+          "role": {
+            "type": "keyword"
+          },
+          "email": {
+            "type": "text"
+          },
+          "name": {
+            "type": "text"
           }
-        },
-        "_created": {
-          "type": "date"
-        },
-        "_updated": {
-          "type": "date"
         }
+      },
+      "_created": {
+        "type": "date"
+      },
+      "_updated": {
+        "type": "date"
       }
     }
   }
