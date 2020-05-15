@@ -32,7 +32,7 @@ cd "$invenio_src_folder"
 
 # Bootstrap Invenio instance
 echo "Boostrapping Invenio on $invenio_instance_folder."
-cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c v3.2 --no-input
+cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c v3.3 --no-input
 
 # Reinstalling appliation with preivious steps solutions
 cp -R "$invenio_training_folder/$exercise_tutorial_folder/solution/my-site/" "$invenio_instance_folder"
