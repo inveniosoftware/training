@@ -25,7 +25,7 @@ Let's install `locust` in our virtualenv and run the server.
 
 ```bash
 $ cd ~/src/my-site
-$ pipenv run pip install locustio
+$ pipenv run pip install locust
 $ ./scripts/server
 ```
 
