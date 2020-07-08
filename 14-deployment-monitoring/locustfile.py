@@ -1,4 +1,4 @@
-from locust import HttpLocust, TaskSet, task
+from locust import HttpUser, TaskSet, task
 
 
 class AnonymousWebsiteTasks(TaskSet):
@@ -14,13 +14,13 @@ class AnonymousWebsiteTasks(TaskSet):
         self.client.get(self.base_url)
 
 
-class WebsiteUser(HttpLocust):
+class WebsiteUser(HttpUser):
     """Locust.
 
     To run it, just `locust --host=https://127.0.0.1:5000/` and
     open the browser `http://127.0.0.1:8089/`
     """
 
-    task_set = AnonymousWebsiteTasks
+    tasks = [AnonymousWebsiteTasks]
     min_wait = 5000
     max_wait = 15000
