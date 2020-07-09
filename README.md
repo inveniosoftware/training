@@ -10,8 +10,7 @@ to your new and very nice colleagues.
 ## Prerequisites
 
 Before starting on the tutorials, make sure that you have properly setup your
-environment. We recommend that you use our pre-installed VM for these
-tutorials, but it's not a requirement:
+environment.
 
 - [Prerequisites](00-prerequisites/)
 
