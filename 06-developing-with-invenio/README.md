@@ -67,7 +67,7 @@ docker-compose up
 To run the tests you can use the test script provided in the repository (the script runs automatically inside virtualenv):
 
 ```commandline
-./run-tests
+./run-tests.sh
 ```
 
 > If you get an error `Your API Key '...' is invalid` type in a terminal `export PIPENV_PYUP_API_KEY=""`
