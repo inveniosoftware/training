@@ -140,7 +140,7 @@ the `owner` field has a `string` value rather than an `integer`. But who validat
 
 If you remember we talked earlier about `loaders` and specifically we updated our `marshmallow` schema. But how is it related? To answer that let's talk about what is the responsibility of the `loaders`. Its purpose is to load the data received in the create a new record request, validate it using our `marshmallow` schema and transform it into our internal representation.
 
-By having that in mind, before when we did our request our loader used the marshmallow `MetadataSchemaV1` schema to validate the incoming data and noticed that the owner field isn't an integer as it was declared so it threw an error.
+By having that in mind, when we did our request our loader used the marshmallow `MetadataSchemaV1` schema to validate the incoming data and noticed that the owner field isn't an integer as it was declared so it threw an error.
 
 So now let's fix the data we sent before and create our record!
 

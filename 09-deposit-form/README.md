@@ -82,7 +82,7 @@ from .forms import RecordForm
 from .api import create_record
 
 
-# define a new Flask Blueprint that is register under the url path /deposit
+# define a new Flask Blueprint that is registered under the url path /deposit
 blueprint = Blueprint(
     'deposit',
     __name__,

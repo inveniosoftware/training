@@ -39,7 +39,7 @@ check-manifest --update
 
 ## Step 3: Build the documentation
 
-The documentation has already written basic information for you. However you can expand it by adding your own pages and by writing docstrings, which are very helpful in the later development process. To build the documentation simply run the command below inside your virtualenv. The documentation has to be build any time where are changes in the pages or docstrings.
+The documentation has already written basic information for you. However you can expand it by adding your own pages and by writing docstrings, which are very helpful in the later development process. To build the documentation simply run the command below inside your virtualenv. The documentation has to be built any time when there are changes in the pages or docstrings.
 
 Build documentation:
 

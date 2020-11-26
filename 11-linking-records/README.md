@@ -40,7 +40,7 @@ and its author:
 }
 ```
 
-we would like that when we retrieve the record, the details of the author are automatically included in the each record:
+we would like that when we retrieve the record, the details of the author are automatically included in each record:
 
 ```json
 {
