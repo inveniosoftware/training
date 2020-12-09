@@ -103,25 +103,54 @@ If you reload the page you will see the new logo on the top left:
 
 ![Invenio front page logo](./images/frontpage-logo.png)
 
-## Step 4: Change the theme color
+## Step 4: Change the theming
 
 Until this moment, we've basically performed "content" changes. In order to
 modify the "style" of the site we have to make changes to the produced CSS.
 
-Invenio uses SCSS in order define CSS styles in a flexible and extensible way.
-The `.scss` we are interested in changing is
-`my_site/theme/assets/scss/my_site/variables.scss`:
+Invenio uses LESS in order define CSS styles in a flexible and extensible way.
+The `.less` we are interested in changing is
+`my_site/theme/assets/semantic-ui/less/my_site/variables.less`:
 
 ```diff
 @import "../invenio_theme/variables";
 
-// If you want to change the primary color you can do something like:
--// $color1: rgba(100, 42, 156, 0.8);
--// $color1-gradient: lighten($color1, 15%);
--// $navbar-default-bg: $color1;
-+$color1: rgba(100, 42, 156, 0.8);
-+$color1-gradient: lighten($color1, 15%);
-+$navbar-default-bg: $color1;
+// If you want to change the brand color you can do something like:
+-// @brandColor      : #793e8e;
++@brandColor      : #793e8e;
+```
+
+If we want to be more precise and change a concrete CSS rule we can add it directly in `my_site/theme/assets/semantic-ui/less/my_site/theme.less`
+
+```diff
+/* Provide here your custom css */
+
+-// footer{
+-//    margin-top: 3px;
+-//  }
+-//
+-//  html.cover-page{
+-//    background-color: rgb(226, 147, 43);
+-//  }
+-//
+-//  .content{
+-//    .header{
+-//        font-size: xx-large !important;
+-//      }
+-//  }
++ footer{
++    margin-top: 3px;
++  }
++
++  html.cover-page{
++    background-color: rgb(226, 147, 43);
++  }
++
++  .content{
++    .header{
++        font-size: xx-large !important;
++      }
++  }
 ```
 
 After changing the file, we have to rebuild our assets using the `invenio
@@ -144,37 +173,80 @@ you can see the following:
 ![Search page result list](./images/search-old.png)
 
 Let's change the way the title and authors of each result look like. The
-current search UI application is built with AngularJS and its various
-components are defined via Angular HTML templates. In our case we'll have to
-modify the `my_site/records/static/templates/records/results.html`:
+current search UI application is built with React. In our case we'll have to
+modify the `MysiteResultsListItem` component from `my_site/theme/assets/semantic-ui/templates/search/ResultsList.item.jsx`:
 
 ```diff
-<div ng-repeat="record in vm.invenioSearchResults.hits.hits track by $index">
-- <h4><a target="_self" ng-href="/records/{{ record.id }}">{{ record.metadata.title }}</a></h4>
-+ <h3><a target="_self" ng-href="/records/{{ record.id }}">{{ record.metadata.title }}</a></h3>
-+ <strong>Authors</strong>
-  <ul class="list-inline">
-      <li ng-repeat='contributor in record.metadata.contributors'>
--       {{ contributor.name }};
-+       <em>{{ contributor.name }}</em>;
-      </li>
-  </ul>
-  <hr />
-</div>
+export const MysiteResultsListItem = ({ result, index }) => {
+  const contributors = result.metadata.contributors || [];
+  return (
+    <Item key={index} href={`/records/${result.id}`}>
+      <Item.Content>
+        <Item.Header>{result.metadata.title}</Item.Header>
+        <Item.Description>
++         <p><b>Authors</b></p>
+          {contributors && (
+            <List horizontal relaxed>
+              {contributors.map((contributor, idx) => (
+                <List.Item key={idx}>{contributor.name}</List.Item>
+              ))}
+            </List>
+          )}
+        </Item.Description>
+      </Item.Content>
+    </Item>
+  );
+};
 ```
 
-Again, we'll have to run the `invenio collect` command, since we changes static
-files:
+Again, we'll have to run the `invenio webpack buildall` command:
 
 ```bash
-(my-site) $ invenio collect -v
-Collect static from blueprints.
-Copied: [my_site_records] '/home/bootcamp/.local/share/virtualenvs/my-site-7Oi5HgLM/var/instance/static/templates/records/results.html'
+(my-site) $ invenio webpack buildall
+...webpack
 ```
 
 And now, if we refresh we'll see that our search results display differently:
 
 ![Invenio page result list with strong and emphasis styles](./images/search-new.png)
+
+If we want to change the grid layout display we'll have to modify the `MysiteResultsGridItem` component from `my_site/theme/assets/semantic-ui/templates/search/ResultsGrid.item.jsx`:
+
+```diff
+export const MysiteResultsGridItem = ({ result, index }) => {
+  const contributors = result.metadata.contributors || [];
+  return (
+    <Card fluid key={index} href={`/records/${result.id}`}>
+      <Card.Content>
+-       <Card.Header>{result.metadata.title}</Card.Header>
++       <Card.Header textAlign="center">{result.metadata.title}</Card.Header>
+        <Card.Description>
+          {contributors && (
+            <List horizontal relaxed>
+              {contributors.map((contributor, idx) => (
+                <List.Item key={idx}>{contributor.name}</List.Item>
+              ))}
+            </List>
+          )}
+        </Card.Description>
+      </Card.Content>
+    </Card>
+  );
+};
+```
+
+Again, we'll have to run the `invenio webpack buildall` command:
+
+```bash
+(my-site) $ invenio webpack buildall
+...webpack
+```
+
+And now, if we refresh we'll see that our grid search results display differently:
+
+![Invenio page result grid with title centered](./images/search-grid-modified.png)
+
+Side note: The components that we just modified are overwriting components from `invenio-search-ui`. More information on how to do it [here](https://github.com/inveniosoftware/invenio-search-ui/blob/master/docs/customizing.rst).
 
 ## Step 6: Change the record page
 
@@ -184,7 +256,7 @@ the record's page:
 ![Record details page](./images/record-old.png)
 
 To change this view we'll have to modify the Jinja template that renders the
-page, `my_site/records/templates/records/record.html`. Let's to something
+page, `my_site/records/templates/semantic-ui/records/record.html`. Let's do something
 similar to what we did with the search results:
 
 ```diff
