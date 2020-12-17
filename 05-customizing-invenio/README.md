@@ -44,7 +44,7 @@ THEME_FRONTPAGE_TEMPLATE = 'my_site/frontpage.html'
 ```
 
 Let's also change the "Welcome to My site." text to something motivational, by
-editing `my_site/theme/templates/my_site/frontpage.html`:
+editing `my_site/theme/templates/semantic-ui/my_site/frontpage.html`:
 
 ```diff
 {%- extends "invenio_theme/frontpage.html" %}
@@ -60,7 +60,7 @@ editing `my_site/theme/templates/my_site/frontpage.html`:
 {%- endblock %}
 ```
 
-If you now go to <https://localhost:5000/> you will see the changed titles:
+If you now go to <https://127.0.0.1:5000/> you will see the changed titles:
 
 ![Invenio front page](./images/frontpage-title.png)
 
@@ -110,17 +110,15 @@ modify the "style" of the site we have to make changes to the produced CSS.
 
 Invenio uses LESS in order define CSS styles in a flexible and extensible way.
 The `.less` we are interested in changing is
-`my_site/theme/assets/semantic-ui/less/my_site/variables.less`:
+`my_site/theme/assets/semantic-ui/less/my_site/site/globals/site.variables`:
 
 ```diff
-@import "../invenio_theme/variables";
-
 // If you want to change the brand color you can do something like:
 -// @brandColor      : #793e8e;
 +@brandColor      : #793e8e;
 ```
 
-If we want to be more precise and change a concrete CSS rule we can add it directly in `my_site/theme/assets/semantic-ui/less/my_site/theme.less`
+If we want to be more precise and change a concrete CSS rule we can add it directly in `my_site/theme/assets/semantic-ui/less/my_site/site/globals/site.overrides`
 
 ```diff
 /* Provide here your custom css */
@@ -164,6 +162,12 @@ webpack` command:
 If we reload our page now we should see our brand new design:
 
 ![Invenio front page with purple background](./images/frontpage-color.png)
+
+You can watch for changes and automatically rebuild the assets by running:
+
+```bash
+(my-site) $ invenio webpack run start
+```
 
 ## Step 5: Change how record search results are displayed
 
