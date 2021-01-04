@@ -250,7 +250,7 @@ Another integral part of an Invenio instance is background Celery workers. To
 run these you have use the `celery` command:
 
 ```bash
-(my-site) $ celery worker -A invenio_app.celery -l INFO
+(my-site) $ celery -A invenio_app.celery worker -l INFO
 
  -------------- celery@invenio v4.2.1 (windowlicker)
 ---- **** -----

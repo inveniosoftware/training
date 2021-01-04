@@ -1,7 +1,7 @@
 # Tutorial 01 - Getting started
 
 The goal of this tutorial is to scaffold, install and run your first Invenio
-instance. This step is identical to the [Quickstart](https://invenio.readthedocs.io/en/latest/quickstart/quickstart.html)
+instance. This step is identical to the [Quickstart](https://invenio.readthedocs.io/en/latest/getting-started/quickstart/installation.html)
 
 ## Step 1: Prerequisites
 
@@ -25,7 +25,7 @@ use: Ctrl+Shift+V (paste), Ctrl+Shift+C (copy), Ctrl+Shift+X (cut).
 Scaffold the skeleton for your first Invenio instance:
 
 ```bash
-$ cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c v3.2 --no-input
+$ cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c v3.4 --no-input
 ```
 
 ## Step 4: Install

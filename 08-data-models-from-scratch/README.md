@@ -16,14 +16,14 @@ such as storing and searching.
 - [What did we learn](#what-did-we-learn)
 
 ## Step 1: Bootstrap exercise
-
+### 1.1
 If you completed the previous tutorial, you can skip this step. If instead you would like to start from a clean state run the following commands:
 
 ```bash
 $ cd ~/src/training/
 $ ./start-from.sh 07-data-models-new-field
 ```
-
+### 1.2
 **Note**: In order to reduce the amount of code that we need to write we have prepared beforehand the module structure in `/08-data-models-from-scratch/author_module` folder in which will go through and **uncomment** the needed code snippets to enable different functionalities and eventually build our module!
 
 Run the below command to copy the module over:
