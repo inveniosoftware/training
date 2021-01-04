@@ -1,7 +1,7 @@
 # Tutorial 01 - Getting started
 
 The goal of this tutorial is to scaffold, install and run your first Invenio
-instance. This step is identical to the [Quickstart](https://invenio.readthedocs.io/en/latest/quickstart/quickstart.html)
+instance. This step is identical to the [Quickstart](https://invenio.readthedocs.io/en/latest/getting-started/quickstart/installation.html)
 
 ## Step 1: Prerequisites
 
