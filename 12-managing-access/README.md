@@ -14,9 +14,9 @@ Prerequisites:
 2. at least two different users
 
 ```commandline
-my-site users create admin@test.ch -a --password=123456 # create admin user ID 1
-my-site users create manager@test.ch -a --password=123456 # create admin user ID 2
-my-site users create visitor@test.ch -a --password=123456 # create visitor user ID 3
+(my-site) $ my-site users create admin@test.ch -a --password=123456 # create admin user ID 1
+(my-site) $ my-site users create manager@test.ch -a --password=123456 # create admin user ID 2
+(my-site) $ my-site users create visitor@test.ch -a --password=123456 # create visitor user ID 3
 ```
 
 3. at least two records
