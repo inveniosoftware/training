@@ -38,7 +38,7 @@ For a local development setup, make sure that you have:
   installed and fully working
 * [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/installation.html)
   for scaffolding
-* NodeJS version 8 or 10 and NPM ([see official
+* NodeJS version 14+ and NPM ([see official
   installaion](https://nodejs.org/en/download/))
 * [Docker](https://docs.docker.com/install/) and [Docker
   Compose](https://docs.docker.com/compose/install/)
