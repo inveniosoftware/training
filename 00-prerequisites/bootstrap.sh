@@ -6,7 +6,7 @@ user=${1:-vagrant}
 apt-get update
 apt-get install -y apt-utils software-properties-common apt-transport-https \
     gnupg-agent ca-certificates git curl wget unzip python3-dev python3-pip \
-    libcairo2-dev fonts-dejavu libfreetype6-dev uwsgi-plugin-python \
+    libcairo2-dev fonts-dejavu libfreetype6-dev uwsgi-plugin-python3 \
     default-jdk xvfb libxi6 libgconf-2-4
 
 # Set "python3" as the default "python"
@@ -14,7 +14,7 @@ update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
 # Install NodeJS/npm
-curl -sL https://deb.nodesource.com/setup_10.x | bash -
+curl -sL https://deb.nodesource.com/setup_14.x | bash -
 apt-get install -y nodejs
 
 # Install docker
