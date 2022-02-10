@@ -2,49 +2,49 @@
 
 In this session, you will discover the key points which will ensure that your Invenio instances are secure. You will learn how to protect the web application with configuration, package management and authentication.
 
-## Table of contents:
+## Table of contents
 
-- [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
-- [Step 2: Lets create some demo data](#step-2-lets-create-some-demo-data)
-- [Step 3: Configuration - allowed hosts](#step-3-Configuration-allowed-hosts)
-- [Step 4: Configuration - secret key](#step-4-configuration-secret_key)
-- [Step 5: Configuration - SSL certificates](#step-5-configuration-ssl-certificates)
-- [Step 6: Configuration - WSGI proxies](#step-6-configuration-wsgi-proxies)
-- [Step 7: Invenio HTTP headers walk-through](#step-7-invenio-http-headers-walk-through)
-- [Step 8: Content-Security-Policy](#step-8-content-security-policy)
-- [Step 9: Keeping packages up to date](#step-9-keeping-packages-up-to-date)
-- [Step 10: Secure file uploads](#step-10-secure-file-uploads)
-- [Step 11: Auth workflows](#step-11-auth-workflows)
-- [Step 12: Migrating user tokens](#step-12-migrating-user-tokens)
-- [What did we learn](#what-did-we-learn)
+- [Tutorial 13 - Securing your Invenio instance](#tutorial-13---securing-your-invenio-instance)
+  - [Table of contents](#table-of-contents)
+  - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
+  - [Step 2: Lets create some demo data](#step-2-lets-create-some-demo-data)
+  - [Step 3: Configuration allowed hosts](#step-3-configuration-allowed-hosts)
+  - [Step 4: Configuration `SECRET_KEY`](#step-4-configuration-secret_key)
+  - [Step 5: Configuration SSL certificates](#step-5-configuration-ssl-certificates)
+  - [Step 6: Configuration WSGI proxies](#step-6-configuration-wsgi-proxies)
+  - [Step 7: Invenio HTTP headers walk-through](#step-7-invenio-http-headers-walk-through)
+  - [Step 8: Content-Security-Policy](#step-8-content-security-policy)
+  - [Step 9: Keeping packages up to date](#step-9-keeping-packages-up-to-date)
+  - [Step 10: Secure file uploads](#step-10-secure-file-uploads)
+  - [Step 11: Auth workflows](#step-11-auth-workflows)
+  - [Step 12: Migrating user tokens](#step-12-migrating-user-tokens)
+  - [What did we learn](#what-did-we-learn)
 
 ## Step 1: Bootstrap exercise
 
 If you completed the previous tutorial, you can skip this step. If instead you would like to start from a clean state run the following commands:
 
 ```bash
-$ cd ~/src/training/
-$ ./start-from.sh 12-managing-access
+cd ~/src/training/
+./start-from.sh 12-managing-access
 ```
 
 ## Step 2: Lets create some demo data
 
 We will clean all the data created before and create some users and records for this tutorial.
 
-```console
-$ ~/src/my-site
-$ ./scripts/setup
-$ # with an instance of ./scripts/server running we create users and records
-$ . ~/src/training/13-securing-your-instance/demo-data.sh
+```bash
+~/src/my-site
+./scripts/setup
+# with an instance of ./scripts/server running we create users and records
+. ~/src/training/13-securing-your-instance/demo-data.sh
 ```
-
-
 
 ## Step 3: Configuration allowed hosts
 
 You should update our `APP_ALLOWED_HOSTS` to the correct value in your production instances. If you try to make a request with different host header than this one you will be blocked.
 
-```console
+```bash
 $ curl -ki -H "Host: evil.io" https://127.0.0.1:5000/api/records/ -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
 HTTP/1.0 400 BAD REQUEST
 Content-Type: application/json
@@ -80,8 +80,8 @@ Lets say now that you allow now  any host in `my_site/config.py`:
 
 Now potential attackers could inject a host header and make all your self links point to their evil site:
 
-```console
-$ curl -kI -H "Host: evil.io" "https://127.0.0.1:5000/api/records/?prettyprint=1" -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
+```bash
+curl -kI -H "Host: evil.io" "https://127.0.0.1:5000/api/records/?prettyprint=1" -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
 HTTP/1.0 200 OK
 Content-Type: application/json
 Content-Length: 1351
@@ -117,10 +117,11 @@ Change in `my_site/config.py` your `SECRET_KEY` and store it safely with only on
 ```
 
 For example, we could use the Python 3 `secrets` library:
-```console
-$ export OLD_SECRET_KEY=CHANGE_ME
-$ export NEW_SECRET_KEY=`python -c 'import secrets; print(secrets.token_hex(32))'`
-$ sed -i "s/$OLD_SECRET_KEY/$NEW_SECRET_KEY/g" my_site/config.py
+
+```bash
+export OLD_SECRET_KEY=CHANGE_ME
+export NEW_SECRET_KEY=`python -c 'import secrets; print(secrets.token_hex(32))'`
+sed -i "s/$OLD_SECRET_KEY/$NEW_SECRET_KEY/g" my_site/config.py
 ```
 
 ## Step 5: Configuration SSL certificates
@@ -136,8 +137,8 @@ two servers, the HAProxy load balancer and the Nginx reserve proxy, before arriv
 
 ## Step 7: Invenio HTTP headers walk-through
 
-```console
-$ curl -kI https://127.0.0.1:5000/api/records/ -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
+```bash
+curl -kI https://127.0.0.1:5000/api/records/ -H "Authorization: Bearer $BOOTCAMP_ACCESS_TOKEN"
 HTTP/1.0 200 OK
 Content-Type: application/json
 Content-Length: 822
@@ -195,15 +196,16 @@ Note: It is possible to run into problems regarding CSP rules when dealing with 
 ## Step 9: Keeping packages up to date
 
 It is really important that you keep your packages up to date. Since we are using `pipenv` to manage our application we should follow [`pipenv`'s upgrade workflow](https://pipenv.readthedocs.io/en/latest/basics/#example-pipenv-upgrade-workflow)
-```console
-$ pipenv update --outdated
-$ pipenv update [all|specific-outdated-package]
+
+```bash
+pipenv update --outdated
+pipenv update [all|specific-outdated-package]
 ```
 
 `pipenv` also offers a way of checking all your dependencies and spot package versions which have been publicly discovered as vulnerable.
 
-```console
-$ pipenv check
+```bash
+pipenv check
 ```
 
 ## Step 10: Secure file uploads
@@ -249,14 +251,14 @@ We have been using access tokens during the exercises, but if you want to create
 
 Or through the command line interface:
 
-```console
+```bash
 $ my-site tokens create -n tokenname -u <username>
 newsupersecrettoken
 ```
 
 Once you have your token you can start doing authenticated requests by adding the token in the HTTP header:
 
-```console
+```bash
 $ export MY_SITE_ACCESS_TOKEN=newsupersecrettoken
 $ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization: Bearer $MY_SITE_ACCESS_TOKEN"
 {
@@ -284,20 +286,22 @@ $ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization
 
 All user tokens are encrypted when stored in the database. Therefore, if the application `SECRET_KEY` is changed, these tokens need to be migrated:
 
-```console
-$ export NEW_SECRET_KEY=myoldsecretkey
-$ export EVEN_NEWER_SECRET_KEY=`python -c 'import secrets; print(secrets.token_hex(32))'`
-$ sed -i "s/$NEW_SECRET_KEY/$EVEN_NEWER_SECRET_KEY/g" my_site/config.py
+```bash
+export NEW_SECRET_KEY=myoldsecretkey
+export EVEN_NEWER_SECRET_KEY=`python -c 'import secrets; print(secrets.token_hex(32))'`
+sed -i "s/$NEW_SECRET_KEY/$EVEN_NEWER_SECRET_KEY/g" my_site/config.py
 ```
 
 If we just change the secret key, our users will not be able to use their credentials:
-```console
+
+```bash
 $ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization: Bearer $MY_SITE_ACCESS_TOKEN"
 {"message":"The server could not verify that you are authorized to access the URL requested.  You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required.","status":401}
 ```
 
 We need to migrate all tokens:
-```console
+
+```bash
 $ my-site instance migrate-secret-key --old-key $NEW_SECRET_KEY
 Successfully changed secret key.
 $ curl -k "https://127.0.0.1:5000/api/records/2?prettyprint=1" -H "Authorization: Bearer $MY_SITE_ACCESS_TOKEN"

@@ -5,16 +5,18 @@ for the day-to-day development and running of an Invenio instance.
 
 ## Table of Contents
 
-- [Step 1: Bring up the basic/development docker-compose setup](#step-1-bring-up-the-basicdevelopment-docker-compose-setup)
-- [Step 2: Understanding your Python environment](#step-2-understanding-your-python-environment)
-- [Step 3: Running an (I)Python shell](#step-3-running-an-ipython-shell)
-- [Step 4: The `invenio` command](#step-4-the-invenio-command)
-- [Step 5: `invenio shell`: interacting with the programmatic APIs](#step-5-invenio-shell-interacting-with-the-programmatic-apis)
-- [Step 6: `invenio run`: running the web development server](#step-6-invenio-run-running-the-web-development-server)
-- [Step 7: Running the Celery worker](#step-7-running-the-celery-worker)
-- [Step 8: Entrypoints: where the magic happens](#step-8-entrypoints-where-the-magic-happens)
-- [Step 9: Configuration loading](#step-9-configuration-loading)
-- [What did we learn](#what-did-we-learn)
+- [Tutorial 04 - Running Invenio](#tutorial-04---running-invenio)
+  - [Table of Contents](#table-of-contents)
+  - [Step 1: Bring up the basic/development docker-compose setup](#step-1-bring-up-the-basicdevelopment-docker-compose-setup)
+  - [Step 2: Understanding your Python environment](#step-2-understanding-your-python-environment)
+  - [Step 3: Running an (I)Python shell](#step-3-running-an-ipython-shell)
+  - [Step 4: The `invenio` command](#step-4-the-invenio-command)
+  - [Step 5: `invenio shell`: interacting with the programmatic APIs](#step-5-invenio-shell-interacting-with-the-programmatic-apis)
+  - [Step 6: `invenio run`: running the web development server](#step-6-invenio-run-running-the-web-development-server)
+  - [Step 7: Running the Celery worker](#step-7-running-the-celery-worker)
+  - [Step 8: Entrypoints: where the magic happens](#step-8-entrypoints-where-the-magic-happens)
+  - [Step 9: Configuration loading](#step-9-configuration-loading)
+  - [What did we learn](#what-did-we-learn)
 
 ## Step 1: Bring up the basic/development docker-compose setup
 

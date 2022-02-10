@@ -8,15 +8,17 @@ debugging interfaces like Flower, Kibana and the RabbitMQ management interface.
 
 ## Table of Contents
 
-- [Step 1: Bring up the full docker-compose setup](#step-1-bring-up-the-full-docker-compose-setup)
-- [Step 2: Access the database (PostgreSQL)](#step-2-access-the-database-postgresql)
-- [Step 3: Access the cache (Redis)](#step-3-access-the-cache-redis)
-- [Step 4: Access Elasticsearch (and Kibana)](#step-4-access-elasticsearch-and-kibana)
-- [Step 5: Access the message queue (RabbitMQ)](#step-5-access-the-message-queue-rabbitmq)
-- [Step 6: Monitor background workers (Flower)](#step-6-monitor-background-workers-flower)
-- [Step 7: Access the web application(s) (uWSGI)](#step-7-access-the-web-applications-uwsgi)
-- [Step 8: Access the load balancer (HAProxy)](#step-8-access-the-load-balancer-haproxy)
-- [What did we learn](#what-did-we-learn)
+- [Tutorial 03 - Infrastructure overview](#tutorial-03---infrastructure-overview)
+  - [Table of Contents](#table-of-contents)
+  - [Step 1: Bring up the full docker-compose setup](#step-1-bring-up-the-full-docker-compose-setup)
+  - [Step 2: Access the database (PostgreSQL)](#step-2-access-the-database-postgresql)
+  - [Step 3: Access the cache (Redis)](#step-3-access-the-cache-redis)
+  - [Step 4: Access Elasticsearch (and Kibana)](#step-4-access-elasticsearch-and-kibana)
+  - [Step 5: Access the message queue (RabbitMQ)](#step-5-access-the-message-queue-rabbitmq)
+  - [Step 6: Monitor background workers (Flower)](#step-6-monitor-background-workers-flower)
+  - [Step 7: Access the web application(s) (uWSGI)](#step-7-access-the-web-applications-uwsgi)
+  - [Step 8: Access the load balancer (HAProxy)](#step-8-access-the-load-balancer-haproxy)
+  - [What did we learn](#what-did-we-learn)
 
 ## Step 1: Bring up the full docker-compose setup
 
@@ -32,7 +34,7 @@ $ ./docker/build-images.sh
 $ docker-compose -f docker-compose.full.yml up -d
 ```
 
-To make sure our instance is running properly, open <https://localhost>
+To make sure our instance is running properly, open <https://localhost:5000>
 
 Here's a full diagram of what the `docker-compose.full.yml` infrastructure
 looks like:
@@ -232,11 +234,11 @@ The load balancer, being at the edge of our infrastructure, besides serving
 the web application at <https://localhost>, is also exposing a statistics
 panel at <http://localhost:8080>:
 
-![](./images/haproxy.png)
+![HAProxy Dashboard](./images/haproxy.png)
 
 ## What did we learn
 
-![](./images/diagram-labels.png)
+![Diagram Labels](./images/diagram-labels.png)
 
 - The different services composing an Invenio instance
 - How to interface with them on a basic level

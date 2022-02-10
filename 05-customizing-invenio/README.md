@@ -6,13 +6,14 @@ results for records are displayed and the display page for every record.
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
-- [Step 1: Run the development server](#step-1-run-the-development-server)
-- [Step 2: Change the frontpage titles](#step-2-change-the-frontpage-titles)
-- [Step 3: Change the site logo](#step-3-change-the-site-logo)
-- [Step 4: Change the theming](#step-4-change-the-theming)
-- [Step 5: Change how record search results are displayed](#step-5-change-how-record-search-results-are-displayed)
-- [Step 6: Change the record page](#step-6-change-the-record-page)
+- [Tutorial 05 - Customizing the look & feel](#tutorial-05---customizing-the-look--feel)
+  - [Table of Contents](#table-of-contents)
+  - [Step 1: Run the development server](#step-1-run-the-development-server)
+  - [Step 2: Change the frontpage titles](#step-2-change-the-frontpage-titles)
+  - [Step 3: Change the site logo](#step-3-change-the-site-logo)
+  - [Step 4: Change the theming](#step-4-change-the-theming)
+  - [Step 5: Change how record search results are displayed](#step-5-change-how-record-search-results-are-displayed)
+  - [Step 6: Change the record page](#step-6-change-the-record-page)
 
 ## Step 1: Run the development server
 
@@ -155,7 +156,7 @@ If we want to be more precise and change a concrete CSS rule we can add it direc
 After changing the file, we have to rebuild our assets using the `invenio
 webpack` command:
 
-```bash
+```console
 (my-site) $ invenio webpack buildall
 ...webpack
 ```
@@ -166,7 +167,7 @@ If we reload our page now we should see our brand new design:
 
 You can watch for changes and automatically rebuild the assets by running:
 
-```bash
+```console
 (my-site) $ invenio webpack run start
 ```
 
@@ -206,7 +207,7 @@ export const MysiteResultsListItem = ({ result, index }) => {
 
 Again, we'll have to run the `invenio webpack buildall` command:
 
-```bash
+```console
 (my-site) $ invenio webpack buildall
 ...webpack
 ```
@@ -242,7 +243,7 @@ export const MysiteResultsGridItem = ({ result, index }) => {
 
 Again, we'll have to run the `invenio webpack buildall` command:
 
-```bash
+```console
 (my-site) $ invenio webpack buildall
 ...webpack
 ```

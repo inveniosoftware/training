@@ -6,32 +6,37 @@ such as storing and searching.
 
 ## Table of contents
 
-- [Table of contents](#table-of-contents)
-- [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
-  - [1.1](#11)
-  - [1.2](#12)
-- [Step 2: Create an `Authors` flask extension](#step-2-create-an-authors-flask-extension)
-  - [Actions](#actions)
-- [Step 3: Internal representation: JSONSchema and Elasticsearch mappings](#step-3-internal-representation-jsonschema-and-elasticsearch-mappings)
-  - [Actions](#actions-1)
-- [Step 4: External representation: loaders and serializers](#step-4-external-representation-loaders-and-serializers)
-  - [Actions](#actions-2)
-- [Step 5: Data validation: Marshmallow](#step-5-data-validation-marshmallow)
-  - [Actions](#actions-3)
-- [Step 6: Persistent identifiers](#step-6-persistent-identifiers)
-  - [Actions](#actions-4)
-- [Step 7: Create an author](#step-7-create-an-author)
-- [What did we learn](#what-did-we-learn)
+- [Tutorial 08 - Data models: Build from scratch](#tutorial-08---data-models-build-from-scratch)
+  - [Table of contents](#table-of-contents)
+  - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
+    - [1.1](#11)
+    - [1.2](#12)
+  - [Step 2: Create an `Authors` flask extension](#step-2-create-an-authors-flask-extension)
+    - [Actions](#actions)
+  - [Step 3: Internal representation: JSONSchema and Elasticsearch mappings](#step-3-internal-representation-jsonschema-and-elasticsearch-mappings)
+    - [Actions](#actions-1)
+  - [Step 4: External representation: loaders and serializers](#step-4-external-representation-loaders-and-serializers)
+    - [Actions](#actions-2)
+  - [Step 5: Data validation: Marshmallow](#step-5-data-validation-marshmallow)
+    - [Actions](#actions-3)
+  - [Step 6: Persistent identifiers](#step-6-persistent-identifiers)
+    - [Actions](#actions-4)
+  - [Step 7: Create an author](#step-7-create-an-author)
+  - [What did we learn](#what-did-we-learn)
 
 ## Step 1: Bootstrap exercise
+
 ### 1.1
+
 If you completed the previous tutorial, you can skip this step. If instead you would like to start from a clean state run the following commands:
 
 ```bash
 cd ~/src/training/
 ./start-from.sh 07-data-models-new-field
 ```
+
 ### 1.2
+
 **Note**: In order to reduce the amount of code that we need to write we have prepared beforehand the module structure in `/08-data-models-from-scratch/author_module` folder in which will go through and **uncomment** the needed code snippets to enable different functionalities and eventually build our module!
 
 Run the below command to copy the module over:
