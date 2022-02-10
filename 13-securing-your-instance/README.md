@@ -4,21 +4,19 @@ In this session, you will discover the key points which will ensure that your In
 
 ## Table of contents
 
-- [Tutorial 13 - Securing your Invenio instance](#tutorial-13---securing-your-invenio-instance)
-  - [Table of contents](#table-of-contents)
-  - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
-  - [Step 2: Lets create some demo data](#step-2-lets-create-some-demo-data)
-  - [Step 3: Configuration allowed hosts](#step-3-configuration-allowed-hosts)
-  - [Step 4: Configuration `SECRET_KEY`](#step-4-configuration-secret_key)
-  - [Step 5: Configuration SSL certificates](#step-5-configuration-ssl-certificates)
-  - [Step 6: Configuration WSGI proxies](#step-6-configuration-wsgi-proxies)
-  - [Step 7: Invenio HTTP headers walk-through](#step-7-invenio-http-headers-walk-through)
-  - [Step 8: Content-Security-Policy](#step-8-content-security-policy)
-  - [Step 9: Keeping packages up to date](#step-9-keeping-packages-up-to-date)
-  - [Step 10: Secure file uploads](#step-10-secure-file-uploads)
-  - [Step 11: Auth workflows](#step-11-auth-workflows)
-  - [Step 12: Migrating user tokens](#step-12-migrating-user-tokens)
-  - [What did we learn](#what-did-we-learn)
+- [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
+- [Step 2: Lets create some demo data](#step-2-lets-create-some-demo-data)
+- [Step 3: Configuration - allowed hosts](#step-3-Configuration-allowed-hosts)
+- [Step 4: Configuration - secret key](#step-4-configuration-secret_key)
+- [Step 5: Configuration - SSL certificates](#step-5-configuration-ssl-certificates)
+- [Step 6: Configuration - WSGI proxies](#step-6-configuration-wsgi-proxies)
+- [Step 7: Invenio HTTP headers walk-through](#step-7-invenio-http-headers-walk-through)
+- [Step 8: Content-Security-Policy](#step-8-content-security-policy)
+- [Step 9: Keeping packages up to date](#step-9-keeping-packages-up-to-date)
+- [Step 10: Secure file uploads](#step-10-secure-file-uploads)
+- [Step 11: Auth workflows](#step-11-auth-workflows)
+- [Step 12: Migrating user tokens](#step-12-migrating-user-tokens)
+- [What did we learn](#what-did-we-learn)
 
 ## Step 1: Bootstrap exercise
 

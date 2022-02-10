@@ -2,20 +2,19 @@
 
 ## Table of contents
 
-- [Developing with Invenio](#developing-with-invenio)
-  - [Table of contents](#table-of-contents)
-  - [Step 1: Inspect Invenio project file structure](#step-1-inspect-invenio-project-file-structure)
-  - [Step 2: Initialize a git repository](#step-2-initialize-a-git-repository)
-  - [Step 3: Build the documentation](#step-3-build-the-documentation)
-  - [Step 4: Running tests](#step-4-running-tests)
-  - [Step 5: End-to-end testing](#step-5-end-to-end-testing)
-  - [Step 6: Fix the failing test](#step-6-fix-the-failing-test)
-  - [Step 7: Installing a new Python dependency](#step-7-installing-a-new-python-dependency)
-  - [Extra: Useful development commands](#extra-useful-development-commands)
-    - [Scripts](#scripts)
-    - [Pipenv](#pipenv)
-    - [Docker troubleshooting](#docker-troubleshooting)
-  - [What did we learn](#what-did-we-learn)
+- [Table of contents](#table-of-contents)
+- [Step 1: Inspect Invenio project file structure](#step-1-inspect-invenio-project-file-structure)
+- [Step 2: Initialize a git repository](#step-2-initialize-a-git-repository)
+- [Step 3: Build the documentation](#step-3-build-the-documentation)
+- [Step 4: Running tests](#step-4-running-tests)
+- [Step 5: End-to-end testing](#step-5-end-to-end-testing)
+- [Step 6: Fix the failing test](#step-6-fix-the-failing-test)
+- [Step 7: Installing a new Python dependency](#step-7-installing-a-new-python-dependency)
+- [Extra: Useful development commands](#extra-useful-development-commands)
+  - [Scripts](#scripts)
+  - [Pipenv](#pipenv)
+  - [Docker troubleshooting](#docker-troubleshooting)
+- [What did we learn](#what-did-we-learn)
 
 ## Step 1: Inspect Invenio project file structure
 

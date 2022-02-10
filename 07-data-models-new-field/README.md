@@ -6,16 +6,15 @@ Moreover, we will learn how [`Marshmallow`](https://marshmallow.readthedocs.io) 
 
 ## Table of Contents
 
-- [Tutorial 07 - Data models: Adding a new field](#tutorial-07---data-models-adding-a-new-field)
-  - [Table of Contents](#table-of-contents)
-  - [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
-  - [Step 2: Update the JSONSchema](#step-2-update-the-jsonschema)
-  - [Step 3: Update the Elasticsearch mapping](#step-3-update-the-elasticsearch-mapping)
-  - [Step 4: Update the Marshmallow schema](#step-4-update-the-marshmallow-schema)
-  - [Step 5: Create a new record including our new field](#step-5-create-a-new-record-including-our-new-field)
-  - [Step 6: Search for our new record](#step-6-search-for-our-new-record)
-  - [Step 7: Manipulate response using serializers](#step-7-manipulate-response-using-serializers)
-  - [What did we learn](#what-did-we-learn)
+- [Table of Contents](#table-of-contents)
+- [Step 1: Bootstrap exercise](#step-1-bootstrap-exercise)
+- [Step 2: Update the JSONSchema](#step-2-update-the-jsonschema)
+- [Step 3: Update the Elasticsearch mapping](#step-3-update-the-elasticsearch-mapping)
+- [Step 4: Update the Marshmallow schema](#step-4-update-the-marshmallow-schema)
+- [Step 5: Create a new record including our new field](#step-5-create-a-new-record-including-our-new-field)
+- [Step 6: Search for our new record](#step-6-search-for-our-new-record)
+- [Step 7: Manipulate response using serializers](#step-7-manipulate-response-using-serializers)
+- [What did we learn](#what-did-we-learn)
 
 ## Step 1: Bootstrap exercise
 

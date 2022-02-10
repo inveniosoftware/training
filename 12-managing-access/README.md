@@ -2,16 +2,10 @@
 
 ## Table of contents
 
-- [Tutorial 12 - Record access management](#tutorial-12---record-access-management)
-  - [Table of contents](#table-of-contents)
-  - [Step 1 - Allow for access only from the owner](#step-1---allow-for-access-only-from-the-owner)
-    - [Use case](#use-case)
-  - [Step 2 - search filter](#step-2---search-filter)
-  - [Step 3 - Create permissions](#step-3---create-permissions)
-    - [Use case: restrict creation of records to authenticated users](#use-case-restrict-creation-of-records-to-authenticated-users)
-  - [Extras](#extras)
-    - [Group permission to edit](#group-permission-to-edit)
-    - [Explicit access per action type - additional exercise](#explicit-access-per-action-type---additional-exercise)
+- [Step 1 - Allow for access only from the owner](#step-1---allow-for-access-only-from-the-owner)
+- [Step 2 - search filter](#step-2---search-filter)
+- [Step 3 - Create permissions](#step-3---create-permissions)
+- [Extras - Additional exercises](#extras)
 
 The goal of this tutorial is to implement record access permissions in simple and complicated cases.
 

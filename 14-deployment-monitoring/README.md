@@ -4,10 +4,8 @@ In this session, we will present how to tune deployment configuration of each pa
 
 ## Table of Contents
 
-- [Tutorial 14 - Deployment and monitoring](#tutorial-14---deployment-and-monitoring)
-  - [Table of Contents](#table-of-contents)
-  - [Step 1: Benchmark](#step-1-benchmark)
-  - [Step 2: Example of Sentry configuration](#step-2-example-of-sentry-configuration)
+- [Step 1: Benchmark](#benchmark)
+- [Step 2: Sentry configuration](#step-2-example-of-sentry-configuration)
 
 ## Step 1: Benchmark
 

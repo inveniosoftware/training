@@ -6,14 +6,13 @@ results for records are displayed and the display page for every record.
 
 ## Table of Contents
 
-- [Tutorial 05 - Customizing the look & feel](#tutorial-05---customizing-the-look--feel)
-  - [Table of Contents](#table-of-contents)
-  - [Step 1: Run the development server](#step-1-run-the-development-server)
-  - [Step 2: Change the frontpage titles](#step-2-change-the-frontpage-titles)
-  - [Step 3: Change the site logo](#step-3-change-the-site-logo)
-  - [Step 4: Change the theming](#step-4-change-the-theming)
-  - [Step 5: Change how record search results are displayed](#step-5-change-how-record-search-results-are-displayed)
-  - [Step 6: Change the record page](#step-6-change-the-record-page)
+- [Table of Contents](#table-of-contents)
+- [Step 1: Run the development server](#step-1-run-the-development-server)
+- [Step 2: Change the frontpage titles](#step-2-change-the-frontpage-titles)
+- [Step 3: Change the site logo](#step-3-change-the-site-logo)
+- [Step 4: Change the theming](#step-4-change-the-theming)
+- [Step 5: Change how record search results are displayed](#step-5-change-how-record-search-results-are-displayed)
+- [Step 6: Change the record page](#step-6-change-the-record-page)
 
 ## Step 1: Run the development server
 
