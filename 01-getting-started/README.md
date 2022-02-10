@@ -13,8 +13,8 @@ First ensure you have prepared your environment according to
 First, open a terminal and checkout the trainings' source code:
 
 ```bash
-$ cd ~/src
-$ git clone https://github.com/inveniosoftware/training.git
+cd ~/src
+git clone https://github.com/inveniosoftware/training.git
 ```
 
 **Tip:** To copy/paste into the terminal inside the Ubuntu virtual machine
@@ -25,7 +25,7 @@ use: Ctrl+Shift+V (paste), Ctrl+Shift+C (copy), Ctrl+Shift+X (cut).
 Scaffold the skeleton for your first Invenio instance:
 
 ```bash
-$ cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c v3.4 --no-input
+cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c v3.4 --no-input
 ```
 
 ## Step 4: Install
@@ -33,14 +33,14 @@ $ cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c v3.4 --no-inp
 Navigate to the scaffolded code, and start the Docker services (database, Elasticsearch, RabbitMQ and Redis cache):
 
 ```bash
-$ cd my-site
-$ docker-compose up -d
+cd my-site
+docker-compose up -d
 ```
 
 Install and build the Python and NPM dependencies:
 
 ```bash
-$ ./scripts/bootstrap
+./scripts/bootstrap
 ```
 
 ## Step 5: Run
@@ -48,19 +48,19 @@ $ ./scripts/bootstrap
 Setup the database tables, search indexes, queues and caches:
 
 ```bash
-$ ./scripts/setup
+./scripts/setup
 ```
 
 Start a development server and background job worker:
 
 ```bash
-$ ./scripts/server
+./scripts/server
 ```
 
 Last, open [https://127.0.0.1:5000/](https://127.0.0.1:5000/) in your browser:
 
 ```bash
-$ firefox https://127.0.0.1:5000/
+firefox https://127.0.0.1:5000/
 ```
 
 Firefox and other browsers will display a security warning because we are trying

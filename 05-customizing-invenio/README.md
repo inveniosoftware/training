@@ -155,7 +155,7 @@ If we want to be more precise and change a concrete CSS rule we can add it direc
 After changing the file, we have to rebuild our assets using the `invenio
 webpack` command:
 
-```bash
+```console
 (my-site) $ invenio webpack buildall
 ...webpack
 ```
@@ -166,7 +166,7 @@ If we reload our page now we should see our brand new design:
 
 You can watch for changes and automatically rebuild the assets by running:
 
-```bash
+```console
 (my-site) $ invenio webpack run start
 ```
 
@@ -206,7 +206,7 @@ export const MysiteResultsListItem = ({ result, index }) => {
 
 Again, we'll have to run the `invenio webpack buildall` command:
 
-```bash
+```console
 (my-site) $ invenio webpack buildall
 ...webpack
 ```
@@ -242,7 +242,7 @@ export const MysiteResultsGridItem = ({ result, index }) => {
 
 Again, we'll have to run the `invenio webpack buildall` command:
 
-```bash
+```console
 (my-site) $ invenio webpack buildall
 ...webpack
 ```
