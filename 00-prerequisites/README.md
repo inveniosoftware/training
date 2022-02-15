@@ -2,16 +2,16 @@
 
 To be able to participate in the workshop exercises that will take place, you
 will have to have a basic setup of development tools on your machine. We have
-prepared a variety of solutions for you to achieve this setup. 
+prepared a variety of solutions for you to achieve this setup.
 
 Which solution should I use? It depends :-)
 
-- **VirtualBox:** Good for in-person workshops. Ensures coherent setup for all 
+- **VirtualBox:** Good for in-person workshops. Ensures coherent setup for all
   participants, and makes life easier for trainers.
-- **Local setup:** Good for new developers. Ensures your environment is ready 
+- **Local setup:** Good for new developers. Ensures your environment is ready
   doing development after having completed the tutorials.
-- **Vagrant:** Similar to VirtualBox, but requires to also have Vagrant 
-  installed. 
+- **Vagrant:** Similar to VirtualBox, but requires to also have Vagrant
+  installed.
 
 ## VirtualBox (for workshops)
 

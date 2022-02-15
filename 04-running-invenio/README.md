@@ -22,8 +22,8 @@ First, let's bring back the basic development container setup:
 
 ```bash
 # Bring down the full setup
-$ docker-compose -f docker-compose.full.yml stop
-$ docker-compose up -d
+docker-compose -f docker-compose.full.yml stop
+docker-compose up -d
 ```
 
 We are now running only the database, Elasticsearch, Redis and RabbitMQ

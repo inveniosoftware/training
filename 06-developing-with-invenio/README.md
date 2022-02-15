@@ -48,7 +48,7 @@ The documentation has already written basic information for you. However you can
 
 Build documentation:
 
-```bash
+```console
 (my-site)$ python setup.py build_sphinx
 ```
 
@@ -80,7 +80,7 @@ To run the tests you can use the test script provided in the repository (the scr
 
 To run the test functions one by one you should activate the virtualenv of your project and use pytest command, like on the example below:
 
-```bash
+```console
 (my-site)$ pytest tests/api/test_api_record_files.py::test_record_creation
 ```
 
@@ -114,7 +114,7 @@ Run tests again:
 
 In order to test a new package, simply install it in the virtualenv using `pip` tool:
 
-```bash
+```console
 (my-site)$ pip install Pillow
 ```
 

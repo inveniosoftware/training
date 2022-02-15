@@ -28,11 +28,11 @@ commands:
 
 ```bash
 # Build our Invenio application images first
-$ ./docker/build-images.sh
-$ docker-compose -f docker-compose.full.yml up -d
+./docker/build-images.sh
+docker-compose -f docker-compose.full.yml up -d
 ```
 
-To make sure our instance is running properly, open <https://localhost>
+To make sure our instance is running properly, open <https://localhost:5000>
 
 Here's a full diagram of what the `docker-compose.full.yml` infrastructure
 looks like:
@@ -232,11 +232,11 @@ The load balancer, being at the edge of our infrastructure, besides serving
 the web application at <https://localhost>, is also exposing a statistics
 panel at <http://localhost:8080>:
 
-![](./images/haproxy.png)
+![HAProxy](./images/haproxy.png)
 
 ## What did we learn
 
-![](./images/diagram-labels.png)
+![Diagram Labels](./images/diagram-labels.png)
 
 - The different services composing an Invenio instance
 - How to interface with them on a basic level
