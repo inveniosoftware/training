@@ -109,7 +109,7 @@ We have created and started a new DB and ES along with the updated schemas and m
 **Note**: Make sure you have up and running our development server by running:
 
 ```bash
-$ ./scripts/server
+./scripts/server
 ```
 
 Run the below command to create our new record:
@@ -189,7 +189,7 @@ Our new record was successfully created!
 **Note**: Make sure you have up and running our development server by running:
 
 ```bash
-$ ./scripts/server
+./scripts/server
 ```
 
 Let's search now for our newly created record. Replace the `<id>` with the actual `id` of the

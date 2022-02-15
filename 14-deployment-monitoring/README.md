@@ -16,26 +16,26 @@ It does not make much sense to run this stress test in the development environme
 Ensure that docker-compose **full** is running.
 
 ```bash
-$ cd ~/src/my-site
-$ docker-compose stop
-$ docker-compose -f docker-compose.full.yml up
+cd ~/src/my-site
+docker-compose stop
+docker-compose -f docker-compose.full.yml up
 ```
 
 Let's install `locust` in our virtualenv and run the server.
 
 ```bash
-$ cd ~/src/my-site
-$ pipenv run pip install locust
-$ ./scripts/server
+cd ~/src/my-site
+pipenv run pip install locust
+./scripts/server
 ```
 
 In another terminal, now copy the file `locustfile.py` in your `my-site` folder (to be in the virtualenv) and then run locust in the same folder:
 
-```
-$ cp ~/src/training/14-deployement-monitoring/locustfile.py ~/src/my-site/
-$ cd ~/src/my-site
-$ pipenv run locust --host=https://127.0.0.1:5000/
-$ firefox http://127.0.0.1:8089
+```bash
+cp ~/src/training/14-deployement-monitoring/locustfile.py ~/src/my-site/
+cd ~/src/my-site
+pipenv run locust --host=https://127.0.0.1:5000/
+firefox http://127.0.0.1:8089
 ```
 
 ## Step 2: Example of Sentry configuration
