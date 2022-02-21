@@ -1,13 +1,14 @@
 {%- extends config.BASE_TEMPLATE %}
 
 {% block page_body %}
-  <div class="container">
+  <div class="ui grid container stackable">
+    <div class="row"></div>
     <div class="row">
-      <div class="col-md-12">
-        <div class="alert alert-success">
+      <div class="column">
+        <div class="ui success green message">
           <b>Success!</b>
         </div>
-        <a href="{{ url_for('deposit.create') }}" class="btn btn-warning">Create more</a>
+        <a href="{{ url_for('deposit.create') }}" class="ui yellow button">Create more</a>
       </div>
     </div>
   </div>
