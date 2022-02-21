@@ -25,7 +25,7 @@ use: Ctrl+Shift+V (paste), Ctrl+Shift+C (copy), Ctrl+Shift+X (cut).
 Scaffold the skeleton for your first Invenio instance:
 
 ```bash
-cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c v3.4 --no-input
+cookiecutter gh:inveniosoftware/cookiecutter-invenio-instance -c master --no-input
 ```
 
 ## Step 4: Install
