@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2019 CERN.
+# Copyright (C) 2022 CERN.
 #
 # My site is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
@@ -13,9 +13,10 @@ You overwrite and set instance-specific configuration by either:
 - Environment variables: ``APP_<variable name>``
 """
 
-from __future__ import absolute_import, print_function
-
 from datetime import timedelta
+
+from invenio_app.config import APP_DEFAULT_SECURE_HEADERS
+from invenio_previewer.config import PREVIEWER_PREFERENCE as BASE_PREFERENCE
 
 
 def _(x):
@@ -42,7 +43,7 @@ I18N_LANGUAGES = [
 # Base templates
 # ==============
 #: Global base template.
-BASE_TEMPLATE = 'my_site/page.html'
+BASE_TEMPLATE = 'invenio_theme/page.html'
 #: Cover page base template (used for e.g. login/sign-up).
 COVER_TEMPLATE = 'invenio_theme/page_cover.html'
 #: Footer base template.
@@ -54,7 +55,9 @@ SETTINGS_TEMPLATE = 'invenio_theme/page_settings.html'
 
 # Theme configuration
 # ===================
-#: Site name
+#: The Invenio theme.
+APP_THEME = ['semantic-ui']
+#: Site name.
 THEME_SITENAME = _('My site')
 #: Use default frontpage.
 THEME_FRONTPAGE = True
@@ -145,6 +148,11 @@ APP_ALLOWED_HOSTS = ['my-site.com', 'localhost', '127.0.0.1']
 # =======
 OAISERVER_ID_PREFIX = 'oai:my-site.com:'
 
+# Previewers
+# ==========
+#: Include IIIF preview for images.
+PREVIEWER_PREFERENCE = ['iiif_image'] + BASE_PREFERENCE
+
 # Debug
 # =====
 # Flask-DebugToolbar is by default enabled when the application is running in
@@ -153,3 +161,12 @@ OAISERVER_ID_PREFIX = 'oai:my-site.com:'
 
 #: Switches off incept of redirects by Flask-DebugToolbar.
 DEBUG_TB_INTERCEPT_REDIRECTS = False
+
+# Configures Content Security Policy for PDF Previewer
+# Remove it if you are not using PDF Previewer
+APP_DEFAULT_SECURE_HEADERS['content_security_policy'] = {
+    'default-src': ["'self'", "'unsafe-inline'"],
+    'object-src': ["'none'"],
+    'style-src': ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+    'font-src': ["'self'", "data:", "https://fonts.gstatic.com"],
+}
