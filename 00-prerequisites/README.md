@@ -33,13 +33,13 @@ For a local development setup, make sure that you have:
 
 * A modern IDE that supports Python, e.g. VSCode, Sublime, Atom, PyCharm etc.
 * Git
-* Python 3.6+
-* [`pip`](https://pip.pypa.io) and [`pipenv`](https://pipenv.readthedocs.io)
-  installed and fully working
+* Python==3.6 (only Python 3.6)
+* [`pip`](https://pip.pypa.io) and [`pipenv<2022`](https://pipenv.readthedocs.io)
+  installed and fully working (only pipenv version lower than 2022)
 * [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/installation.html)
   for scaffolding
-* NodeJS version 14+ and NPM ([see official
-  installaion](https://nodejs.org/en/download/))
+* NodeJS version 14 and NPM v6 ([see official
+  installation](https://nodejs.org/en/download/))
 * [Docker](https://docs.docker.com/install/) and [Docker
   Compose](https://docs.docker.com/compose/install/)
 * [Google Chrome](https://www.google.com/chrome/) and
