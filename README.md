@@ -1,10 +1,17 @@
 # Invenio v3 Training Material
 
+> **Warning**
+> This repository is unmaintained and code and dependencies are outdated and not working.
+> However, tutorials are useful to learn how to develop on Invenio.
+> Please refer to the
+> [InvenioRDM documentation](https://inveniordm.docs.cern.ch)
+> for Invenio documentation.
+
 This training material takes you through a series of tutorials that will help
 you get started with developing repositories with Invenio.
 
-> If training fails, there are many chances it is not your fault, take it as 
-a challange to learn, contribute to the team (by fixing it) and ask for help 
+> If training fails, there are many chances it is not your fault, take it as
+a challange to learn, contribute to the team (by fixing it) and ask for help
 to your new and very nice colleagues.
 
 ## Prerequisites
