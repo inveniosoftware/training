@@ -253,7 +253,7 @@ class RecordSchemaV1(StrictKeysMixin):
     id = PersistentIdentifier()
 ```
 
-Then now if search again we will take the following result:
+Now, if we search again we will take the following result:
 
 ```bash
 $ curl -k "https://localhost:5000/api/records/?q=owner:<id>"

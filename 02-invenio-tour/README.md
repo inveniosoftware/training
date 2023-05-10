@@ -218,7 +218,7 @@ record's page, which at the moment displays in a very basic way the metadata:
 
 ## Step 6: Create an admin user through the CLI
 
-Let's a crete a new user and give him admin permissions to the instance:
+Let's a crete a new user and give them admin permissions to the instance:
 
 ```bash
 $ cd my-site

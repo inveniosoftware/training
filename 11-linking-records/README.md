@@ -15,7 +15,7 @@ The goal of this tutorial is to learn how we can link records using references, 
 - [About references in Invenio](#about-references-in-Invenio)
 - [What did we learn](#what-did-we-learn)
 
-In tutorial 08, we have learned how to create a new data model, the author record. It would be now very useful to link a record to his author so that, when using the REST APIs to return records, we can immediately return also the details of the author without performing any extra query.
+In tutorial 08, we have learned how to create a new data model, the author record. It would be now very useful to link a record to the author so that, when using the REST APIs to return records, we can immediately return also the details of the author without performing any extra query.
 For example, given the following record:
 
 ```json
